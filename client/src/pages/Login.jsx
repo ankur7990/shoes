@@ -1,5 +1,12 @@
+import Button from "../components/common/Button";
 function Login() {
-  return <div>Login</div>;
+  return (
+    <div>
+      <div className="">
+        <Button />
+      </div>
+    </div>
+  );
 }
 
 export default Login;

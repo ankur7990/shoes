@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
+@theme {
+  /* This creates the class: bg-brand-gradient */
+  --background-image-brand-gradient: linear-gradient(to top, #4a9b7f, #0a3431);
+  --background-image-main-grad: linear-gradient(to: left, #11d3f3, #adfda2);
+
+  /* You can also specify angles */
+  /* --background-image-sunset: linear-gradient(45deg, #f97316, #db2777); */
+}
+
+@utility border-gradient {
+  background:
+    linear-gradient(white, white) padding-box,
+    linear-gradient(to right, #affcaf, #affcaf) border-box;
+  border: 2px solid transparent;
+}
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -57,7 +73,7 @@ body {
 }
 
 #root {
-  width: 1126px;
+  /* width: 1126px; */
   max-width: 100%;
   margin: 0 auto;
   text-align: center;
