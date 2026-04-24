@@ -3,9 +3,9 @@ import React from "react";
 const Button = () => {
   return (
     <div className="flex flex-col gap-5">
-      <button className="w-40 border-2 rounded-2xl bg-fill-gradient border-gradient   text-white ">
+      {/* <button className="w-40 border-2 rounded-2xl bg-fill-gradient border-gradient   text-white ">
         Login
-      </button>
+      </button> */}
       <button className="w-40 border-2 rounded-2xl ">Register Now</button>
     </div>
   );
