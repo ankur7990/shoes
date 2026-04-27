@@ -7,19 +7,17 @@ import Signup from "../pages/Signup";
 import ForgotPassword from "../pages/ForgotPassword";
 import VerifyEmail from "../pages/VerifyEmail";
 import ResetPassword from "../pages/ResetPassword";
+import VerifyPassword from "../pages/VerifyPassword";
 
 function AppRoutes() {
   return (
     <Routes>
-      <Route element={<AuthLayout />}>
-        <Route path="" element={<Login />} />
-        <Route path="" element={<Signup />} />
-        <Route path="" element={<ForgotPassword />} />
-        <Route path="" element={<VerifyEmail />} />
-        <Route path="" element={<ResetPassword />} />
-      </Route>
-
-      <Route element={<MainLayout />}></Route>
+      <Route path="/" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/verify-email" element={<VerifyEmail />} />
+      <Route path="/verify-password" element={<VerifyPassword />} />
     </Routes>
   );
 }

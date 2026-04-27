@@ -13,14 +13,12 @@ import Signup from "../pages/Signup";
 
 // export default AuthLayout;
 
-const AuthLayout = () => {
+const AuthLayout = ({ children }) => {
   return (
-    <div class="h-screen text-white  flex items-center justify-center bg-brand-gradient">
-      {/* <Login /> */}
-
-      {/* <Signup /> */}
-      {/* <Apicall /> */}
-      <Reusable />
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-8">
+        {children}
+      </div>
     </div>
   );
 };

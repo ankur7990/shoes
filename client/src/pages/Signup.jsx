@@ -1,145 +1,87 @@
 import { useState } from "react";
+import Input from "../components/common/Input";
+import Dropdown from "../components/common/Dropdown";
+import PasswordInput from "../components/common/PasswordInput";
+import DateInput from "../components/common/DateInput";
+import ForgotPasswordLink from "../components/common/ForgotPasswordLink";
 
 function Signup() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmpassword: "",
-  });
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
+  // const [list, setList] = useState("");
+  const [dob, setDob] = useState("");
+  const [mono, setMono] = useState("");
 
-  const [errors, setErrors] = useState({});
+  const genderArr = [
+    {
+      name: "male",
+    },
+    {
+      name: "female",
+    },
+    {
+      name: "other",
+    },
+  ];
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    const validateErrors = validate();
-
-    if (Object.keys(validateErrors).length === 0) {
-      console.log("signup sucess", formData);
-      alert("signup successful.");
-    } else {
-      setErrors(validateErrors);
-    }
-  }
-
-  function handleChange(e) {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  }
-
-  // Validation function
-  const validate = () => {
-    let newErrors = {};
-
-    //NAME
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required.";
-    }
-    //email
-
-    if (!formData.email) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+. \S/.test(formData.email)) {
-      newErrors.email = "Invalid email format.";
-    }
-    //password
-    if (!formData.password) {
-      newErrors.password = "password is required";
-    } else if (!formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
-    }
-    //confirmpassword
-    if (!formData.confirmpassword) {
-      newErrors.confirmpassword = "confirmpassword is required";
-    } else if (formData.password !== formData.confirmpassword) {
-      newErrors.confirmpassword = "Pass dont match";
-    }
-    return newErrors;
-  };
-
+  const roleOptions = [
+    { label: "Male", value: "Male" },
+    { label: "Female", value: "Female" },
+    { label: "Other", value: "Other" },
+  ];
   return (
-    <div>
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md"
-      >
+    <div className=" min-h-screen flex items-center justify-center bg-gray-100">
+      <form className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6">Signup</h2>
 
         {/* Name */}
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Name</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full border px-6 py-2 rounded-lg"
-          />
-          {errors.name && <p>{errors.name}</p>}
-          {/* {errors.name && (
-            <p className="text-red-500 text-sm">
-              {errors.name}
-            </p>
-          )} */}
-        </div>
-
+        <Input
+          label="Username"
+          type="username"
+          placeholder="Enter your Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
         {/* Email */}
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Email</label>
-          <input
-            type="text"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full border px-6 py-2 rounded-lg"
-          />
-          {errors.email && <p>{errors.email}</p>}
-          {/* {errors.email && (
-            <p className="text-red-500 text-sm">
-              {errors.email}
-            </p>
-          )} */}
-        </div>
-
+        <Input
+          label="Email"
+          type="email"
+          placeholder="Enter your email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
         {/* Password */}
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className="w-full border px-6 py-2 rounded-lg"
-          />
-          {errors.password && <p>{errors.password}</p>}
-          {/* {errors.password && (
-            <p className="text-red-500 text-sm">
-              {errors.password}
-            </p>
-          )} */}
-        </div>
+        <PasswordInput label="Create Password" name="password" />
 
-        {/* Confirm Password */}
-        <div className="mb-6">
-          <label className="block mb-1 font-medium">Confirm Password</label>
-          <input
-            type="password"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            className="w-full border px-6 py-2 rounded-lg"
-          />
-          {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+        {/* Gender = list  */}
 
-          {/* {errors.confirmPassword && (
-            <p className="text-red-500 text-sm">
-              {errors.confirmPassword}
-            </p>
-          )} */}
-        </div>
+        <Dropdown
+          label="Select Role"
+          options={roleOptions}
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+        />
+        {/* DOB date  */}
 
+        <DateInput
+          label="Date of Birth"
+          value={dob}
+          onChange={(e) => setDob(e.target.value)}
+          required
+        />
+        {/* MOB number   */}
+        <Input
+          label="Mobile Number"
+          type="text"
+          placeholder="Enter your Mobile Number"
+          value={mono}
+          onChange={(e) => setMono(e.target.value)}
+          required
+        />
+        <br />
         {/* Submit Button */}
         <button
           type="submit"
@@ -147,6 +89,14 @@ function Signup() {
         >
           Signup
         </button>
+
+        <ForgotPasswordLink label="Login" to="login" align="middle" />
+
+        <p>{username}</p>
+        <p>{email}</p>
+        <p>{role}</p>
+        <p>{dob}</p>
+        <p>{mono}</p>
       </form>
     </div>
   );
