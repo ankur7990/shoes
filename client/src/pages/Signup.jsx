@@ -4,6 +4,7 @@ import Dropdown from "../components/common/Dropdown";
 import PasswordInput from "../components/common/PasswordInput";
 import DateInput from "../components/common/DateInput";
 import ForgotPasswordLink from "../components/common/ForgotPasswordLink";
+import Button from "../components/common/Button";
 
 function Signup() {
   const [username, setUsername] = useState("");
@@ -31,9 +32,11 @@ function Signup() {
     { label: "Other", value: "Other" },
   ];
   return (
-    <div className=" min-h-screen flex items-center justify-center bg-gray-100">
-      <form className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Signup</h2>
+    <div className=" min-h-screen bg-gradient-layout-main flex items-center justify-center">
+      <form className=" p-8 w-full max-w-md space-y-5">
+        <h3 className="text-2xl text-white font-bold text-center mb-6">
+          Register now
+        </h3>
 
         {/* Name */}
         <Input
@@ -83,12 +86,9 @@ function Signup() {
         />
         <br />
         {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600"
-        >
+        <Button type="submit" fullWidth>
           Signup
-        </button>
+        </Button>
 
         <ForgotPasswordLink label="Login" to="login" align="middle" />
 

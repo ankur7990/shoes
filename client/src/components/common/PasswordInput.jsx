@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
 const PasswordInput = ({
-  label,
+  // label,
   name,
   value,
   onChange,
   placeholder = "Enter password",
-  required = false,
+  // required = false,
   error,
   className = "",
 }) => {
@@ -14,12 +14,12 @@ const PasswordInput = ({
 
   return (
     <div className="flex flex-col gap-1 w-full">
-      {label && (
+      {/* {label && (
         <label className="text-sm font-medium text-gray-700">
           {label}
           {required && <span className="text-red-500"> *</span>}
         </label>
-      )}
+      )} */}
 
       <div className="relative">
         <input
@@ -28,18 +28,13 @@ const PasswordInput = ({
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className={`
-            w-full px-3 py-2 border rounded-xl outline-none
-            focus:ring-2 focus:ring-blue-500
-            ${error ? "border-red-500" : "border-gray-300"}
-            ${className}
-          `}
+          className={`input-pill ${className}`}
         />
 
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-2.5 text-sm text-gray-500 hover:text-gray-700"
+          className="absolute right-3 top-2.5 text-sm text-gray-100 hover:text-gray-200"
         >
           {showPassword ? "Hide" : "Show"}
         </button>

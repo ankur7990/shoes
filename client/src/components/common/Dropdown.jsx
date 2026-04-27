@@ -7,21 +7,18 @@ const Dropdown = ({
   onChange,
   placeholder = "Select option",
   error,
+  className = "",
 }) => {
   return (
     <div className="w-full">
-      {label && (
+      {/* {label && (
         <label className="block mb-1 text-sm font-medium">{label}</label>
-      )}
+      )} */}
 
       <select
         value={value}
         onChange={onChange}
-        className={`
-          w-full px-4 py-2 border rounded-lg outline-none
-          ${error ? "border-red-500" : "border-gray-300"}
-          focus:ring-2 focus:ring-blue-500
-        `}
+        className={`input-pill ${className}`}
       >
         <option value="">{placeholder}</option>
 

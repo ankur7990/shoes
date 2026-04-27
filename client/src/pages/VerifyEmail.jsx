@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Input from "../components/common/Input";
 import { useNavigate } from "react-router-dom";
+import Button from "../components/common/Button";
 
 function VerifyEmail() {
   const [otp, setOtp] = useState("");
@@ -12,16 +13,13 @@ function VerifyEmail() {
   }
 
   return (
-    <div className=" min-h-screen flex items-center justify-center bg-gray-100">
-      <form
-        className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md"
-        onSubmit={handleSubmit}
-      >
-        <h2 className="text-2xl font-bold text-center mb-6">
+    <div className=" min-h-screen flex items-center justify-center bg-gradient-layout-main">
+      <form className="p-8 w-full max-w-md" onSubmit={handleSubmit}>
+        <h3 className="text-2xl font-bold text-center mb-6 text-white">
           Verify email address
-        </h2>
+        </h3>
 
-        <p>
+        <p className="text-white">
           Enter the four-digit OTP code sent to your address d*****@gmail.com
         </p>
         {/* OTP */}
@@ -38,12 +36,9 @@ function VerifyEmail() {
 
         <br />
         {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600"
-        >
+        <Button type="submit" fullWidth>
           Verify OTP Code
-        </button>
+        </Button>
 
         <p>{otp}</p>
       </form>

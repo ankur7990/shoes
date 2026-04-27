@@ -2,6 +2,7 @@ import { useState } from "react";
 import Input from "../components/common/Input";
 import { useNavigate } from "react-router-dom";
 import PasswordInput from "../components/common/PasswordInput";
+import Button from "../components/common/Button";
 
 function VerifyPassword() {
   const [newPass, setNewpass] = useState("");
@@ -15,14 +16,15 @@ function VerifyPassword() {
   }
 
   return (
-    <div className=" min-h-screen flex items-center justify-center bg-gray-100">
-      <form
-        className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md"
-        onSubmit={handleSubmit}
-      >
-        <h2 className="text-2xl font-bold text-center mb-6">Verify password</h2>
+    <div className=" min-h-screen flex items-center justify-center bg-gradient-layout-main">
+      <form className=" p-8 w-full max-w-md space-y-5" onSubmit={handleSubmit}>
+        <h3 className="text-2xl text-white font-bold text-center mb-6">
+          Verify password
+        </h3>
 
-        <p>Enter yout new password below to goin access into your account.</p>
+        <p className=" text-white ">
+          Enter yout new password below to goin access into your account.
+        </p>
         {/* OTP */}
         <br />
         {/* <h2>OTP Enter</h2> */}
@@ -45,12 +47,9 @@ function VerifyPassword() {
 
         <br />
         {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600"
-        >
+        <Button type="submit" fullWidth>
           Verify Password
-        </button>
+        </Button>
 
         <p>{newPass}</p>
         <p>{confirmPass}</p>

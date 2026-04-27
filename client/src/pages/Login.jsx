@@ -16,7 +16,7 @@ function Login() {
   }
   return (
     <AuthLayout>
-      <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
+      <h2 className="text-2xl font-bold text-center mb-6"></h2>
       <Input
         label="Email"
         type="email"

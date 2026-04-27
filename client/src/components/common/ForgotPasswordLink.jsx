@@ -16,7 +16,7 @@ const ForgotPasswordLink = ({
     <div className={`mt-2 ${alignment[align]}`}>
       <Link
         to={to}
-        className="text-sm text-blue-600 hover:text-blue-800 hover:underline"
+        className="text-sm text-gray-100 hover:text-gray-200 hover:underline"
       >
         {label}
       </Link>

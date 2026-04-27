@@ -20,14 +20,14 @@ const Checkbox = ({
           onChange={onChange}
           disabled={disabled}
           className={`
-            w-4 h-4 accent-blue-600
+            w-4 h-4 accent-white
             ${disabled ? "cursor-not-allowed opacity-50" : ""}
             ${className}
           `}
         />
 
         {label && (
-          <span className="text-sm text-gray-700">
+          <span className="text-sm text-white">
             {label}
             {required && <span className="text-red-500"> *</span>}
           </span>

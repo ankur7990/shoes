@@ -31,8 +31,7 @@ const Button = ({
       type={type}
       disabled={disabled || loading}
       onClick={onClick}
-      className={`
-        rounded-lg font-medium transition duration-200
+      className={` btn-pill-gradient
         ${variants[variant]}
         ${sizes[size]}
         ${fullWidth ? "w-full" : ""}
