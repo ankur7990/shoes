@@ -171,7 +171,7 @@ code {
   .input-pill {
     @apply w-full px-5 py-2 rounded-full bg-transparent 
            font-normal text-white outline-none transition-all duration-200;
-    border: 2px solid #28db84;
+    border: 2px solid #43e77f;
   }
 
   .input-pill::placeholder {

@@ -2,19 +2,23 @@ import { useState } from "react";
 import Input from "../components/common/Input";
 import { Navigate, useNavigate } from "react-router-dom";
 import Button from "../components/common/Button";
+import Logo from "../components/common/Logo";
+import logo from "../assets/logo.png";
 
 function ForgotPassword() {
-  const [fpassword, setFPassword] = useState("");
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
-  function handleSubmit() {
+  function handleSubmit(e) {
+    e.preventDefault();
     console.log("Verify Email clicked.");
     navigate("/verify-email");
   }
 
   return (
-    <div className=" min-h-screen flex items-center justify-center bg-gradient-layout-main ">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-layout-main ">
       <form className="  p-8 w-full max-w-md space-y-2" onSubmit={handleSubmit}>
+        <Logo src={logo} />
         <h3 className="text-2xl text-white font-bold text-center mb-6">
           Forgot password
         </h3>
@@ -29,8 +33,8 @@ function ForgotPassword() {
           label="Email"
           type="email"
           placeholder="Enter your email"
-          value={fpassword}
-          onChange={(e) => setFPassword(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
 
@@ -46,7 +50,7 @@ function ForgotPassword() {
           Verify email address
         </Button>
 
-        <p>{fpassword}</p>
+        <p>{email}</p>
       </form>
     </div>
   );

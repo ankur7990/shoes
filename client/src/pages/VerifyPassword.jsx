@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import PasswordInput from "../components/common/PasswordInput";
 import Button from "../components/common/Button";
 
+import Logo from "../components/common/Logo";
+import logo from "../assets/logo.png";
+
 function VerifyPassword() {
   const [newPass, setNewpass] = useState("");
   const [confirmPass, setConfirmpass] = useState("");
@@ -18,6 +21,7 @@ function VerifyPassword() {
   return (
     <div className=" min-h-screen flex items-center justify-center bg-gradient-layout-main">
       <form className=" p-8 w-full max-w-md space-y-5" onSubmit={handleSubmit}>
+        <Logo src={logo} />
         <h3 className="text-2xl text-white font-bold text-center mb-6">
           Verify password
         </h3>

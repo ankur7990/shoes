@@ -3,6 +3,9 @@ import Input from "../components/common/Input";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/common/Button";
 
+import Logo from "../components/common/Logo";
+import logo from "../assets/logo.png";
+
 function VerifyEmail() {
   const [otp, setOtp] = useState("");
   const navigate = useNavigate();
@@ -15,6 +18,7 @@ function VerifyEmail() {
   return (
     <div className=" min-h-screen flex items-center justify-center bg-gradient-layout-main">
       <form className="p-8 w-full max-w-md" onSubmit={handleSubmit}>
+        <Logo src={logo} />
         <h3 className="text-2xl font-bold text-center mb-6 text-white">
           Verify email address
         </h3>

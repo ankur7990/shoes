@@ -5,14 +5,25 @@ import PasswordInput from "../components/common/PasswordInput";
 import DateInput from "../components/common/DateInput";
 import ForgotPasswordLink from "../components/common/ForgotPasswordLink";
 import Button from "../components/common/Button";
+import axios from "axios";
 
 function Signup() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
+  const [formData, setFormData] = useState([
+    {
+      username: "",
+      email: "",
+      role: "",
+      dob: "",
+      mono: "",
+    },
+  ]);
+
+  // const [username, setUsername] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [role, setRole] = useState("");
   // const [list, setList] = useState("");
-  const [dob, setDob] = useState("");
-  const [mono, setMono] = useState("");
+  // const [dob, setDob] = useState("");
+  // const [mono, setMono] = useState("");
 
   const genderArr = [
     {
@@ -31,9 +42,41 @@ function Signup() {
     { label: "Female", value: "Female" },
     { label: "Other", value: "Other" },
   ];
+
+  function handleChange(e) {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    //post data will cme here
+    console.log("formdata submitted.", formData);
+
+    try {
+      const response = await axios.post(
+        "http://192.168.0.178:8000/user-register",
+        formData,
+      );
+      // const response = await axios.post(
+      //   "http://192.168.0.149:8080/registerUser",
+      //   formData,
+      // );
+
+      // http://192.168.0.149:8000/user-register
+
+      console.log(response.data);
+      alert("Signup successful");
+    } catch (error) {
+      console.error(error);
+      alert("Signup failed");
+    }
+  }
   return (
     <div className=" min-h-screen bg-gradient-layout-main flex items-center justify-center">
-      <form className=" p-8 w-full max-w-md space-y-5">
+      <form className=" p-8 w-full max-w-md space-y-5" onSubmit={handleSubmit}>
         <h3 className="text-2xl text-white font-bold text-center mb-6">
           Register now
         </h3>
@@ -43,8 +86,8 @@ function Signup() {
           label="Username"
           type="username"
           placeholder="Enter your Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={formData.username}
+          onChange={handleChange}
           required
         />
         {/* Email */}
@@ -52,8 +95,8 @@ function Signup() {
           label="Email"
           type="email"
           placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={formData.email}
+          onChange={handleChange}
           required
         />
         {/* Password */}
@@ -64,15 +107,15 @@ function Signup() {
         <Dropdown
           label="Select Role"
           options={roleOptions}
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
+          value={formData.role}
+          onChange={handleChange}
         />
         {/* DOB date  */}
 
         <DateInput
           label="Date of Birth"
-          value={dob}
-          onChange={(e) => setDob(e.target.value)}
+          value={formData.dob}
+          onChange={handleChange}
           required
         />
         {/* MOB number   */}
@@ -80,8 +123,8 @@ function Signup() {
           label="Mobile Number"
           type="text"
           placeholder="Enter your Mobile Number"
-          value={mono}
-          onChange={(e) => setMono(e.target.value)}
+          value={formData.mono}
+          onChange={handleChange}
           required
         />
         <br />
@@ -92,11 +135,11 @@ function Signup() {
 
         <ForgotPasswordLink label="Login" to="login" align="middle" />
 
-        <p>{username}</p>
+        {/* <p>{username}</p>
         <p>{email}</p>
         <p>{role}</p>
         <p>{dob}</p>
-        <p>{mono}</p>
+        <p>{mono}</p> */}
       </form>
     </div>
   );

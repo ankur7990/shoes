@@ -10,5 +10,8 @@ textfield-2
 color 1:left : #32D9D2
 color 2:right: #28DB84
 
+border : linear gradient #43E77F
 
-http://192.168.0.178/ 
+
+hit : http://192.168.0.178/ 
+kishan : http://192.168.0.149/
