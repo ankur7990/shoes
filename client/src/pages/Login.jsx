@@ -6,32 +6,35 @@ import Checkbox from "../components/common/Checkbox";
 import Input from "../components/common/Input";
 import ForgotPasswordLink from "../components/common/ForgotPasswordLink";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [remember, setRemember] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   // const [token, setToken] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
     console.log("login requested.");
+    navigate("/home");
 
-    try {
-      const res = await axios.post("http://192.168.0.178:8000/user-login/", {
-        email,
-        password,
-      });
+    // try {
+    //   const res = await axios.post("http://192.168.0.178:8000/user-login/", {
+    //     email,
+    //     password,
+    //   });
 
-      // console.log(res.data.tokens.access);
+    // console.log(res.data.tokens.access);
 
-      // store token
-      localStorage.setItem("token", res.data.tokens.access);
+    // store token
+    //   localStorage.setItem("token", res.data.tokens.access);
 
-      alert("Login success");
-    } catch (error) {
-      console.log(error.response.data.message);
-    }
+    //   alert("Login success");
+    // } catch (error) {
+    //   console.log(error.response.data.message);
+    // }
 
     // localStorage.setItem("savedToken", token);
   }

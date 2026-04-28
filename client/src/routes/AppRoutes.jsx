@@ -8,6 +8,7 @@ import ForgotPassword from "../pages/ForgotPassword";
 import VerifyEmail from "../pages/VerifyEmail";
 import ResetPassword from "../pages/ResetPassword";
 import VerifyPassword from "../pages/VerifyPassword";
+import Home from "../pages/Home";
 
 function AppRoutes() {
   return (
@@ -18,6 +19,7 @@ function AppRoutes() {
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/verify-email" element={<VerifyEmail />} />
       <Route path="/verify-password" element={<VerifyPassword />} />
+      <Route path="/home" element={<Home />} />
     </Routes>
   );
 }
