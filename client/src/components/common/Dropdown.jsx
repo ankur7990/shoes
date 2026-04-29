@@ -1,7 +1,7 @@
 import React from "react";
 
 const Dropdown = ({
-  label,
+  // label,
   options = [],
   value,
   onChange,

@@ -9,6 +9,10 @@ const PasswordInput = ({
   // required = false,
   error,
   className = "",
+  register,
+  rules,
+
+  ...rest
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -29,6 +33,8 @@ const PasswordInput = ({
           onChange={onChange}
           placeholder={placeholder}
           className={`input-pill ${className}`}
+          {...register(name, rules)}
+          {...rest}
         />
 
         <button

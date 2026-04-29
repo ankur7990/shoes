@@ -7,11 +7,14 @@ const Input = ({
   value,
   onChange,
   name,
-  error,
   disabled = false,
   // required = false,
   fullWidth = true,
   className = "",
+  register,
+  rules = {},
+  error,
+  ...rest
 }) => {
   return (
     <div className={`${fullWidth ? "w-full" : ""}`}>
@@ -20,18 +23,20 @@ const Input = ({
           {label} {required && "*"}
         </label>
       )} */}
-
       <input
+        {...register(name, rules)}
+        {...rest}
         type={type}
         name={name}
         value={value}
+        // {...register(name, rules)}
         placeholder={placeholder}
         onChange={onChange}
         disabled={disabled}
-        className={`input-pill ${className}`}
+        className={`input-pill ${className}  ${error ? "border-red-500" : ""}`}
       />
-
-      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+      console.log(register);
+      {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
     </div>
   );
 };
