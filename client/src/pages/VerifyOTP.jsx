@@ -1,26 +1,34 @@
-import { useState } from "react";
 import Input from "../components/common/Input";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/common/Button";
 
 import Logo from "../components/common/Logo";
 import logo from "../assets/logo.png";
+import { useForm } from "react-hook-form";
 
-function VerifyEmail() {
-  const [otp, setOtp] = useState("");
+function VerifyOTP() {
+  console.log("verify otp excuted.");
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: "onTouched" });
+
   const navigate = useNavigate();
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log("send to create password ");
-    navigate("/verify-password");
-  }
 
+  const onSubmit = (data) => {
+    console.log("verif OTP button clicked", data);
+    console.log("send to create password ");
+
+    navigate("/verify-password");
+  };
   return (
     <div className=" min-h-screen flex items-center justify-center bg-gradient-layout-main">
-      <form className="p-8 w-full max-w-md" onSubmit={handleSubmit}>
+      <form className="p-8 w-full max-w-md" onSubmit={handleSubmit(onSubmit)}>
         <Logo src={logo} />
         <h3 className="text-2xl font-bold text-center mb-6 text-white">
-          Verify email address
+          Verify OTP
         </h3>
 
         <p className="text-white">
@@ -30,11 +38,17 @@ function VerifyEmail() {
         <br />
         {/* <h2>OTP Enter</h2> */}
         <Input
-          label="OTP"
-          type="text"
+          name="otp"
+          register={register}
           placeholder="Enter your otp"
-          value={otp}
-          onChange={(e) => setOtp(e.target.value)}
+          rules={{
+            required: "OTP is required",
+            pattern: {
+              value: /^\d{6}$/,
+              message: "OTP must be 6 digits",
+            },
+          }}
+          error={errors.otp}
           required
         />
 
@@ -43,11 +57,9 @@ function VerifyEmail() {
         <Button type="submit" fullWidth>
           Verify OTP Code
         </Button>
-
-        <p>{otp}</p>
       </form>
     </div>
   );
 }
 
-export default VerifyEmail;
+export default VerifyOTP;

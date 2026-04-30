@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const ForgotPasswordLink = ({
-  to = "/forgot-password",
+  to,
   label = "Forgot Password?",
   align = "right",
 }) => {

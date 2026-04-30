@@ -1,7 +1,6 @@
 import Button from "../components/common/Button";
 import AuthLayout from "../layouts/AuthLayout";
 import PasswordInput from "../components/common/PasswordInput";
-import { useState } from "react";
 import Checkbox from "../components/common/Checkbox";
 import Input from "../components/common/Input";
 import ForgotPasswordLink from "../components/common/ForgotPasswordLink";
@@ -75,9 +74,9 @@ function Login() {
           }}
           error={errors.email}
         />
-        {/* <PasswordInput
-          label="Password"
-          type="password"
+        <PasswordInput
+          // label="Password"
+          // type="password"
           name="password"
           placeholder="Enter password"
           register={register}
@@ -104,19 +103,13 @@ function Login() {
           // checked={remember}
           // onChange={(e) => setRemember(e.target.checked)}
         />
-        <ForgotPasswordLink to="forgot-password" /> */}
+        <ForgotPasswordLink label="Forgot Password" to="forgot-password" />
 
         <Button fullWidth type="submit">
           Login
         </Button>
 
-        {/* <ForgotPasswordLink label="Signup" to="forgot-password" align="middle" /> */}
-
-        {/* <p>{email}</p>
-        <p>{password}</p>
-        <p>{remember ? "Checked" : "Unchecked"}</p> */}
-
-        {/* <ForgotPasswordLink to="signup" label="Signup" align="middle" /> */}
+        <ForgotPasswordLink label="Signup" to="signup" align="center" />
       </form>
     </AuthLayout>
   );

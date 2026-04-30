@@ -1,15 +1,19 @@
 import React from "react";
 
 const DateInput = ({
+  register,
+  rules = {},
   label,
-  value,
-  onChange,
   name = "dob",
   required = false,
   error,
   min,
   max,
+  className = "",
+  disableFuture = true,
 }) => {
+  const today = new Date().toISOString().split("T")[0];
+
   return (
     <div className="w-full">
       {label && (
@@ -20,19 +24,17 @@ const DateInput = ({
 
       <input
         type="date"
-        name={name}
-        value={value}
-        onChange={onChange}
         min={min}
-        max={max}
+        max={disableFuture ? today : max}
+        {...register(name, rules)}
         className={`
-          w-full px-4 py-2 border rounded-lg outline-none
-          ${error ? "border-red-500" : "border-gray-300"}
-          focus:ring-2 focus:ring-blue-500
+          input-pill
+          ${className}
+          ${error ? "border-red-500" : ""}
         `}
       />
 
-      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+      {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
     </div>
   );
 };

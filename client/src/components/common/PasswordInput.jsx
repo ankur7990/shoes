@@ -3,14 +3,13 @@ import React, { useState } from "react";
 const PasswordInput = ({
   // label,
   name,
-  value,
-  onChange,
+
   placeholder = "Enter password",
   // required = false,
   error,
   className = "",
   register,
-  rules,
+  rules = {},
 
   ...rest
 }) => {
@@ -27,12 +26,10 @@ const PasswordInput = ({
 
       <div className="relative">
         <input
+          name=""
           type={showPassword ? "text" : "password"}
-          name={name}
-          value={value}
-          onChange={onChange}
           placeholder={placeholder}
-          className={`input-pill ${className}`}
+          className={`input-pill ${className} ${error ? "border-red-500" : ""}`}
           {...register(name, rules)}
           {...rest}
         />
@@ -46,7 +43,7 @@ const PasswordInput = ({
         </button>
       </div>
 
-      {error && <span className="text-sm text-red-500">{error}</span>}
+      {error && <span className="text-sm text-red-500">{error.message}</span>}
     </div>
   );
 };

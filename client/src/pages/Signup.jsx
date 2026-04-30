@@ -6,18 +6,21 @@ import DateInput from "../components/common/DateInput";
 import ForgotPasswordLink from "../components/common/ForgotPasswordLink";
 import Button from "../components/common/Button";
 import axios from "axios";
+import { useForm } from "react-hook-form";
 
 function Signup() {
-  const [formData, setFormData] = useState([
-    {
-      username: "",
-      email: "",
-      role: "",
-      dob: "",
-      mono: "",
-    },
-  ]);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "onTouched",
+  });
 
+  const onSubmit = (data) => {
+    console.log("singup button clicked.");
+    console.log("signup  Data:", data);
+  };
   // const [username, setUsername] = useState("");
   // const [email, setEmail] = useState("");
   // const [role, setRole] = useState("");
@@ -43,88 +46,150 @@ function Signup() {
     { label: "Other", value: "Other" },
   ];
 
-  function handleChange(e) {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  }
+  // function handleChange(e) {
+  //   setFormData({
+  //     ...formData,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    //post data will cme here
-    console.log("formdata submitted.", formData);
+  // async function handleSubmit(e) {
+  //   e.preventDefault();
+  //   //post data will cme here
+  //   console.log("formdata submitted.", formData);
 
-    try {
-      const response = await axios.post(
-        "http://192.168.0.178:8000/user-register",
-        formData,
-      );
-      // const response = await axios.post(
-      //   "http://192.168.0.149:8080/registerUser",
-      //   formData,
-      // );
+  //   try {
+  //     const response = await axios.post(
+  //       "http://192.168.0.178:8000/user-register",
+  //       formData,
+  //     );
+  //     // const response = await axios.post(
+  //     //   "http://192.168.0.149:8080/registerUser",
+  //     //   formData,
+  //     // );
 
-      // http://192.168.0.149:8000/user-register
+  //     // http://192.168.0.149:8000/user-register
 
-      console.log(response.data);
-      alert("Signup successful");
-    } catch (error) {
-      console.error(error);
-      alert("Signup failed");
-    }
-  }
+  //     console.log(response.data);
+  //     alert("Signup successful");
+  //   } catch (error) {
+  //     console.error(error);
+  //     alert("Signup failed");
+  //   }
+  // }
   return (
     <div className=" min-h-screen bg-gradient-layout-main flex items-center justify-center">
-      <form className=" p-8 w-full max-w-md space-y-5" onSubmit={handleSubmit}>
+      <form
+        className=" p-8 w-full max-w-md space-y-5"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <h3 className="text-2xl text-white font-bold text-center mb-6">
           Register now
         </h3>
 
         {/* Name */}
-        <Input
-          label="Username"
-          type="username"
+        {/* <Input
+          // label="Username"
+          name="username"
+          // type="username"
           placeholder="Enter your Username"
-          value={formData.username}
-          onChange={handleChange}
+          // value={formData.username}
+          // onChange={handleChange}
+          register={register}
+          rules={{
+            required: "Username is required",
+            minLength: {
+              value: 3,
+              message: "Minimum 3 characters required",
+            },
+            maxLength: {
+              value: 20,
+              message: "Maximum 20 characters allowed",
+            },
+            pattern: {
+              value: /^[a-zA-Z0-9_]+$/,
+              message: "Only letters, numbers, and underscore allowed",
+            },
+          }}
+          error={errors.username}
           required
-        />
+        /> */}
         {/* Email */}
-        <Input
-          label="Email"
-          type="email"
+        {/* <Input
+          name="email"
           placeholder="Enter your email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
+          register={register}
+          rules={{
+            required: "Email is required.",
+            pattern: {
+              value: /^\S+@\S+\.\S+$/,
+              message: "Invalid email format",
+            },
+          }}
+          error={errors.email}
+        /> */}
         {/* Password */}
-        <PasswordInput label="Create Password" name="password" />
+        {/* <PasswordInput
+          name="password"
+          placeholder="Enter password"
+          register={register}
+          // value={password}
+          // onChange={(e) => setPassword(e.target.value)}
+          rules={{
+            required: "Password is required",
+            minLength: {
+              value: 6,
+              message: "Minimum 6 characters required",
+            },
+            pattern: {
+              value: /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/,
+              message:
+                "Must include 1 uppercase letter, 1 number, 1 special character",
+            },
+          }}
+          error={errors.password}
+          required
+        /> */}
 
         {/* Gender = list  */}
 
-        <Dropdown
-          label="Select Role"
-          options={roleOptions}
-          value={formData.role}
-          onChange={handleChange}
-        />
+        {/* <Dropdown
+          name="gender"
+          label="Select Gender"
+          register={register}
+          rules={{
+            required: "Please select a gender",
+          }}
+          options={[
+            { label: "Male", value: "male" },
+            { label: "Female", value: "female" },
+          ]}
+          error={errors.gender}
+        /> */}
         {/* DOB date  */}
 
-        <DateInput
-          label="Date of Birth"
-          value={formData.dob}
-          onChange={handleChange}
+        {/* <DateInput
+          name="dob"
+          register={register}
+          rules={{
+            required: "Date of birth is required",
+          }}
+          error={errors.dob}
           required
-        />
+        /> */}
         {/* MOB number   */}
         <Input
-          label="Mobile Number"
-          type="text"
+          name="mobile"
           placeholder="Enter your Mobile Number"
-          value={formData.mono}
-          onChange={handleChange}
+          register={register}
+          rules={{
+            required: "Mobile number is required",
+            pattern: {
+              value: /^[6-9]\d{9}$/,
+              message: "Enter a valid Indian mobile number",
+            },
+          }}
+          error={errors.mobile}
           required
         />
         <br />

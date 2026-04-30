@@ -4,20 +4,30 @@ import { Navigate, useNavigate } from "react-router-dom";
 import Button from "../components/common/Button";
 import Logo from "../components/common/Logo";
 import logo from "../assets/logo.png";
+import { useForm } from "react-hook-form";
 
 function ForgotPassword() {
-  const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log("Verify Email clicked.");
-    navigate("/verify-email");
-  }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "onTouched",
+  });
 
+  const onSubmit = (data) => {
+    console.log("forgot password button clicked.");
+    console.log("forgot password data email is ", data);
+    navigate("/verify-otp");
+  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-layout-main ">
-      <form className="  p-8 w-full max-w-md space-y-2" onSubmit={handleSubmit}>
+      <form
+        className="  p-8 w-full max-w-md space-y-2"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <Logo src={logo} />
         <h3 className="text-2xl text-white font-bold text-center mb-6">
           Forgot password
@@ -29,13 +39,19 @@ function ForgotPassword() {
           </p>
         </div>
         {/* Email */}
+        {/* Email */}
         <Input
-          label="Email"
-          type="email"
+          name="email"
           placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
+          register={register}
+          rules={{
+            required: "Email is required.",
+            pattern: {
+              value: /^\S+@\S+\.\S+$/,
+              message: "Invalid email format",
+            },
+          }}
+          error={errors.email}
         />
 
         <br />
@@ -49,8 +65,6 @@ function ForgotPassword() {
         <Button type="submit" fullWidth>
           Verify email address
         </Button>
-
-        <p>{email}</p>
       </form>
     </div>
   );

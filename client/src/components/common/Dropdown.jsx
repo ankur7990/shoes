@@ -2,10 +2,11 @@ import React from "react";
 
 const Dropdown = ({
   // label,
+  name,
   options = [],
-  value,
-  onChange,
-  placeholder = "Select option",
+  register,
+  rules = {},
+  placeholder = "Select Gender",
   error,
   className = "",
 }) => {
@@ -16,9 +17,8 @@ const Dropdown = ({
       )} */}
 
       <select
-        value={value}
-        onChange={onChange}
-        className={`input-pill ${className}`}
+        {...register(name, rules)}
+        className={`input-pill ${className} ${error ? "border-red-500" : ""}`}
       >
         <option value="">{placeholder}</option>
 
@@ -29,7 +29,7 @@ const Dropdown = ({
         ))}
       </select>
 
-      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+      {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
     </div>
   );
 };
