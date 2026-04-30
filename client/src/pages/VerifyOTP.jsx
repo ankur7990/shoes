@@ -5,6 +5,7 @@ import Button from "../components/common/Button";
 import Logo from "../components/common/Logo";
 import logo from "../assets/logo.png";
 import { useForm } from "react-hook-form";
+import { verifyOtp } from "../api/authService";
 
 function VerifyOTP() {
   console.log("verify otp excuted.");
@@ -17,9 +18,12 @@ function VerifyOTP() {
 
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log("verif OTP button clicked", data);
     console.log("send to create password ");
+
+    const verify = await verifyOtp({ email, otp });
+    console.log(verify);
 
     navigate("/verify-password");
   };

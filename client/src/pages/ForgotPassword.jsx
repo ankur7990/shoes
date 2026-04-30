@@ -5,6 +5,7 @@ import Button from "../components/common/Button";
 import Logo from "../components/common/Logo";
 import logo from "../assets/logo.png";
 import { useForm } from "react-hook-form";
+import { forgotPassword } from "../api/authService";
 
 function ForgotPassword() {
   const navigate = useNavigate();
@@ -17,9 +18,13 @@ function ForgotPassword() {
     mode: "onTouched",
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log("forgot password button clicked.");
     console.log("forgot password data email is ", data);
+
+    const email = await forgotPassword({ email });
+    console.log(email);
+
     navigate("/verify-otp");
   };
   return (

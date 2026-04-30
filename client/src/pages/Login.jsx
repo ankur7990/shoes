@@ -6,6 +6,7 @@ import Input from "../components/common/Input";
 import ForgotPasswordLink from "../components/common/ForgotPasswordLink";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { loginUser } from "../api/authService";
 
 function Login() {
   // const [remember, setRemember] = useState(true);
@@ -21,11 +22,19 @@ function Login() {
     mode: "onTouched",
   });
 
-  const onSubmit = (data) => {
-    console.log("button clicked.");
-    navigate("/home");
+  const onSubmit = async (data) => {
+    try {
+      console.log("Login button clicked.");
+      console.log("Form Data:", data);
 
-    console.log("Form Data:", data);
+      const response = await loginUser(data);
+      console.log(response);
+
+      localStorage.setItem("token", response.data.token);
+      navigate("/home");
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
   };
   // async function handleSubmit(e) {
   //   e.preventDefault();
@@ -97,12 +106,12 @@ function Login() {
           error={errors.password}
           required
         />
-        <Checkbox
+        {/* <Checkbox
           label="Remember me"
           name="remember"
           // checked={remember}
           // onChange={(e) => setRemember(e.target.checked)}
-        />
+        /> */}
         <ForgotPasswordLink label="Forgot Password" to="forgot-password" />
 
         <Button fullWidth type="submit">

@@ -7,7 +7,6 @@
 // }
 
 import Logo from "../components/common/Logo";
-import Apicall from "../pages/Apicall";
 import Login from "../pages/Login";
 import Reusable from "../pages/Reusable";
 import Signup from "../pages/Signup";

@@ -7,8 +7,11 @@ import ForgotPasswordLink from "../components/common/ForgotPasswordLink";
 import Button from "../components/common/Button";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { signupUser } from "../api/authService";
 
 function Signup() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -17,16 +20,17 @@ function Signup() {
     mode: "onTouched",
   });
 
-  const onSubmit = (data) => {
-    console.log("singup button clicked.");
-    console.log("signup  Data:", data);
+  const onSubmit = async (data) => {
+    try {
+      console.log("singup button clicked.");
+      console.log("signup  Data:", data);
+
+      await signupUser(data);
+      navigate("/");
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
   };
-  // const [username, setUsername] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [role, setRole] = useState("");
-  // const [list, setList] = useState("");
-  // const [dob, setDob] = useState("");
-  // const [mono, setMono] = useState("");
 
   const genderArr = [
     {
@@ -88,7 +92,7 @@ function Signup() {
         </h3>
 
         {/* Name */}
-        {/* <Input
+        <Input
           // label="Username"
           name="username"
           // type="username"
@@ -113,9 +117,9 @@ function Signup() {
           }}
           error={errors.username}
           required
-        /> */}
+        />
         {/* Email */}
-        {/* <Input
+        <Input
           name="email"
           placeholder="Enter your email"
           register={register}
@@ -127,9 +131,9 @@ function Signup() {
             },
           }}
           error={errors.email}
-        /> */}
+        />
         {/* Password */}
-        {/* <PasswordInput
+        <PasswordInput
           name="password"
           placeholder="Enter password"
           register={register}
@@ -149,11 +153,11 @@ function Signup() {
           }}
           error={errors.password}
           required
-        /> */}
+        />
 
         {/* Gender = list  */}
 
-        {/* <Dropdown
+        <Dropdown
           name="gender"
           label="Select Gender"
           register={register}
@@ -165,10 +169,10 @@ function Signup() {
             { label: "Female", value: "female" },
           ]}
           error={errors.gender}
-        /> */}
+        />
         {/* DOB date  */}
 
-        {/* <DateInput
+        <DateInput
           name="dob"
           register={register}
           rules={{
@@ -176,7 +180,7 @@ function Signup() {
           }}
           error={errors.dob}
           required
-        /> */}
+        />
         {/* MOB number   */}
         <Input
           name="mobile"

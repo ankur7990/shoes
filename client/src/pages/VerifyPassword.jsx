@@ -5,6 +5,7 @@ import Button from "../components/common/Button";
 import Logo from "../components/common/Logo";
 import logo from "../assets/logo.png";
 import { useForm } from "react-hook-form";
+import { resetPassword } from "../api/authService";
 
 function VerifyPassword() {
   const {
@@ -13,9 +14,12 @@ function VerifyPassword() {
     formState: { errors },
   } = useForm({});
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log("verify password button clicked.", data);
     console.log("send to create password ");
+
+    await resetPassword({ email, password });
+
     navigate("/");
   };
   const navigate = useNavigate();
