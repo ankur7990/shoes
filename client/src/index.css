@@ -2,6 +2,7 @@
 
 :root {
   --gradient-layout-main: linear-gradient(to bottom, #0b4b45, #009588);
+  /* --gradient-layout-secondary: linear-gradient(to bottom, #0b4b45, #009588); */
 
   --text: #6b6375;
   --text-h: #08060d;
@@ -173,6 +174,11 @@ code {
            font-normal text-white outline-none transition-all duration-200;
     border: 2px solid #43e77f;
   }
+  .input-pill-category {
+    @apply w-90 px-5 py-2 rounded-full bg-transparent 
+           font-normal text-white outline-none transition-all duration-200;
+    border: 2px solid #43e77f;
+  }
 
   .input-pill::placeholder {
     color: #dddddd; /* Tailwind gray-500 equivalent */
@@ -187,6 +193,9 @@ code {
 @layer utilities {
   .bg-gradient-layout-main {
     background: var(--gradient-layout-main);
-    min-height: 100vh;
+    /* min-height: 100vh; */
   }
+  /* .bg-home-gradient-layout-main {
+    background: var(--gradient-layout-main);
+  } */
 }

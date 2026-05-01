@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Input from "../components/common/Input";
 import { Navigate, useNavigate } from "react-router-dom";
 import Button from "../components/common/Button";
@@ -19,13 +18,17 @@ function ForgotPassword() {
   });
 
   const onSubmit = async (data) => {
-    console.log("forgot password button clicked.");
-    console.log("forgot password data email is ", data);
+    try {
+      console.log("forgot password button clicked.");
+      console.log("forgot password data email is ", data);
 
-    const email = await forgotPassword({ email });
-    console.log(email);
+      // const mainEmail = await forgotPassword({ email: data.email });
+      // console.log(mainEmail);
 
-    navigate("/verify-otp");
+      navigate("/verify-otp");
+    } catch (error) {
+      console.log(error.response?.data?.message);
+    }
   };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-layout-main ">

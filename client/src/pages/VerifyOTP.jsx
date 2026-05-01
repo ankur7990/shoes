@@ -22,8 +22,8 @@ function VerifyOTP() {
     console.log("verif OTP button clicked", data);
     console.log("send to create password ");
 
-    const verify = await verifyOtp({ email, otp });
-    console.log(verify);
+    // const verify = await verifyOtp({ email: data.email, otp: data.otp });
+    // console.log(verify);
 
     navigate("/verify-password");
   };

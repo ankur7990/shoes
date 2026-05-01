@@ -17,7 +17,13 @@ const Navbar = () => {
           <Link to="/login" className="text-gray-600 hover:text-blue-600">
             Login
           </Link>
+          <Link to="/home" className="text-gray-600 hover:text-blue-600">
+            Home
+          </Link>
 
+          <Link to="/products" className="text-gray-600 hover:text-blue-600">
+            Products
+          </Link>
           <Link
             to="/signup"
             className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"

@@ -31,6 +31,7 @@ const Button = ({
       type={type}
       disabled={disabled || loading}
       onClick={onClick}
+      //  ${className ? "input-pill" : "btn-pill-gradient"} btn-pill-gradient
       className={` btn-pill-gradient
         ${variants[variant]}
         ${sizes[size]}

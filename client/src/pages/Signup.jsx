@@ -26,7 +26,7 @@ function Signup() {
       console.log("signup  Data:", data);
 
       await signupUser(data);
-      navigate("/");
+      navigate("/login");
     } catch (error) {
       console.log(error.response.data.message);
     }

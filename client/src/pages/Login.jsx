@@ -112,7 +112,10 @@ function Login() {
           // checked={remember}
           // onChange={(e) => setRemember(e.target.checked)}
         /> */}
-        <ForgotPasswordLink label="Forgot Password" to="forgot-password" />
+        <ForgotPasswordLink
+          label="Forgot Password"
+          to="/login/forgot-password"
+        />
 
         <Button fullWidth type="submit">
           Login

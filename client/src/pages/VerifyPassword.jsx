@@ -18,9 +18,9 @@ function VerifyPassword() {
     console.log("verify password button clicked.", data);
     console.log("send to create password ");
 
-    await resetPassword({ email, password });
+    // await resetPassword({ email: data.email, password: data.email });
 
-    navigate("/");
+    navigate("/login");
   };
   const navigate = useNavigate();
 
