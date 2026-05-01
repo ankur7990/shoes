@@ -25,6 +25,7 @@ const Button = ({
   fullWidth = false,
   type = "button",
   onClick,
+  className,
 }) => {
   return (
     <button
@@ -32,11 +33,12 @@ const Button = ({
       disabled={disabled || loading}
       onClick={onClick}
       //  ${className ? "input-pill" : "btn-pill-gradient"} btn-pill-gradient
-      className={` btn-pill-gradient
+      className={` 
         ${variants[variant]}
         ${sizes[size]}
         ${fullWidth ? "w-full" : ""}
         ${disabled ? "opacity-50 cursor-not-allowed" : ""}
+        ${className}
       `}
     >
       {loading ? "Loading..." : children}

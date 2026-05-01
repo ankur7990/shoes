@@ -6,6 +6,8 @@ import Navbar from "../com/Navbar";
 import heroShoes from "../assets/heroshoes.png";
 import Button from "../components/common/Button";
 import CategoryList from "../pages/CategoryList";
+import Trending from "./Trending";
+import Special from "./Special";
 
 const Home = () => {
   return (
@@ -19,10 +21,20 @@ const Home = () => {
         onButtonClick={() => console.log("Clicked")}
       />
       {/* Category List */}
-      <CategoryList />
+      <CategoryList
+        renderContent={(selected) => {
+          if (selected === "Male") return <div>Male products here 👔</div>;
+
+          if (selected === "Female") return <div>Female products here 👗</div>;
+
+          if (selected === "Child") return <div>Kids products here 🧸</div>;
+        }}
+      />
       {/* Trending */}
+      <Trending />
       {/* Special */}
       {/* <Product /> */}
+      <Special />
     </div>
   );
 };

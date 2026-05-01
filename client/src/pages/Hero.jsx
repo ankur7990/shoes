@@ -8,6 +8,7 @@ const Hero = ({
   buttonText,
   onButtonClick,
   reverse = false,
+  className = "",
 }) => {
   return (
     <section className="w-full py-12 md:py-20 px-20  ">
@@ -28,7 +29,9 @@ const Hero = ({
 
           {buttonText && (
             <div className="mt-6">
-              <Button onClick={onButtonClick}>{buttonText}</Button>
+              <Button className={className} onClick={onButtonClick}>
+                {buttonText}
+              </Button>
             </div>
           )}
         </div>

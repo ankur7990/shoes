@@ -1,8 +1,21 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const { token, logout } = useAuth();
+
+  // const logout = () => {
+  //   localStorage.removeItem("accessToken");
+  //   localStorage.removeItem("refreshToken");
+  // };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <nav className="bg-white shadow-md">
@@ -14,48 +27,23 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-6">
-          <Link to="/login" className="text-gray-600 hover:text-blue-600">
-            Login
-          </Link>
-          <Link to="/home" className="text-gray-600 hover:text-blue-600">
-            Home
-          </Link>
+          {!token ? (
+            <>
+              <Link to="/login">Login</Link>
+              <Link to="/signup">Signup</Link>
+            </>
+          ) : (
+            <>
+              <Link to="/home">Home</Link>
+              <Link to="/products">Products</Link>
 
-          <Link to="/products" className="text-gray-600 hover:text-blue-600">
-            Products
-          </Link>
-          <Link
-            to="/signup"
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-          >
-            Signup
-          </Link>
+              <button onClick={handleLogout} className="text-red-600">
+                Logout
+              </button>
+            </>
+          )}
         </div>
-
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden text-gray-600"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          ☰
-        </button>
       </div>
-
-      {/* Mobile Dropdown */}
-      {menuOpen && (
-        <div className="md:hidden flex flex-col items-center pb-4 space-y-3">
-          <Link to="/login" className="text-gray-600 hover:text-blue-600">
-            Login
-          </Link>
-
-          <Link
-            to="/signup"
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-          >
-            Signup
-          </Link>
-        </div>
-      )}
     </nav>
   );
 };

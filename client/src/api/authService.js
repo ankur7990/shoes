@@ -1,11 +1,13 @@
 import ApiHelper from "./ApiHelper";
 
 const signupUser = (data) => {
+  console.log("signup");
+
   return ApiHelper.post("/user-register/", data);
 };
 
 const loginUser = (data) => {
-  return ApiHelper.post("/auth/login", data);
+  return ApiHelper.post("/user-login/", data);
 };
 
 const forgotPassword = (data) => {

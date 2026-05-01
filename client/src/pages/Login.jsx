@@ -7,12 +7,14 @@ import ForgotPasswordLink from "../components/common/ForgotPasswordLink";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { loginUser } from "../api/authService";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
   // const [remember, setRemember] = useState(true);
   // const [email, setEmail] = useState("");
   // const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
   // const [token, setToken] = useState("");
   const {
     register,
@@ -27,10 +29,16 @@ function Login() {
       console.log("Login button clicked.");
       console.log("Form Data:", data);
 
-      const response = await loginUser(data);
-      console.log(response);
-
-      localStorage.setItem("token", response.data.token);
+      const response = await loginUser({
+        email: data.email,
+        password: data.password,
+      });
+      console.log(response.data.tokens);
+      console.log("Login Successfully.");
+      // localStorage.setItem("token", response.data.token);
+      // localStorage.setItem("accessToken", response.data.tokens.access);
+      // localStorage.setItem("refreshToken", response.data.tokens.refresh);
+      login(response.data.tokens.access, response.data.tokens.refresh);
       navigate("/home");
     } catch (error) {
       console.log(error.response.data.message);

@@ -20,18 +20,18 @@ function AppRoutes() {
         <Route
           path="/login"
           element={
-            // <AuthRoutes>
-            <Login />
-            // </AuthRoutes>
+            <AuthRoutes>
+              <Login />
+            </AuthRoutes>
           }
         />
 
         <Route
           path="/signup"
           element={
-            // <AuthRoutes>
-            <Signup />
-            // </AuthRoutes>
+            <AuthRoutes>
+              <Signup />
+            </AuthRoutes>
           }
         />
 
@@ -45,11 +45,11 @@ function AppRoutes() {
         <Route
           path="/home"
           element={
-            // <ProtectedRoute>
-            //   <MainLayout>
-            <Home />
-            //   </MainLayout>
-            // </ProtectedRoute>
+            <ProtectedRoute>
+              <MainLayout>
+                <Home />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
       </Routes>

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Input from "../components/common/Input";
 import Dropdown from "../components/common/Dropdown";
 import PasswordInput from "../components/common/PasswordInput";
@@ -21,14 +20,23 @@ function Signup() {
   });
 
   const onSubmit = async (data) => {
-    try {
-      console.log("singup button clicked.");
-      console.log("signup  Data:", data);
+    console.log("Sending signup payload:", data);
 
-      await signupUser(data);
+    try {
+      const res = await signupUser({
+        username: data.username,
+        email: data.email,
+        password: data.password,
+        gender: data.gender,
+        date_of_birth: data.date_of_birth,
+        mobile_no: data.mobile_no,
+      });
+
+      console.log("Signup success:", res);
+
       navigate("/login");
     } catch (error) {
-      console.log(error.response.data.message);
+      console.log("Signup error:", error.response?.data);
     }
   };
 
@@ -165,25 +173,25 @@ function Signup() {
             required: "Please select a gender",
           }}
           options={[
-            { label: "Male", value: "male" },
-            { label: "Female", value: "female" },
+            { label: "Male", value: "Male" },
+            { label: "Female", value: "Female" },
           ]}
           error={errors.gender}
         />
         {/* DOB date  */}
 
         <DateInput
-          name="dob"
+          name="date_of_birth"
           register={register}
           rules={{
             required: "Date of birth is required",
           }}
-          error={errors.dob}
+          error={errors.date_of_birth}
           required
         />
         {/* MOB number   */}
         <Input
-          name="mobile"
+          name="mobile_no"
           placeholder="Enter your Mobile Number"
           register={register}
           rules={{
@@ -193,7 +201,7 @@ function Signup() {
               message: "Enter a valid Indian mobile number",
             },
           }}
-          error={errors.mobile}
+          error={errors.mobile_no}
           required
         />
         <br />

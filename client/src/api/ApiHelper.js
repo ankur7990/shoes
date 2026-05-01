@@ -3,14 +3,17 @@ import axios from "axios";
 
 const ApiHelper = axios.create({
   baseURL: "http://192.168.0.178:8000/",
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 ApiHelper.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("accessToken");
 
   const publicRoutes = [
     "/user-register/",
-    // "/auth/login",
+    "/user-login/",
     // "/auth/forgot-password",
     // "/auth/verify-otp",
     // "/auth/reset-password",
