@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { loginUser } from "../api/authService";
 import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
+import { handleApiError } from "../api/errorHandler";
 
 function Login() {
   // const [remember, setRemember] = useState(true);
@@ -37,9 +39,12 @@ function Login() {
       console.log("Login Successfully.");
 
       login(response.data.tokens.access, response.data.tokens.refresh);
+      toast.success("Login successful ✅");
+
       navigate("/home");
     } catch (error) {
-      console.log(error.response.data.message);
+      // console.log(error.response.data.message);
+      handleApiError(error);
     }
   };
 
@@ -96,8 +101,8 @@ function Login() {
         />
 
         <Button fullWidth disabled={isSubmitting} type="submit">
-          {/* {isSubmitting ? "Processing..." : "Login"} */}
-          Login
+          {isSubmitting ? "Processing..." : "Login"}
+          {/* Login */}
         </Button>
 
         <ForgotPasswordLink label="Signup" to="/signup" align="center" />

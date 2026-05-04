@@ -21,3 +21,5 @@ user-login/
 otp-for-forgot-password/
 verify-otp/
 reset-password/
+user-profile/
+user-delete/

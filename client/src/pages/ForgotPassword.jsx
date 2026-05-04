@@ -5,6 +5,8 @@ import Logo from "../components/common/Logo";
 import logo from "../assets/logo.png";
 import { useForm } from "react-hook-form";
 import { forgotPassword } from "../api/authService";
+import toast from "react-hot-toast";
+import { handleApiError } from "../api/errorHandler";
 
 function ForgotPassword() {
   const navigate = useNavigate();
@@ -12,7 +14,7 @@ function ForgotPassword() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     mode: "onTouched",
   });
@@ -27,9 +29,11 @@ function ForgotPassword() {
       // store email for next steps
       localStorage.setItem("resetEmail", data.email);
 
+      toast.success("OTP sent to your email 📩");
       navigate("/verify-otp");
     } catch (error) {
-      console.log(error.response?.data?.message);
+      // console.log(error.response?.data?.message);
+      handleApiError(error);
     }
   };
   return (
@@ -72,8 +76,9 @@ function ForgotPassword() {
         >
           Verify email address
         </button> */}
-        <Button type="submit" fullWidth>
-          Verify email address
+        <Button type="submit" disabled={isSubmitting} fullWidth>
+          {/* Verify email address */}
+          {isSubmitting ? "Sending..." : "Send OTP"}
         </Button>
       </form>
     </div>

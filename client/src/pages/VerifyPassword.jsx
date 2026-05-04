@@ -6,6 +6,8 @@ import Logo from "../components/common/Logo";
 import logo from "../assets/logo.png";
 import { useForm } from "react-hook-form";
 import { resetPassword } from "../api/authService";
+import toast from "react-hot-toast";
+import { handleApiError } from "../api/errorHandler";
 
 function VerifyPassword() {
   const navigate = useNavigate();
@@ -13,7 +15,7 @@ function VerifyPassword() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({});
 
   const onSubmit = async (data) => {
@@ -29,6 +31,7 @@ function VerifyPassword() {
 
       localStorage.removeItem("resetEmail");
 
+      toast.success("Password reset successful 🔐");
       navigate("/login");
     } catch (error) {
       console.log(error.response?.data);
@@ -97,8 +100,9 @@ function VerifyPassword() {
 
         <br />
         {/* Submit Button */}
-        <Button type="submit" fullWidth>
-          Verify Password
+        <Button type="submit" disabled={isSubmitting} fullWidth>
+          {/* Verify Password */}
+          {isSubmitting ? "Resetting..." : "Reset Password"}
         </Button>
       </form>
     </div>

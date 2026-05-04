@@ -8,13 +8,14 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { signupUser } from "../api/authService";
+import toast from "react-hot-toast";
 
 function Signup() {
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     mode: "onTouched",
   });
@@ -31,10 +32,9 @@ function Signup() {
         date_of_birth: data.date_of_birth,
         mobile_no: data.mobile_no,
       });
-
-      console.log("Signup success:", res);
-
+      toast.success("Signup successful 🎉");
       navigate("/login");
+      console.log("Signup success:", res);
     } catch (error) {
       console.log("Signup error:", error.response?.data);
     }
@@ -207,7 +207,11 @@ function Signup() {
         <br />
         {/* Submit Button */}
         <Button type="submit" fullWidth>
-          Signup
+          {/* Signup */}
+          {isSubmitting && (
+            <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+          )}
+          {isSubmitting ? "Signing up..." : "Signup"}
         </Button>
 
         <ForgotPasswordLink label="Login" to="login" align="middle" />

@@ -1,11 +1,12 @@
 import Input from "../components/common/Input";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/common/Button";
-
 import Logo from "../components/common/Logo";
 import logo from "../assets/logo.png";
 import { useForm } from "react-hook-form";
 import { verifyOtp } from "../api/authService";
+import toast from "react-hot-toast";
+import { handleApiError } from "../api/errorHandler";
 
 function VerifyOTP() {
   console.log("verify otp excuted.");
@@ -13,7 +14,7 @@ function VerifyOTP() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({ mode: "onTouched" });
 
   const navigate = useNavigate();
@@ -27,9 +28,12 @@ function VerifyOTP() {
 
       await verifyOtp({ email: email, otp: data.otp });
 
+      toast.success("OTP verified ✅");
+
       navigate("/verify-password");
     } catch (error) {
-      console.log(error.response?.data);
+      // console.log(error.response?.data);
+      handleApiError(error);
     }
   };
   return (

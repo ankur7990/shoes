@@ -22,4 +22,15 @@ const resetPassword = (data) => {
   return ApiHelper.post("/reset-password/", data);
 };
 
-export { signupUser, loginUser, forgotPassword, verifyOtp, resetPassword };
+const getUserProfile = (data) => {
+  return ApiHelper.get("/user-profile/", data);
+};
+
+export {
+  signupUser,
+  loginUser,
+  forgotPassword,
+  verifyOtp,
+  resetPassword,
+  getUserProfile,
+};

@@ -11,6 +11,7 @@ import Home from "../pages/Home";
 import ProtectedRoute from "./ProtectedRoutes";
 import AuthRoutes from "../routes/AuthRoutes";
 import NotFound from "../pages/NotFound";
+import Profile from "../pages/Profile";
 
 function AppRoutes() {
   return (
@@ -49,6 +50,7 @@ function AppRoutes() {
             <ProtectedRoute>
               <MainLayout>
                 <Home />
+                <Profile />
               </MainLayout>
             </ProtectedRoute>
           }
