@@ -8,6 +8,8 @@ import { useForm } from "react-hook-form";
 import { resetPassword } from "../api/authService";
 
 function VerifyPassword() {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -17,12 +19,21 @@ function VerifyPassword() {
   const onSubmit = async (data) => {
     console.log("verify password button clicked.", data);
     console.log("send to create password ");
+    try {
+      const email = localStorage.getItem("resetEmail");
+      await resetPassword({
+        email,
+        new_password: data.newpassword,
+        confirm_password: data.confirmpassword,
+      });
 
-    // await resetPassword({ email: data.email, password: data.email });
+      localStorage.removeItem("resetEmail");
 
-    navigate("/login");
+      navigate("/login");
+    } catch (error) {
+      console.log(error.response?.data);
+    }
   };
-  const navigate = useNavigate();
 
   return (
     <div className=" min-h-screen flex items-center justify-center bg-gradient-layout-main">

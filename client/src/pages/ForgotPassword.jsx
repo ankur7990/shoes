@@ -22,8 +22,10 @@ function ForgotPassword() {
       console.log("forgot password button clicked.");
       console.log("forgot password data email is ", data);
 
-      // const mainEmail = await forgotPassword({ email: data.email });
-      // console.log(mainEmail);
+      await forgotPassword({ email: data.email });
+
+      // store email for next steps
+      localStorage.setItem("resetEmail", data.email);
 
       navigate("/verify-otp");
     } catch (error) {

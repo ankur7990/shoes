@@ -19,7 +19,7 @@ function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     mode: "onTouched",
   });
@@ -35,48 +35,18 @@ function Login() {
       });
       console.log(response.data.tokens);
       console.log("Login Successfully.");
-      // localStorage.setItem("token", response.data.token);
-      // localStorage.setItem("accessToken", response.data.tokens.access);
-      // localStorage.setItem("refreshToken", response.data.tokens.refresh);
+
       login(response.data.tokens.access, response.data.tokens.refresh);
       navigate("/home");
     } catch (error) {
       console.log(error.response.data.message);
     }
   };
-  // async function handleSubmit(e) {
-  //   e.preventDefault();
-  //   console.log("login requested.");
 
-  // try {
-  //   const res = await axios.post("http://192.168.0.178:8000/user-login/", {
-  //     email,
-  //     password,
-  //   });
-
-  // console.log(res.data.tokens.access);
-
-  // store token
-  //   localStorage.setItem("token", res.data.tokens.access);
-
-  //   alert("Login success");
-  // } catch (error) {
-  //   console.log(error.response.data.message);
-  // }
-
-  // localStorage.setItem("savedToken", token);
-  // }
-
-  // useEffect(() => {
-  //   const savedToken = localStorage.getItem("savedToken");
-
-  //   if (savedToken) {
-  //     setToken(savedToken);
-  //   }
-  // }, []);
   return (
     <AuthLayout>
       <h2 className="text-2xl font-bold text-center mb-6"></h2>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           name="email"
@@ -122,14 +92,15 @@ function Login() {
         /> */}
         <ForgotPasswordLink
           label="Forgot Password"
-          to="/login/forgot-password"
+          to="/otp-for-forgot-password"
         />
 
-        <Button fullWidth type="submit">
+        <Button fullWidth disabled={isSubmitting} type="submit">
+          {/* {isSubmitting ? "Processing..." : "Login"} */}
           Login
         </Button>
 
-        <ForgotPasswordLink label="Signup" to="signup" align="center" />
+        <ForgotPasswordLink label="Signup" to="/signup" align="center" />
       </form>
     </AuthLayout>
   );

@@ -10,6 +10,7 @@ import VerifyPassword from "../pages/VerifyPassword";
 import Home from "../pages/Home";
 import ProtectedRoute from "./ProtectedRoutes";
 import AuthRoutes from "../routes/AuthRoutes";
+import NotFound from "../pages/NotFound";
 
 function AppRoutes() {
   return (
@@ -35,7 +36,7 @@ function AppRoutes() {
           }
         />
 
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/otp-for-forgot-password" element={<ForgotPassword />} />
         <Route path="/verify-otp" element={<VerifyOTP />} />
         <Route path="/verify-password" element={<VerifyPassword />} />
 
@@ -52,6 +53,7 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
     </div>
   );

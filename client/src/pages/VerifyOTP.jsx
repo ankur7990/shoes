@@ -19,13 +19,18 @@ function VerifyOTP() {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    console.log("verif OTP button clicked", data);
-    console.log("send to create password ");
+    try {
+      console.log("verif OTP button clicked", data);
+      console.log("send to create password ");
 
-    // const verify = await verifyOtp({ email: data.email, otp: data.otp });
-    // console.log(verify);
+      const email = localStorage.getItem("resetEmail");
 
-    navigate("/verify-password");
+      await verifyOtp({ email: email, otp: data.otp });
+
+      navigate("/verify-password");
+    } catch (error) {
+      console.log(error.response?.data);
+    }
   };
   return (
     <div className=" min-h-screen flex items-center justify-center bg-gradient-layout-main">
@@ -48,8 +53,8 @@ function VerifyOTP() {
           rules={{
             required: "OTP is required",
             pattern: {
-              value: /^\d{6}$/,
-              message: "OTP must be 6 digits",
+              value: /^\d{4}$/,
+              message: "OTP must be 4 digits",
             },
           }}
           error={errors.otp}

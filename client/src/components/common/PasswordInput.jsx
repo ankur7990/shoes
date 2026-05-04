@@ -26,7 +26,7 @@ const PasswordInput = ({
 
       <div className="relative">
         <input
-          name=""
+          name={name}
           type={showPassword ? "text" : "password"}
           placeholder={placeholder}
           className={`input-pill ${className} ${error ? "border-red-500" : ""}`}

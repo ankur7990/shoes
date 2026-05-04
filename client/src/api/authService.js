@@ -11,15 +11,15 @@ const loginUser = (data) => {
 };
 
 const forgotPassword = (data) => {
-  return ApiHelper.post("/auth/forgot-password", data);
+  return ApiHelper.post("/otp-for-forgot-password/", data);
 };
 
 const verifyOtp = (data) => {
-  return ApiHelper.post("/auth/verify-otp", data);
+  return ApiHelper.post("/verify-otp/", data);
 };
 
 const resetPassword = (data) => {
-  return ApiHelper.post("/auth/reset-password", data);
+  return ApiHelper.post("/reset-password/", data);
 };
 
 export { signupUser, loginUser, forgotPassword, verifyOtp, resetPassword };

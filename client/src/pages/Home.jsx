@@ -1,13 +1,14 @@
 import React from "react";
 
 import Hero from "../pages/Hero";
-import Product from "./Product";
 import Navbar from "../com/Navbar";
 import heroShoes from "../assets/heroshoes.png";
 import Button from "../components/common/Button";
 import CategoryList from "../pages/CategoryList";
 import Trending from "./Trending";
 import Special from "./Special";
+
+import Product from "../pages/Product";
 
 const Home = () => {
   return (
@@ -30,6 +31,7 @@ const Home = () => {
           if (selected === "Child") return <div>Kids products here 🧸</div>;
         }}
       />
+      <Product />
       {/* Trending */}
       <Trending />
       {/* Special */}

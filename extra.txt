@@ -15,3 +15,9 @@ border : linear gradient #43E77F
 
 hit : http://192.168.0.178/ 
 kishan : http://192.168.0.149/
+
+user-register/
+user-login/
+otp-for-forgot-password/
+verify-otp/
+reset-password/
