@@ -1,3 +1,4 @@
+import { data } from "react-router-dom";
 import ApiHelper from "./ApiHelper";
 
 const signupUser = (data) => {
@@ -26,6 +27,9 @@ const getUserProfile = (data) => {
   return ApiHelper.get("/user-profile/", data);
 };
 
+const deleteUserAccount = (data) => {
+  return ApiHelper.delete("/user-delete/", data);
+};
 export {
   signupUser,
   loginUser,
@@ -33,4 +37,5 @@ export {
   verifyOtp,
   resetPassword,
   getUserProfile,
+  deleteUserAccount,
 };

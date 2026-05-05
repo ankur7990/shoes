@@ -35,6 +35,7 @@ function VerifyPassword() {
       navigate("/login");
     } catch (error) {
       console.log(error.response?.data);
+      handleApiError(error.response?.data);
     }
   };
 

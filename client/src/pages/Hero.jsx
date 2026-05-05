@@ -42,7 +42,7 @@ const Hero = ({
             <img
               src={image}
               alt="hero"
-              className="w-[600px] h-96 object-cover absolute top-4  w-12 h-12 "
+              className="w-[600px] h-96 object-cover absolute top-4  mt-20 "
             />
           </div>
         )}

@@ -15,7 +15,6 @@ const sizes = {
   md: "px-5 py-2 text-base",
   lg: "px-7 py-3 text-lg",
 };
-
 const Button = ({
   children,
   variant = "primary",
@@ -25,17 +24,18 @@ const Button = ({
   fullWidth = false,
   type = "button",
   onClick,
-  className,
+  className = "",
+  useDefaultStyle = true, // 👈 NEW FLAG
 }) => {
   return (
     <button
       type={type}
       disabled={disabled || loading}
       onClick={onClick}
-      //  ${className ? "input-pill" : "btn-pill-gradient"} btn-pill-gradient
-      className={` 
-        ${variants[variant]}
-        ${sizes[size]}
+      className={`
+        ${useDefaultStyle ? "btn-pill-gradient" : ""}
+       
+        ${sizes[size] || ""}
         ${fullWidth ? "w-full" : ""}
         ${disabled ? "opacity-50 cursor-not-allowed" : ""}
         ${className}

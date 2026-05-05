@@ -44,6 +44,7 @@ function Login() {
       navigate("/home");
     } catch (error) {
       // console.log(error.response.data.message);
+      console.log(error.response?.data);
       handleApiError(error);
     }
   };
@@ -66,6 +67,7 @@ function Login() {
           }}
           error={errors.email}
         />
+        <br />
         <PasswordInput
           // label="Password"
           // type="password"

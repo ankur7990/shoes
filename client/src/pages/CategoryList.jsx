@@ -19,6 +19,7 @@ const CategoryList = ({
           return (
             <Button
               key={option}
+              useDefaultStyle={false}
               type="button"
               onClick={() => setSelected(option)}
               className={`rounded-none px-6 py-2 transition-all duration-200

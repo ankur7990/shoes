@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { signupUser } from "../api/authService";
 import toast from "react-hot-toast";
+import { handleApiError } from "../api/errorHandler";
 
 function Signup() {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ function Signup() {
       console.log("Signup success:", res);
     } catch (error) {
       console.log("Signup error:", error.response?.data);
+      handleApiError(error);
     }
   };
 
@@ -58,37 +60,6 @@ function Signup() {
     { label: "Other", value: "Other" },
   ];
 
-  // function handleChange(e) {
-  //   setFormData({
-  //     ...formData,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // }
-
-  // async function handleSubmit(e) {
-  //   e.preventDefault();
-  //   //post data will cme here
-  //   console.log("formdata submitted.", formData);
-
-  //   try {
-  //     const response = await axios.post(
-  //       "http://192.168.0.178:8000/user-register",
-  //       formData,
-  //     );
-  //     // const response = await axios.post(
-  //     //   "http://192.168.0.149:8080/registerUser",
-  //     //   formData,
-  //     // );
-
-  //     // http://192.168.0.149:8000/user-register
-
-  //     console.log(response.data);
-  //     alert("Signup successful");
-  //   } catch (error) {
-  //     console.error(error);
-  //     alert("Signup failed");
-  //   }
-  // }
   return (
     <div className=" min-h-screen bg-gradient-layout-main flex items-center justify-center">
       <form

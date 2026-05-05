@@ -19,7 +19,7 @@ const Navbar = () => {
     <nav className="bg-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
-        <Link to="/" className="text-2xl font-bold text-blue-600">
+        <Link to="/home" className="text-2xl font-bold text-blue-600">
           MyApp
         </Link>
 
@@ -34,6 +34,9 @@ const Navbar = () => {
             <>
               <Link to="/home">Home</Link>
               <Link to="/products">Products</Link>
+              <Link to="/profile" className="text-gray-600 hover:text-blue-600">
+                Profile
+              </Link>
 
               <button onClick={handleLogout} className="text-red-600">
                 Logout

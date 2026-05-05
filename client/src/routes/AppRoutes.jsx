@@ -50,6 +50,15 @@ function AppRoutes() {
             <ProtectedRoute>
               <MainLayout>
                 <Home />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
                 <Profile />
               </MainLayout>
             </ProtectedRoute>
