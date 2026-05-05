@@ -14,15 +14,15 @@ const Home = () => {
   return (
     <div className="bg-gradient-layout-main">
       {/* Hero1 */}
-      <Hero
+      {/* <Hero
         title="Build Modern Web Apps Faster 🚀"
         subtitle="Reusable components help you scale your MERN applications efficiently."
         image={heroShoes}
         buttonText="Get Started"
         onButtonClick={() => console.log("Clicked")}
-      />
+      /> */}
       {/* Category List */}
-      <CategoryList
+      {/* <CategoryList
         renderContent={(selected) => {
           if (selected === "Male") return <div>Male products here 👔</div>;
 
@@ -30,8 +30,8 @@ const Home = () => {
 
           if (selected === "Child") return <div>Kids products here 🧸</div>;
         }}
-      />
-      <Product />
+      /> */}
+      {/* <Product /> */}
       {/* Trending */}
       <Trending />
       {/* Special */}
