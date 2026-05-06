@@ -13,6 +13,10 @@ import AuthRoutes from "../routes/AuthRoutes";
 import NotFound from "../pages/NotFound";
 import Profile from "../pages/Profile";
 import Account from "../pages/Account";
+import AccountInformation from "../pages/AccountInformation";
+import MyOrder from "../pages/MyOrder";
+import AddressManagement from "../pages/AddressManagement";
+import PasswordManager from "../pages/PasswordManager";
 
 function AppRoutes() {
   return (
@@ -55,6 +59,7 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/account"
           element={
@@ -65,6 +70,79 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/accountinformation"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <AccountInformation />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/myorder"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <MyOrder />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/addressmanagement"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <AddressManagement />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/passwordmanager"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <PasswordManager />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+        {/* <Route
+          path="/account"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <Account />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        >
+          <Route path="accountinformation" element={<AccountInformation />} />
+          <Route path="myorder" element={<MyOrder />} />
+          <Route path="addressmanagement" element={<AddressManagement />} />
+          <Route path="passwordmanager" element={<PasswordManager />} />
+        </Route> */}
+
+        {/* <Route path="/account" element={<Account />}>
+          <Route path="accountinformation" element={<AccountInformation />} />
+        </Route> */}
+        {/* <Route
+          path="/account"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <Account />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        /> */}
         {/* <Route
           path="/"
           element={

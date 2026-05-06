@@ -1,7 +1,8 @@
 import React from "react";
+import Profile from "./Profile";
 
 const PasswordManager = () => {
-  return <div>PasswordManager 1</div>;
+  return <Profile />;
 };
 
 export default PasswordManager;
