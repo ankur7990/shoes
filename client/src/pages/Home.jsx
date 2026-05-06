@@ -9,6 +9,7 @@ import Trending from "./Trending";
 import Special from "./Special";
 
 import Product from "../pages/Product";
+import Male from "./Male";
 
 const Home = () => {
   return (
@@ -22,18 +23,24 @@ const Home = () => {
         onButtonClick={() => console.log("Clicked")}
       /> */}
       {/* Category List */}
-      {/* <CategoryList
+      <CategoryList
         renderContent={(selected) => {
-          if (selected === "Male") return <div>Male products here 👔</div>;
+          if (selected === "Male")
+            return (
+              <div>
+                Male products here 👔
+                <Male />
+              </div>
+            );
 
           if (selected === "Female") return <div>Female products here 👗</div>;
 
           if (selected === "Child") return <div>Kids products here 🧸</div>;
         }}
-      /> */}
+      />
       {/* <Product /> */}
       {/* Trending */}
-      <Trending />
+      {/* <Trending /> */}
       {/* Special */}
       {/* <Product /> */}
       <Special />

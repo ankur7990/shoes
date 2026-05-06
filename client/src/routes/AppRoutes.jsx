@@ -12,6 +12,7 @@ import ProtectedRoute from "./ProtectedRoutes";
 import AuthRoutes from "../routes/AuthRoutes";
 import NotFound from "../pages/NotFound";
 import Profile from "../pages/Profile";
+import Account from "../pages/Account";
 
 function AppRoutes() {
   return (
@@ -55,15 +56,25 @@ function AppRoutes() {
           }
         />
         <Route
-          path="/profile"
+          path="/account"
           element={
             <ProtectedRoute>
               <MainLayout>
-                <Profile />
+                <Account />
               </MainLayout>
             </ProtectedRoute>
           }
         />
+        {/* <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <Account />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        /> */}
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </div>

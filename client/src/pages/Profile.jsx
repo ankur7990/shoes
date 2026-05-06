@@ -15,7 +15,7 @@ const Profile = () => {
   const fetchProfile = async () => {
     try {
       const res = await getUserProfile();
-      console.log(res);
+      console.log(res.data.data);
 
       setUserProfile(res.data.data);
     } catch (error) {
@@ -128,6 +128,14 @@ const Profile = () => {
           </label>
           <p className="input-pill"> {userProfile.mobile_no}</p>
 
+          <br />
+          {/* <label
+            className="text-white block text-left w-full mb-1"
+            htmlFor="Id"
+          >
+            Password:
+          </label>
+          <p className="input-pill"> {userProfile.password}</p> */}
           <br />
           <Button fullWidth onClick={handleDelete}>
             Delete Account

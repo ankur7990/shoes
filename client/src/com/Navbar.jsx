@@ -34,8 +34,9 @@ const Navbar = () => {
             <>
               <Link to="/home">Home</Link>
               <Link to="/products">Products</Link>
-              <Link to="/profile" className="text-gray-600 hover:text-blue-600">
-                Profile
+              {/* Account Dropdown */}
+              <Link to="/account" className="text-gray-600 hover:text-blue-600">
+                Account
               </Link>
 
               <button onClick={handleLogout} className="text-red-600">
