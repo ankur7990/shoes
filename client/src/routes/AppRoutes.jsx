@@ -42,10 +42,27 @@ function AppRoutes() {
         <Route path="/verify-otp" element={<VerifyOTP />} />
         <Route path="/verify-password" element={<VerifyPassword />} />
 
+        <Route
+          element={
+            <ProtectedRoute>
+              <MainLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/home" element={<Home />} />
+
+          {/* <Route path="/products" element={<Products />} /> */}
+
+          <Route path="/profile" element={<Profile />} />
+
+          {/* <Route path="/orders" element={<Orders />} /> */}
+
+          {/* <Route path="/settings" element={<Settings />} /> */}
+        </Route>
         {/* protected route  */}
         {/* //profile
         //dashboard  */}
-        <Route
+        {/* <Route
           path="/home"
           element={
             <ProtectedRoute>
@@ -64,7 +81,7 @@ function AppRoutes() {
               </MainLayout>
             </ProtectedRoute>
           }
-        />
+        /> */}
         {/* <Route
           path="/"
           element={

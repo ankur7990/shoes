@@ -27,6 +27,10 @@ const getUserProfile = (data) => {
   return ApiHelper.get("/user-profile/", data);
 };
 
+const updateUserProfile = (data) => {
+  return ApiHelper.patch("/user-profile/", data);
+};
+
 const deleteUserAccount = (data) => {
   return ApiHelper.delete("/user-delete/", data);
 };
@@ -38,4 +42,5 @@ export {
   resetPassword,
   getUserProfile,
   deleteUserAccount,
+  updateUserProfile,
 };

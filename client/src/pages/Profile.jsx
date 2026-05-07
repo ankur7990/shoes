@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
-import { deleteUserAccount, getUserProfile } from "../api/authService";
+import {
+  deleteUserAccount,
+  getUserProfile,
+  updateUserProfile,
+} from "../api/authService";
 import toast from "react-hot-toast";
 import { handleApiError } from "../api/errorHandler";
 import { useAuth } from "../context/AuthContext";
@@ -8,7 +12,12 @@ import Input from "../components/common/Input";
 import Button from "../components/common/Button";
 
 const Profile = () => {
+  // const [user, setUser] = useState({
+  //   username: "Ankur",
+  // });
   const [userProfile, setUserProfile] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+
   const navigate = useNavigate();
   const { logout } = useAuth();
   //fetch profile
@@ -42,44 +51,49 @@ const Profile = () => {
     }
   };
 
+  const handleSave = async () => {
+    setIsEditing(false);
+    console.log("Updated.");
+
+    // call API here to save updated profile
+
+    const res = await updateUserProfile(userProfile);
+    console.log(res);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setUserProfile((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   if (!userProfile) return <p>Loading profile...</p>;
 
   return (
-    //   <div>
-    //     <div className="h-screen w-screen bg-amber-200 flex justify-center items-center">
-    //       <div>
-    //         <div>
-    //           <div>
-    //             <h2 className="text-xl font-bold">Profile</h2>
-
-    //             <p>Id: {userProfile.id}</p>
-
-    //             <p>Name: {userProfile.username}</p>
-    //             <p>Email: {userProfile.email}</p>
-    //             <p>DOB: {userProfile.date_of_birth}</p>
-    //             <p>Gender: {userProfile.gender}</p>
-    //             <p>Mobile: {userProfile.mobile_no}</p>
-    //             {/* <p>Email: {userProfile.email}</p> */}
-
-    //             <button
-    //               onClick={handleDelete}
-    //               className="mt-4 bg-red-600 text-white px-4 py-2 rounded"
-    //             >
-    //               Delete Account
-    //             </button>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // );
-
     <div className=" min-h-screen bg-gradient-layout-main flex items-center justify-center">
       <div className="flex items-center justify-center">
         <div className="p-20">
           <h3 className="text-2xl text-white font-bold text-center mb-6">
             Profile
           </h3>
+          {/* ---------------------------------------- */}
+          {isEditing ? (
+            <input
+              type="text"
+              name="username"
+              value={userProfile.username || ""}
+              // value={user.username}
+              onChange={handleChange}
+              className="input-pill mb-5"
+            />
+          ) : (
+            <p className="input-pill mb-5"> {userProfile.username}</p>
+          )}
+          <br />
+          {/* ---------------------------------------- */}
           <label
             className="text-white block text-left w-full mb-1"
             htmlFor="Id"
@@ -127,7 +141,6 @@ const Profile = () => {
             Mobile:
           </label>
           <p className="input-pill"> {userProfile.mobile_no}</p>
-
           <br />
           {/* <label
             className="text-white block text-left w-full mb-1"
@@ -137,9 +150,21 @@ const Profile = () => {
           </label>
           <p className="input-pill"> {userProfile.password}</p> */}
           <br />
+          <Button fullWidth onClick={() => setIsEditing(!isEditing)}>
+            {isEditing ? "Cancel" : "Edit"}
+          </Button>
+          <br />
+          <br />
+          {isEditing && (
+            <Button fullWidth onClick={handleSave}>
+              Save
+            </Button>
+          )}
+          <br />
+          <br />
           <Button fullWidth onClick={handleDelete}>
             Delete Account
-          </Button>
+          </Button>{" "}
         </div>
       </div>
     </div>

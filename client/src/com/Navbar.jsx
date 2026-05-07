@@ -1,14 +1,32 @@
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useEffect, useRef, useState } from "react";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { token, logout } = useAuth();
+  const [showMenu, setShowMenu] = useState(false);
 
+  // Reference for dropdown area
+  const menuRef = useRef();
   // const logout = () => {
   //   localStorage.removeItem("accessToken");
   //   localStorage.removeItem("refreshToken");
   // };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setShowMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -16,6 +34,37 @@ const Navbar = () => {
   };
 
   return (
+    // <nav className="bg-white shadow-md">
+    //   <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+    //     {/* Logo */}
+    //     <Link to="/home" className="text-2xl font-bold text-blue-600">
+    //       MyApp
+    //     </Link>
+
+    //     {/* Desktop Menu */}
+    //     <div className="hidden md:flex items-center space-x-6">
+    //       {!token ? (
+    //         <>
+    //           <Link to="/login">Login</Link>
+    //           <Link to="/signup">Signup</Link>
+    //         </>
+    //       ) : (
+    //         <>
+    //           <Link to="/home">Home</Link>
+    //           <Link to="/products">Products</Link>
+    //           {/* Account Dropdown */}
+    //           <Link to="/account" className="text-gray-600 hover:text-blue-600">
+    //             Account
+    //           </Link>
+
+    //           <button onClick={handleLogout} className="text-red-600">
+    //             Logout
+    //           </button>
+    //         </>
+    //       )}
+    //     </div>
+    //   </div>
+    // </nav>
     <nav className="bg-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
@@ -33,15 +82,52 @@ const Navbar = () => {
           ) : (
             <>
               <Link to="/home">Home</Link>
-              <Link to="/products">Products</Link>
-              {/* Account Dropdown */}
-              <Link to="/account" className="text-gray-600 hover:text-blue-600">
-                Account
-              </Link>
 
-              <button onClick={handleLogout} className="text-red-600">
-                Logout
-              </button>
+              <Link to="/products">Products</Link>
+
+              {/* Account Dropdown */}
+              <div className="relative" ref={menuRef}>
+                <button
+                  onClick={() => setShowMenu(!showMenu)}
+                  className="text-gray-600 hover:text-blue-600"
+                >
+                  Account
+                </button>
+
+                {/* Dropdown */}
+                {showMenu && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2">
+                    <Link
+                      to="/profile"
+                      onClick={() => setShowMenu(false)}
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      Profile
+                    </Link>
+
+                    <Link
+                      to="/orders"
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      Orders
+                    </Link>
+
+                    <Link
+                      to="/settings"
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      Settings
+                    </Link>
+
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
             </>
           )}
         </div>
