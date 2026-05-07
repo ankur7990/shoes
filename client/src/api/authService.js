@@ -1,4 +1,3 @@
-import { data } from "react-router-dom";
 import ApiHelper from "./ApiHelper";
 
 const signupUser = (data) => {

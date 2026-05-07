@@ -10,8 +10,10 @@ import Special from "./Special";
 
 import Product from "../pages/Product";
 import Male from "./Male";
+import { useAuth } from "../context/AuthContext";
 
 const Home = () => {
+  const { user } = useAuth();
   return (
     <div className="bg-gradient-layout-main">
       {/* Hero1 */}
@@ -28,7 +30,7 @@ const Home = () => {
           if (selected === "Male")
             return (
               <div>
-                Male products here 👔
+                Male{user?.username} products here 👔
                 <Male />
               </div>
             );

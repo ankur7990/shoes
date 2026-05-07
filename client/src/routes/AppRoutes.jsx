@@ -13,6 +13,10 @@ import AuthRoutes from "../routes/AuthRoutes";
 import NotFound from "../pages/NotFound";
 import Profile from "../pages/Profile";
 import Account from "../pages/Account";
+import AccountInformation from "../pages/AccountInformation";
+import MyOrder from "../pages/MyOrder";
+import AddressManagement from "../pages/AddressManagement";
+import PasswordManager from "../pages/PasswordManager";
 
 function AppRoutes() {
   return (
@@ -72,6 +76,7 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/account"
           element={
