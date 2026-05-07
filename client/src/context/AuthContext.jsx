@@ -22,13 +22,13 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("refreshToken", refreshToken);
 
     setToken(accessToken);
-    await fetchProfile();
+    // await fetchProfile();
   };
 
   // -------------------------------
   // LOGOUT
   // -------------------------------
-  const logout = () => {
+  const logout = async () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
 
@@ -39,19 +39,19 @@ export const AuthProvider = ({ children }) => {
   // -----------------------------
   // FETCH PROFILE
   // -----------------------------
-  const fetchProfile = async () => {
-    try {
-      const response = await ApiHelper.getUserProfile();
+  // const fetchProfile = async () => {
+  //   try {
+  //     const response = await ApiHelper.getUserProfile();
 
-      setUser(response.data);
-    } catch (error) {
-      console.log(error);
+  //     setUser(response.data);
+  //   } catch (error) {
+  //     console.log(error);
 
-      logout();
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     logout();
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <AuthContext.Provider value={{ token, login, logout, user }}>

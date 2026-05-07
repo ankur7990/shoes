@@ -59,7 +59,7 @@ function AppRoutes() {
 
           <Route path="/profile" element={<Profile />} />
 
-          {/* <Route path="/orders" element={<Orders />} /> */}
+          <Route path="/passwordmanager" element={<PasswordManager />} />
 
           {/* <Route path="/settings" element={<Settings />} /> */}
         </Route>

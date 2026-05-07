@@ -1,3 +1,4 @@
+import { data } from "react-router-dom";
 import ApiHelper from "./ApiHelper";
 
 const signupUser = (data) => {
@@ -30,6 +31,10 @@ const updateUserProfile = (data) => {
   return ApiHelper.patch("/user-profile/", data);
 };
 
+const updateUserPassword = (data) => {
+  return ApiHelper.patch("/user-update-password/", data);
+};
+
 const deleteUserAccount = (data) => {
   return ApiHelper.delete("/user-delete/", data);
 };
@@ -42,4 +47,5 @@ export {
   getUserProfile,
   deleteUserAccount,
   updateUserProfile,
+  updateUserPassword,
 };

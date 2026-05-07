@@ -12,9 +12,6 @@ import Input from "../components/common/Input";
 import Button from "../components/common/Button";
 
 const Profile = () => {
-  // const [user, setUser] = useState({
-  //   username: "Ankur",
-  // });
   const [userProfile, setUserProfile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -92,15 +89,15 @@ const Profile = () => {
           ) : (
             <p className="input-pill mb-5"> {userProfile.username}</p>
           )}
-          <br />
+          {/* <br /> */}
           {/* ---------------------------------------- */}
-          <label
+          {/* <label
             className="text-white block text-left w-full mb-1"
             htmlFor="Id"
           >
             ID:
           </label>
-          <p className="input-pill mb-5"> {userProfile.id}</p>
+          <p className="input-pill mb-5"> {userProfile.id}</p> */}
           <br />
           <label
             className="text-white block text-left w-full mb-1"
@@ -117,14 +114,14 @@ const Profile = () => {
             DOB:
           </label>
           <p className="input-pill"> {userProfile.date_of_birth}</p>
-          <br />
+          {/* <br />
           <label
             className="text-white block text-left w-full mb-1"
             htmlFor="Id"
           >
             Name:
           </label>
-          <p className="input-pill"> {userProfile.username}</p>
+          <p className="input-pill"> {userProfile.username}</p> */}
           <br />
           <label
             className="text-white block text-left w-full mb-1"
@@ -134,14 +131,27 @@ const Profile = () => {
           </label>
           <p className="input-pill"> {userProfile.gender}</p>
           <br />
-          <label
+          {/* ------------------Mobile Profile---------------------- */}
+          {isEditing ? (
+            <input
+              type="text"
+              name="mobile_no"
+              value={userProfile.mobile_no || ""}
+              onChange={handleChange}
+              className="input-pill mb-5"
+            />
+          ) : (
+            <p className="input-pill mb-5"> {userProfile.mobile_no}</p>
+          )}
+          {/* ---------------------------------------- */}
+          {/* <label
             className="text-white block text-left w-full mb-1"
             htmlFor="Id"
           >
             Mobile:
           </label>
           <p className="input-pill"> {userProfile.mobile_no}</p>
-          <br />
+          <br /> */}
           {/* <label
             className="text-white block text-left w-full mb-1"
             htmlFor="Id"

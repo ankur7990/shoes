@@ -102,26 +102,32 @@ const Navbar = () => {
                       onClick={() => setShowMenu(false)}
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
-                      Profile
+                      Account Information
                     </Link>
 
                     <Link
                       to="/orders"
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
-                      Orders
+                      My Orders
                     </Link>
 
                     <Link
                       to="/settings"
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
-                      Settings
+                      Address Management
+                    </Link>
+                    <Link
+                      to="/passwordmanager"
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      Password Manager
                     </Link>
 
                     <button
                       onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
+                      className="block w-full  px-4 py-2 text-red-600 hover:bg-gray-100"
                     >
                       Logout
                     </button>
