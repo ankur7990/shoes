@@ -17,6 +17,7 @@ import AccountInformation from "../pages/AccountInformation";
 import MyOrder from "../pages/MyOrder";
 import AddressManagement from "../pages/AddressManagement";
 import PasswordManager from "../pages/PasswordManager";
+import Product from "../pages/Product";
 
 function AppRoutes() {
   return (
@@ -55,11 +56,14 @@ function AppRoutes() {
         >
           <Route path="/home" element={<Home />} />
 
-          {/* <Route path="/products" element={<Products />} /> */}
+          <Route path="/product" element={<Product />} />
 
           <Route path="/profile" element={<Profile />} />
 
           <Route path="/passwordmanager" element={<PasswordManager />} />
+
+          <Route path="/myorders" element={<MyOrder />} />
+          <Route path="/addressmanagement" element={<AddressManagement />} />
 
           {/* <Route path="/settings" element={<Settings />} /> */}
         </Route>

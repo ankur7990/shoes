@@ -83,7 +83,7 @@ const Navbar = () => {
             <>
               <Link to="/home">Home</Link>
 
-              <Link to="/products">Products</Link>
+              <Link to="/product">Product</Link>
 
               {/* Account Dropdown */}
               <div className="relative" ref={menuRef}>
@@ -106,20 +106,23 @@ const Navbar = () => {
                     </Link>
 
                     <Link
-                      to="/orders"
+                      to="/myorders"
+                      onClick={() => setShowMenu(false)}
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
                       My Orders
                     </Link>
 
                     <Link
-                      to="/settings"
+                      to="/addressmanagement"
+                      onClick={() => setShowMenu(false)}
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
                       Address Management
                     </Link>
                     <Link
                       to="/passwordmanager"
+                      onClick={() => setShowMenu(false)}
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
                       Password Manager

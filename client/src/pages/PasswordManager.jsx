@@ -1,139 +1,97 @@
-import { useState, useEffect } from "react";
-import {
-  deleteUserAccount,
-  getUserProfile,
-  updateUserPassword,
-  updateUserProfile,
-} from "../api/authService";
+import { updateUserPassword } from "../api/authService";
 import toast from "react-hot-toast";
 import { handleApiError } from "../api/errorHandler";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Input from "../components/common/Input";
 import Button from "../components/common/Button";
+import PasswordInput from "../components/common/PasswordInput";
+import { useForm } from "react-hook-form";
 
 const PasswordManager = () => {
-  const [userProfile, setUserProfile] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
-
   const navigate = useNavigate();
-  const { logout } = useAuth();
-  //fetch profile
-  // const fetchProfile = async () => {
-  //   try {
-  //     const res = await getUserProfile();
-  //     console.log(res.data.data);
+  const { login } = useAuth();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    mode: "onTouched",
+  });
 
-  //     setUserProfile(res.data.data);
-  //   } catch (error) {
-  //     handleApiError(error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   fetchProfile();
-  // }, []);
-  //delete user
-
-  const handleSave = async () => {
-    setIsEditing(false);
-    console.log("save.");
-
-    // call API here to save updated profile
-
-    // const res = await updateUserProfile(userProfile);
-    // const res = await updateUserPassword(userProfile);
-    // console.log(res);
+  const onSubmit = async (data) => {
+    try {
+      console.log("Save button clicked.");
+      console.log("Form Data:", data);
+      await updateUserPassword(data);
+      toast.success("Password updated ✅");
+      navigate("/home");
+    } catch (error) {
+      console.log(error);
+      handleApiError(error);
+    }
   };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setUserProfile((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  // if (!userProfile) return <p>Loading profile...</p>;
 
   return (
     <div className=" min-h-screen bg-gradient-layout-main flex items-center justify-center">
-      <div className="flex items-center justify-center">
-        <div className="p-20">
-          <h3 className="text-2xl text-white font-bold text-center mb-6">
-            Password Manager
-          </h3>
-          {/* ---------------------------------------- */}
-          <label
-            className="text-white block text-left w-full mb-1"
-            htmlFor="Id"
-          >
-            Enter Old Password
-          </label>
+      <form className="w-100" onSubmit={handleSubmit(onSubmit)}>
+        <h3 className="text-2xl text-white font-bold text-center mb-6">
+          Password Manager
+        </h3>
+        <PasswordInput
+          // label="Password"
+          // type="password"
+          name="old_password"
+          placeholder="Enter old password"
+          register={register}
+          // value={password}
+          // onChange={(e) => setPassword(e.target.value)}
+          rules={{
+            required: "Password is required",
+            minLength: {
+              value: 6,
+              message: "Minimum 6 characters required",
+            },
+            pattern: {
+              value: /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/,
+              message:
+                "Must include 1 uppercase letter, 1 number, 1 special character",
+            },
+          }}
+          error={errors.old_password}
+          required
+        />
+        <br />
+        <PasswordInput
+          // label="Password"
+          // type="password"
+          name="new_password"
+          placeholder="Enter New password"
+          register={register}
+          // value={password}
+          // onChange={(e) => setPassword(e.target.value)}
+          rules={{
+            required: "Password is required",
+            minLength: {
+              value: 6,
+              message: "Minimum 6 characters required",
+            },
+            pattern: {
+              value: /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/,
+              message:
+                "Must include 1 uppercase letter, 1 number, 1 special character",
+            },
+          }}
+          error={errors.new_password}
+          required
+        />
+        <br />
 
-          <input
-            type="password"
-            name="old_password"
-            // value={userProfile.old_password || ""}
-            // value={user.username}
-            onChange={handleChange}
-            className="input-pill mb-5"
-          />
-
-          {/* <p className="input-pill mb-5"> {userProfile.old_password}</p> */}
-
-          <br />
-          {/* ---------------------------------------- */}
-          <label
-            className="text-white block text-left w-full mb-1"
-            htmlFor="Id"
-          >
-            Enter New Password
-          </label>
-          {/* <p className="input-pill mb-5"> {userProfile.id}</p> */}
-          <input
-            type="password"
-            name="new_password"
-            // value={userProfile.old_password || ""}
-            // value={user.username}
-            onChange={handleChange}
-            className="input-pill mb-5"
-          />
-          <br />
-          {/* <label
-            className="text-white block text-left w-full mb-1"
-            htmlFor="Id"
-          >
-            New Password
-          </label>
-          <p className="input-pill mb-10"> {userProfile.email}</p>
-          <br />
-          <br /> */}
-          {/* <label
-            className="text-white block text-left w-full mb-1"
-            htmlFor="Id"
-          >
-            Password:
-          </label>
-          <p className="input-pill"> {userProfile.password}</p> */}
-          {/* <br /> */}
-          {/* <Button fullWidth onClick={() => setIsEditing(!isEditing)}>
-            {isEditing ? "Cancel" : "Edit"}
-          </Button> */}
-          {/* <br />
-          <br /> */}
-
-          <Button fullWidth onClick={handleSave}>
-            Save
-          </Button>
-
-          {/* <br />
-          <br />
-          <Button fullWidth onClick={handleDelete}>
-            Delete Account
-          </Button>{" "} */}
-        </div>
-      </div>
+        <Button fullWidth disabled={isSubmitting} type="submit">
+          {isSubmitting ? "Processing..." : "Save"}
+          {/* Login */}
+        </Button>
+      </form>
     </div>
   );
 };

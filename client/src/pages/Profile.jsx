@@ -7,9 +7,12 @@ import {
 import toast from "react-hot-toast";
 import { handleApiError } from "../api/errorHandler";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 import Input from "../components/common/Input";
 import Button from "../components/common/Button";
+import DateInput from "../components/common/DateInput";
+import { useForm } from "react-hook-form";
+import Dropdown from "../components/common/Dropdown";
 
 const Profile = () => {
   const [userProfile, setUserProfile] = useState(null);
@@ -17,6 +20,14 @@ const Profile = () => {
 
   const navigate = useNavigate();
   const { logout } = useAuth();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    mode: "onTouched",
+  });
   //fetch profile
   const fetchProfile = async () => {
     try {
@@ -24,15 +35,17 @@ const Profile = () => {
       console.log(res.data.data);
 
       setUserProfile(res.data.data);
+      reset(res.data.data);
     } catch (error) {
       handleApiError(error);
     }
   };
+
   useEffect(() => {
     fetchProfile();
   }, []);
-  //delete user
 
+  //delete user
   const handleDelete = async () => {
     const confirmDelete = window.confirm("Are you sure?");
 
@@ -48,16 +61,23 @@ const Profile = () => {
     }
   };
 
-  const handleSave = async () => {
-    setIsEditing(false);
+  // Update user
+  const onSubmit = async (data) => {
     console.log("Updated.");
 
     // call API here to save updated profile
 
-    const res = await updateUserProfile(userProfile);
+    const res = await updateUserProfile(data);
     console.log(res);
+
+    // refresh latest profile
+    await fetchProfile();
+
+    // close edit mode
+    setIsEditing(false);
   };
 
+  //Handle inputes
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -71,33 +91,48 @@ const Profile = () => {
 
   return (
     <div className=" min-h-screen bg-gradient-layout-main flex items-center justify-center">
-      <div className="flex items-center justify-center">
-        <div className="p-20">
+      <div className="flex items-center justify-center  ">
+        <form className="w-100" onSubmit={handleSubmit(onSubmit)}>
           <h3 className="text-2xl text-white font-bold text-center mb-6">
             Profile
           </h3>
           {/* ---------------------------------------- */}
-          {isEditing ? (
-            <input
-              type="text"
-              name="username"
-              value={userProfile.username || ""}
-              // value={user.username}
-              onChange={handleChange}
-              className="input-pill mb-5"
-            />
-          ) : (
-            <p className="input-pill mb-5"> {userProfile.username}</p>
-          )}
-          {/* <br /> */}
-          {/* ---------------------------------------- */}
-          {/* <label
+          <label
             className="text-white block text-left w-full mb-1"
             htmlFor="Id"
           >
-            ID:
+            Username:
           </label>
-          <p className="input-pill mb-5"> {userProfile.id}</p> */}
+          {isEditing ? (
+            <Input
+              // label="Username"
+              name="username"
+              // type="username"
+              placeholder="Enter your Username"
+              // value={userProfile.username || ""}
+              // onChange={handleChange}
+              register={register}
+              rules={{
+                required: "Username is required",
+                minLength: {
+                  value: 3,
+                  message: "Minimum 3 characters required",
+                },
+                maxLength: {
+                  value: 20,
+                  message: "Maximum 20 characters allowed",
+                },
+                pattern: {
+                  value: /^[a-zA-Z0-9_]+$/,
+                  message: "Only letters, numbers, and underscore allowed",
+                },
+              }}
+              error={errors.username}
+              required
+            />
+          ) : (
+            <p className="input-pill mb-5"> {userProfile?.username}</p>
+          )}
           <br />
           <label
             className="text-white block text-left w-full mb-1"
@@ -113,15 +148,21 @@ const Profile = () => {
           >
             DOB:
           </label>
-          <p className="input-pill"> {userProfile.date_of_birth}</p>
-          {/* <br />
-          <label
-            className="text-white block text-left w-full mb-1"
-            htmlFor="Id"
-          >
-            Name:
-          </label>
-          <p className="input-pill"> {userProfile.username}</p> */}
+          {/* --------------------DOB-------------------- */}
+          {isEditing ? (
+            <DateInput
+              name="date_of_birth"
+              register={register}
+              rules={{
+                required: "Date of birth is required",
+              }}
+              error={errors.date_of_birth}
+              required
+            />
+          ) : (
+            <p className="input-pill"> {userProfile.date_of_birth}</p>
+          )}
+          {/* ----------------------gender list ------------------ */}
           <br />
           <label
             className="text-white block text-left w-full mb-1"
@@ -129,53 +170,70 @@ const Profile = () => {
           >
             Gender:
           </label>
-          <p className="input-pill"> {userProfile.gender}</p>
-          <br />
-          {/* ------------------Mobile Profile---------------------- */}
           {isEditing ? (
-            <input
-              type="text"
-              name="mobile_no"
-              value={userProfile.mobile_no || ""}
-              onChange={handleChange}
-              className="input-pill mb-5"
+            <Dropdown
+              name="gender"
+              label="Select Gender"
+              register={register}
+              rules={{
+                required: "Please select a gender",
+              }}
+              options={[
+                { label: "Male", value: "Male" },
+                { label: "Female", value: "Female" },
+              ]}
+              error={errors.gender}
             />
           ) : (
-            <p className="input-pill mb-5"> {userProfile.mobile_no}</p>
+            <p className="input-pill"> {userProfile.gender}</p>
           )}
-          {/* ---------------------------------------- */}
-          {/* <label
+          <br />
+          {/* ------------------Mobile Profile---------------------- */}
+          <label
             className="text-white block text-left w-full mb-1"
             htmlFor="Id"
           >
             Mobile:
           </label>
-          <p className="input-pill"> {userProfile.mobile_no}</p>
-          <br /> */}
-          {/* <label
-            className="text-white block text-left w-full mb-1"
-            htmlFor="Id"
-          >
-            Password:
-          </label>
-          <p className="input-pill"> {userProfile.password}</p> */}
+          {isEditing ? (
+            <Input
+              name="mobile_no"
+              placeholder="Enter your Mobile Number"
+              register={register}
+              rules={{
+                required: "Mobile number is required",
+                pattern: {
+                  value: /^[6-9]\d{9}$/,
+                  message: "Enter a valid Indian mobile number",
+                },
+              }}
+              error={errors.mobile_no}
+              required
+            />
+          ) : (
+            <p className="input-pill mb-5"> {userProfile.mobile_no}</p>
+          )}
           <br />
-          <Button fullWidth onClick={() => setIsEditing(!isEditing)}>
+          <Button
+            fullWidth
+            type="button"
+            onClick={() => setIsEditing(!isEditing)}
+          >
             {isEditing ? "Cancel" : "Edit"}
           </Button>
           <br />
           <br />
           {isEditing && (
-            <Button fullWidth onClick={handleSave}>
+            <Button type="submit" fullWidth>
               Save
             </Button>
           )}
           <br />
           <br />
-          <Button fullWidth onClick={handleDelete}>
+          <Button fullWidth type="button" onClick={handleDelete}>
             Delete Account
           </Button>{" "}
-        </div>
+        </form>
       </div>
     </div>
   );
