@@ -1,4 +1,3 @@
-import { data } from "react-router-dom";
 import ApiHelper from "./ApiHelper";
 
 const signupUser = (data) => {
@@ -15,9 +14,9 @@ const forgotPassword = (data) => {
   return ApiHelper.post("/otp-for-forgot-password/", data);
 };
 
-const verifyOtp = (data) => {
-  return ApiHelper.post("/verify-otp/", data);
-};
+// const verifyOtp = (data) => {
+//   return ApiHelper.post("/verify-otp/", data);
+// };
 
 const resetPassword = (data) => {
   return ApiHelper.post("/reset-password/", data);
@@ -42,7 +41,7 @@ export {
   signupUser,
   loginUser,
   forgotPassword,
-  verifyOtp,
+  // verifyOtp,
   resetPassword,
   getUserProfile,
   deleteUserAccount,

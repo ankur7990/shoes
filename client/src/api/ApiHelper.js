@@ -22,7 +22,6 @@ ApiHelper.interceptors.request.use((config) => {
     "/user-register/",
     "/user-login/",
     "/otp-for-forgot-password/",
-    "/verify-otp/",
     "/reset-password/",
   ];
 

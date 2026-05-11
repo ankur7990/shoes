@@ -1,15 +1,15 @@
-import Button from "../components/common/Button";
-import AuthLayout from "../layouts/AuthLayout";
-import PasswordInput from "../components/common/PasswordInput";
-import Checkbox from "../components/common/Checkbox";
-import Input from "../components/common/Input";
-import ForgotPasswordLink from "../components/common/ForgotPasswordLink";
+import Button from "../../components/common/Button";
+import AuthLayout from "../../layouts/AuthLayout";
+import PasswordInput from "../../components/common/PasswordInput";
+import Checkbox from "../../components/common/Checkbox";
+import Input from "../../components/common/Input";
+import ForgotPasswordLink from "../../components/common/ForgotPasswordLink";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { loginUser } from "../api/authService";
-import { useAuth } from "../context/AuthContext";
+import { loginUser } from "../../api/authService";
+import { useAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
-import { handleApiError } from "../api/errorHandler";
+import { handleApiError } from "../../api/errorHandler";
 
 function Login() {
   // const [remember, setRemember] = useState(true);
@@ -106,8 +106,13 @@ function Login() {
           {isSubmitting ? "Processing..." : "Login"}
           {/* Login */}
         </Button>
+        <br />
+        <br />
 
-        <ForgotPasswordLink label="Signup" to="/signup" align="center" />
+        {/* <ForgotPasswordLink label="Signup" to="/signup" align="center" /> */}
+        <Button onClick={() => navigate("/signup")} fullWidth>
+          Signup
+        </Button>
       </form>
     </AuthLayout>
   );

@@ -176,7 +176,8 @@ code {
   }
   .input-pill-category {
     @apply w-90 px-5 py-2 rounded-full bg-transparent 
-           font-normal text-white outline-none transition-all duration-200;
+           font-normal text-white outline-none transition-all duration-200
+            appearance-none;
     border: 2px solid #43e77f;
   }
 
@@ -184,7 +185,8 @@ code {
     color: #dddddd; /* Tailwind gray-500 equivalent */
   }
 
-  .input-pill:focus {
+  .input-pill:focus,
+  .input-pill-category:focus {
     box-shadow: 0 0 0 2px rgba(40, 219, 132, 0.25);
   }
 }

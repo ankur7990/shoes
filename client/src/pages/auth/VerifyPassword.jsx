@@ -1,13 +1,13 @@
-import Input from "../components/common/Input";
+import Input from "../../components/common/Input";
 import { useNavigate } from "react-router-dom";
-import PasswordInput from "../components/common/PasswordInput";
-import Button from "../components/common/Button";
-import Logo from "../components/common/Logo";
+import PasswordInput from "../../components/common/PasswordInput";
+import Button from "../../components/common/Button";
+import Logo from "../../components/common/Logo";
 import logo from "../assets/logo.png";
 import { useForm } from "react-hook-form";
-import { resetPassword } from "../api/authService";
+import { resetPassword } from "../../api/authService";
 import toast from "react-hot-toast";
-import { handleApiError } from "../api/errorHandler";
+import { handleApiError } from "../../api/errorHandler";
 
 function VerifyPassword() {
   const navigate = useNavigate();
@@ -20,13 +20,19 @@ function VerifyPassword() {
 
   const onSubmit = async (data) => {
     console.log("verify password button clicked.", data);
-    console.log("send to create password ");
     try {
       const email = localStorage.getItem("resetEmail");
+      const otp = localStorage.getItem("otp");
+      console.log("payload:", {
+        email,
+        otp,
+        new_password: data.newpassword,
+      });
       await resetPassword({
         email,
         new_password: data.newpassword,
-        confirm_password: data.confirmpassword,
+        // confirm_password: data.confirmpassword,
+        otp,
       });
 
       localStorage.removeItem("resetEmail");

@@ -9,7 +9,7 @@
 import Logo from "../components/common/Logo";
 import Login from "../pages/Login";
 
-import Signup from "../pages/Signup";
+import Signup from "../pages/auth/Signup";
 import logo from "../assets/logo.png";
 
 // export default AuthLayout;

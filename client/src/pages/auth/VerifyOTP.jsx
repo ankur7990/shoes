@@ -1,16 +1,14 @@
-import Input from "../components/common/Input";
+import Input from "../../components/common/Input";
 import { useNavigate } from "react-router-dom";
-import Button from "../components/common/Button";
-import Logo from "../components/common/Logo";
+import Button from "../../components/common/Button";
+import Logo from "../../components/common/Logo";
 import logo from "../assets/logo.png";
 import { useForm } from "react-hook-form";
-import { verifyOtp } from "../api/authService";
+import { resetPassword } from "../../api/authService";
 import toast from "react-hot-toast";
-import { handleApiError } from "../api/errorHandler";
+import { handleApiError } from "../../api/errorHandler";
 
 function VerifyOTP() {
-  console.log("verify otp excuted.");
-
   const {
     register,
     handleSubmit,
@@ -22,13 +20,23 @@ function VerifyOTP() {
   const onSubmit = async (data) => {
     try {
       console.log("verif OTP button clicked", data);
-      console.log("send to create password ");
 
       const email = localStorage.getItem("resetEmail");
+      console.log("resetEmail:", email);
 
-      await verifyOtp({ email: email, otp: data.otp });
+      localStorage.setItem("otp", data.otp);
+      console.log("payload:", {
+        email,
+        otp: data.otp,
+      });
+      // const sendData = await resetPassword({
+      //   email,
+      //   otp: data.otp,
+      //   new_password: data.new_password,
+      // });
+      // console.log(sendData);
 
-      toast.success("OTP verified ✅");
+      // toast.success("OTP verified ✅");
 
       navigate("/verify-password");
     } catch (error) {

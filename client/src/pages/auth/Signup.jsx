@@ -1,15 +1,17 @@
-import Input from "../components/common/Input";
-import Dropdown from "../components/common/Dropdown";
-import PasswordInput from "../components/common/PasswordInput";
-import DateInput from "../components/common/DateInput";
-import ForgotPasswordLink from "../components/common/ForgotPasswordLink";
-import Button from "../components/common/Button";
+import Input from "../../components/common/Input";
+import Dropdown from "../../components/common/Dropdown";
+import PasswordInput from "../../components/common/PasswordInput";
+import DateInput from "../../components/common/DateInput";
+import ForgotPasswordLink from "../../components/common/ForgotPasswordLink";
+import Button from "../../components/common/Button";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { signupUser } from "../api/authService";
+import { signupUser } from "../../api/authService";
 import toast from "react-hot-toast";
-import { handleApiError } from "../api/errorHandler";
+import { handleApiError } from "../../api/errorHandler";
+import DatePicker from "react-datepicker";
+import { useEffect } from "react";
 
 function Signup() {
   const navigate = useNavigate();
@@ -17,6 +19,8 @@ function Signup() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    watch,
+    setValue,
   } = useForm({
     mode: "onTouched",
   });
@@ -59,6 +63,11 @@ function Signup() {
     { label: "Female", value: "Female" },
     { label: "Other", value: "Other" },
   ];
+  useEffect(() => {
+    register("gender", {
+      required: "Please select a gender",
+    });
+  }, [register]);
 
   return (
     <div className=" min-h-screen bg-gradient-layout-main flex items-center justify-center">
@@ -138,7 +147,8 @@ function Signup() {
 
         <Dropdown
           name="gender"
-          label="Select Gender"
+          value={watch("gender")}
+          onChange={(val) => setValue("gender", val, { shouldValidate: true })}
           register={register}
           rules={{
             required: "Please select a gender",
@@ -185,8 +195,10 @@ function Signup() {
           {isSubmitting ? "Signing up..." : "Signup"}
         </Button>
 
-        <ForgotPasswordLink label="Login" to="login" align="middle" />
-
+        {/* <ForgotPasswordLink label="Login" to="/login" align="middle" /> */}
+        <Button onClick={() => navigate("/login")} fullWidth>
+          Login
+        </Button>
         {/* <p>{username}</p>
         <p>{email}</p>
         <p>{role}</p>
