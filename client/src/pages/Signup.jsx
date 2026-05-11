@@ -1,15 +1,14 @@
-import Input from "../../components/common/Input";
-import Dropdown from "../../components/common/Dropdown";
-import PasswordInput from "../../components/common/PasswordInput";
-import DateInput from "../../components/common/DateInput";
-import ForgotPasswordLink from "../../components/common/ForgotPasswordLink";
-import Button from "../../components/common/Button";
-import axios from "axios";
+import Input from "../components/common/Input";
+import Dropdown from "../components/common/Dropdown";
+import PasswordInput from "../components/common/PasswordInput";
+import DateInput from "../components/common/DateInput";
+import ForgotPasswordLink from "../components/common/ForgotPasswordLink";
+import Button from "../components/common/Button";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { signupUser } from "../../api/authService";
+import { signupUser } from "../api/authService";
 import toast from "react-hot-toast";
-import { handleApiError } from "../../api/errorHandler";
+import { handleApiError } from "../api/errorHandler";
 import DatePicker from "react-datepicker";
 import { useEffect } from "react";
 

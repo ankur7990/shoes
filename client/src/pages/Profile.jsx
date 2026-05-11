@@ -3,16 +3,16 @@ import {
   deleteUserAccount,
   getUserProfile,
   updateUserProfile,
-} from "../../api/authService";
+} from "../api/authService";
 import toast from "react-hot-toast";
-import { handleApiError } from "../../api/errorHandler";
-import { useAuth } from "../../context/AuthContext";
-import { data, useNavigate } from "react-router-dom";
-import Input from "../../components/common/Input";
-import Button from "../../components/common/Button";
-import DateInput from "../../components/common/DateInput";
+import { handleApiError } from "../api/errorHandler";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import Input from "../components/common/Input";
+import DateInput from "../components/common/DateInput";
 import { useForm } from "react-hook-form";
-import Dropdown from "../../components/common/Dropdown";
+import Dropdown from "../components/common/Dropdown";
+import Button from "../components/common/Button";
 
 const Profile = () => {
   const [userProfile, setUserProfile] = useState(null);

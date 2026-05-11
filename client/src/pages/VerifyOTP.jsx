@@ -1,12 +1,12 @@
-import Input from "../../components/common/Input";
+import Input from "../components/common/Input";
 import { useNavigate } from "react-router-dom";
-import Button from "../../components/common/Button";
-import Logo from "../../components/common/Logo";
+import Button from "../components/common/Button";
+import Logo from "../components/common/Logo";
 import logo from "../assets/logo.png";
 import { useForm } from "react-hook-form";
-import { resetPassword } from "../../api/authService";
+import { resetPassword } from "../api/authService";
 import toast from "react-hot-toast";
-import { handleApiError } from "../../api/errorHandler";
+import { handleApiError } from "../api/errorHandler";
 
 function VerifyOTP() {
   const {
