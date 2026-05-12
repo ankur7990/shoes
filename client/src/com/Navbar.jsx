@@ -6,9 +6,11 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { token, logout } = useAuth();
   const [showMenu, setShowMenu] = useState(false);
+  const [showMenu1, setShowMenu1] = useState(false);
 
   // Reference for dropdown area
   const menuRef = useRef();
+  const menuRefProduct = useRef();
   // const logout = () => {
   //   localStorage.removeItem("accessToken");
   //   localStorage.removeItem("refreshToken");
@@ -18,6 +20,12 @@ const Navbar = () => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setShowMenu(false);
+      }
+      if (
+        menuRefProduct.current &&
+        !menuRefProduct.current.contains(event.target)
+      ) {
+        setShowMenu1(false);
       }
     };
 
@@ -83,7 +91,7 @@ const Navbar = () => {
             <>
               <Link to="/home">Home</Link>
 
-              <Link to="/product">Product</Link>
+              {/* <Link to="/product">Product</Link> */}
 
               {/* Account Dropdown */}
               <div className="relative" ref={menuRef}>
@@ -134,6 +142,66 @@ const Navbar = () => {
                     >
                       Logout
                     </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Product Dropdown */}
+              <div className="relative" ref={menuRefProduct}>
+                <button
+                  onClick={() => setShowMenu1(!showMenu1)}
+                  className="text-gray-600 hover:text-blue-600"
+                >
+                  Product
+                </button>
+
+                {/* Dropdown */}
+                {showMenu1 && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2">
+                    <Link
+                      to="/sportshoes"
+                      onClick={() => setShowMenu1(false)}
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      Sport Shoes
+                    </Link>
+
+                    <Link
+                      to="/myorders"
+                      onClick={() => setShowMenu1(false)}
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      Casual Shoes
+                    </Link>
+
+                    <Link
+                      to="/addressmanagement"
+                      onClick={() => setShowMenu1(false)}
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      Sneakers Shoes
+                    </Link>
+                    <Link
+                      to="/passwordmanager"
+                      onClick={() => setShowMenu1(false)}
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      Sandle Shoes
+                    </Link>
+                    <Link
+                      to="/passwordmanager"
+                      onClick={() => setShowMenu1(false)}
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      Formal Shoes
+                    </Link>
+
+                    {/* <button
+                      onClick={handleLogout}
+                      className="block w-full  px-4 py-2 text-red-600 hover:bg-gray-100"
+                    >
+                      Logout
+                    </button> */}
                   </div>
                 )}
               </div>

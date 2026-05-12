@@ -23,7 +23,10 @@ ApiHelper.interceptors.request.use((config) => {
     "/user-login/",
     "/otp-for-forgot-password/",
     "/reset-password/",
+
     "/create/category/",
+
+    "/create/product/",
   ];
 
   const isPublicRoute = publicRoutes.some((route) =>
