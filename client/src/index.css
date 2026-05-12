@@ -2,6 +2,7 @@
 
 :root {
   --gradient-layout-main: linear-gradient(to bottom, #0b4b45, #009588);
+
   /* --gradient-layout-secondary: linear-gradient(to bottom, #0b4b45, #009588); */
 
   --text: #6b6375;
@@ -200,4 +201,8 @@ code {
   /* .bg-home-gradient-layout-main {
     background: var(--gradient-layout-main);
   } */
+}
+
+@theme {
+  --color-border-bottom: #43e77f;
 }

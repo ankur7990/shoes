@@ -10,7 +10,7 @@ const CategoryList = ({
   const [selected, setSelected] = useState(options[0]);
 
   return (
-    <div className="w-full flex flex-col items-center gap-6 space-x-9">
+    <div className="w-full flex flex-col justify-center items-center gap-6 space-x-9 ">
       {/* Capsule Buttons Container */}
       <div className="flex rounded-full border border-[#43e77f] overflow-hidden p-8 space-x-10 ">
         {options.map((option) => {
