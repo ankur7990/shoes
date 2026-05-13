@@ -1,10 +1,19 @@
 import CategoryList from "../CategoryList";
-import getCategories from "../../api/categoryService";
+// import getCategories from "../../api/categoryService";
 import Category from "../Category";
+import { useNavigate } from "react-router-dom";
 
 const CategoryComponent = ({ items }) => {
-  console.log("Category component loaded.", items);
+  const navigate = useNavigate();
 
+  const handleCategoryClick = (clickProduct) => {
+    // Filter the plain data array using the product category
+    const filteredResults = items.filter(
+      (product) => product.category === clickProduct.category,
+    );
+    // Navigate and pass the data
+    navigate("/sportshoes", { state: { filteredData: filteredResults } });
+  };
   return (
     <div>
       <CategoryList
@@ -21,7 +30,11 @@ const CategoryComponent = ({ items }) => {
                   {/* <Category data={categoryArr} /> */}
                   {items &&
                     items.map((product) => (
-                      <Category key={product.id} data={product} />
+                      <Category
+                        key={product.id}
+                        data={product}
+                        onCategoryClick={handleCategoryClick}
+                      />
                     ))}
                 </div>
               </div>

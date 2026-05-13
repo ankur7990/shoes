@@ -167,7 +167,7 @@ const Navbar = () => {
                     </Link>
 
                     <Link
-                      to="/myorders"
+                      to="/casualshoes"
                       onClick={() => setShowMenu1(false)}
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
@@ -175,21 +175,21 @@ const Navbar = () => {
                     </Link>
 
                     <Link
-                      to="/addressmanagement"
+                      to="/sneakershoes"
                       onClick={() => setShowMenu1(false)}
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
                       Sneakers Shoes
                     </Link>
                     <Link
-                      to="/passwordmanager"
+                      to="/sandleshoes"
                       onClick={() => setShowMenu1(false)}
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
                       Sandle Shoes
                     </Link>
                     <Link
-                      to="/passwordmanager"
+                      to="/formalshoes"
                       onClick={() => setShowMenu1(false)}
                       className="block px-4 py-2 hover:bg-gray-100"
                     >

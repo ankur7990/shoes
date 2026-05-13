@@ -18,6 +18,11 @@ import MyOrder from "../pages/MyOrder";
 import AddressManagement from "../pages/AddressManagement";
 import PasswordManager from "../pages/PasswordManager";
 import Product from "../pages/Product";
+import SportShoes from "../pages/Product/SportShoes";
+import CasualShoes from "../pages/Product/CasualShoes";
+import SneakerShoes from "../pages/Product/SneakerShoes";
+import SandleShoes from "../pages/Product/SandleShoes";
+import FormalShoes from "../pages/Product/FormalShoes";
 
 function AppRoutes() {
   return (
@@ -65,8 +70,15 @@ function AppRoutes() {
           <Route path="/myorders" element={<MyOrder />} />
           <Route path="/addressmanagement" element={<AddressManagement />} />
 
+          <Route path="/sportshoes" element={<SportShoes />} />
+          <Route path="/casualshoes" element={<CasualShoes />} />
+          <Route path="/sneakershoes" element={<SneakerShoes />} />
+          <Route path="/sandleshoes" element={<SandleShoes />} />
+          <Route path="/formalshoes" element={<FormalShoes />} />
+
           {/* <Route path="/settings" element={<Settings />} /> */}
         </Route>
+
         {/* protected route  */}
         {/* //profile
         //dashboard  */}

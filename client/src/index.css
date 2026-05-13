@@ -206,3 +206,11 @@ code {
 @theme {
   --color-border-bottom: #43e77f;
 }
+
+.hover\:decoration-2 {
+  &:hover {
+    @media (hover: hover) {
+      text-decoration-thickness: 5px;
+    }
+  }
+}

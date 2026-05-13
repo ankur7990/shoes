@@ -60,20 +60,15 @@ const Home = () => {
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    console.log("data fetched useeffect.");
     getCategoryList();
-    // setTimeout(() => {
-
-    //   console.log("combined items", combinedItems);
-    // }, 1000);
   }, []);
 
   const getCategoryList = async () => {
     const category = await getCategories();
     // console.log(category.data);
-    console.log("full response:", category);
-    console.log("response data:", category.data);
-    console.log("is array?", Array.isArray(category.data));
+    // console.log("full response:", category);
+    // console.log("response data:", category.data);
+    // console.log("is array?", Array.isArray(category.data));
     setList(category.data);
   };
 

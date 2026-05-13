@@ -9,7 +9,7 @@ function App() {
     <>
       <AuthProvider>
         <BrowserRouter>
-          <Toaster position="top-right" />
+          {/* <Toaster position="top-right" /> */}
           <AppRoutes />
         </BrowserRouter>
       </AuthProvider>
