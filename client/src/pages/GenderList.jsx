@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "../components/common/Button";
 
-const CategoryList = ({
+const GenderList = ({
   options = ["Male", "Female", "Child"],
   selectedClass = "btn-pill-gradient",
   unselectedClass = "input-pill",
@@ -37,4 +37,4 @@ const CategoryList = ({
   );
 };
 
-export default CategoryList;
+export default GenderList;

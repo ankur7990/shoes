@@ -22,8 +22,56 @@ import Shoes3 from "../assets/shoes3.png";
 import Shoes4 from "../assets/shoes4.png";
 import CategoryComponent from "./Category/CategoryComponent.jsx";
 import getCategories from "../api/categoryService.js";
+import GenderComponent from "./GenderComponent.jsx";
+import getAllProducts from "../api/productService.js";
 
 const Home = () => {
+  const localProducts = [
+    {
+      id: 1,
+      name: "Runner 1.0",
+      brand: "Bacca Bucci",
+      price: 225,
+      description: "This is fake shoes created.",
+      is_male: true,
+      is_female: false,
+      is_child: false,
+      category: 1,
+    },
+    {
+      id: 2,
+      name: "Runner 2.0",
+      brand: "Bacca Bucci",
+      price: 225,
+      description: "This is fake shoes created.",
+      is_male: false,
+      is_female: false,
+      is_child: true,
+      category: 2,
+    },
+    {
+      id: 3,
+      name: "Runner 3.0",
+      brand: "Bacca Bucci",
+      price: 225,
+      description: "This is fake shoes created.",
+      is_male: true,
+      is_female: false,
+      is_child: false,
+      category: 3,
+    },
+    {
+      id: 4,
+      name: "Runner 5.0",
+      brand: "Bacca Bucci",
+      price: 225,
+      description: "This is fake shoes created.",
+      is_male: false,
+      is_female: true,
+      is_child: false,
+      category: 2,
+    },
+  ];
   const localItems = [
     {
       id: 1,
@@ -58,11 +106,28 @@ const Home = () => {
   ];
 
   const [list, setList] = useState([]);
+  const [products, setProducts] = useState([]);
+
+  // useEffect(() => {
+  //   getCategoryList();
+  // }, []);
 
   useEffect(() => {
-    getCategoryList();
-  }, []);
+    console.log("Home page useeffect");
 
+    const fetchProducts = async () => {
+      try {
+        const res = await getAllProducts();
+        console.log("get all products api called.", res.data);
+
+        setProducts(res.data);
+      } catch (error) {
+        console.log("Product fetch error:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
   const getCategoryList = async () => {
     const category = await getCategories();
     // console.log(category.data);
@@ -92,6 +157,7 @@ const Home = () => {
         onButtonClick={() => console.log("Clicked")}
       /> */}
       {/* Category List */}
+      <GenderComponent items={products} />
       <CategoryComponent items={combinedItems} />
       {/* <Product /> */}
       {/* Trending */}

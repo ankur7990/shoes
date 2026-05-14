@@ -38,9 +38,6 @@ const deleteUserAccount = (data) => {
   return ApiHelper.delete("/user-delete/", data);
 };
 
-const getAllShoes = (data) => {
-  return ApiHelper.get("/create/category", data);
-};
 export {
   signupUser,
   loginUser,
@@ -51,5 +48,4 @@ export {
   deleteUserAccount,
   updateUserProfile,
   updateUserPassword,
-  getAllShoes,
 };

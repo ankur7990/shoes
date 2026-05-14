@@ -1,7 +1,7 @@
 import ApiHelper from "./ApiHelper";
 
 const getCategories = () => {
-  return ApiHelper.get("/create/category/");
+  return ApiHelper.get("/categories");
 };
 // export const getCategoryById = (id) => {
 //   return ApiHelper.get(`/categories/${id}/`);

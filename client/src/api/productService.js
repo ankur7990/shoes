@@ -1,6 +1,6 @@
 import ApiHelper from "./ApiHelper";
 
-const getAllProducts = () => {
-  return ApiHelper.get("/create/product/");
+const getAllProducts = (data) => {
+  return ApiHelper.get("/products/", data);
 };
 export default getAllProducts;
