@@ -3,25 +3,23 @@ import heart from "../assets/react.svg";
 import getAllProducts from "../api/productService";
 import { useNavigate } from "react-router-dom";
 
-const Category = ({ data, onCategoryClick }) => {
+const Category = ({ data }) => {
   const navigate = useNavigate();
   // console.log("data passed", data);
 
-  async function handleDivClick(e) {
-    // here onclick, get the all sports shoes.
-    console.log("Clicked card ID:", e.currentTarget.id);
-    //get all shoes here first, then filter
-
-    const allP = await getAllProducts();
-    console.log(allP.data);
-
-    navigate("/sportshoes");
-  }
+  const handleClick = () => {
+    navigate(`/category/filter/${data.id}`, {
+      state: {
+        categoryId: data.id,
+        categoryName: data.name,
+      },
+    });
+  };
   return (
     <div className=" ">
       <div
         className="h-50 w-70 bg-green-200 rounded-xl p-5 "
-        onClick={() => onCategoryClick(data)}
+        onClick={handleClick}
       >
         <div className="flex ">
           <div className=" flex flex-col gap-5  ">

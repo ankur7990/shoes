@@ -8,7 +8,7 @@ import Trending from "./Trending";
 import Special from "./Special";
 
 import Product from "../pages/Product";
-import Male from "./Category";
+// import Male from "./Category";
 import { useAuth } from "../context/AuthContext";
 import CategoryItemList from "./Category/CategoryItemList";
 import Category from "./Category";
@@ -108,6 +108,8 @@ const Home = () => {
   const [list, setList] = useState([]);
   const [products, setProducts] = useState([]);
 
+  const [categories, setCategories] = useState([]);
+
   // useEffect(() => {
   //   getCategoryList();
   // }, []);
@@ -137,6 +139,19 @@ const Home = () => {
     setList(category.data);
   };
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await getCategories();
+        setCategories(res.data);
+      } catch (error) {
+        console.log("Category fetch error:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   const combinedItems = list.map((item) => {
     const localItem = localItems.find((data) => data.id === item.id);
 
@@ -157,8 +172,11 @@ const Home = () => {
         onButtonClick={() => console.log("Clicked")}
       /> */}
       {/* Category List */}
-      <GenderComponent items={products} />
-      <CategoryComponent items={combinedItems} />
+      {/* <GenderComponent items={products} /> */}
+      <CategoryComponent
+        // items={combinedItems}
+        items={categories}
+      />
       {/* <Product /> */}
       {/* Trending */}
       {/* <Trending /> */}

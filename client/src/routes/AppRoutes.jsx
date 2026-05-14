@@ -23,6 +23,7 @@ import CasualShoes from "../pages/Product/CasualShoes";
 import SneakerShoes from "../pages/Product/SneakerShoes";
 import SandleShoes from "../pages/Product/SandleShoes";
 import FormalShoes from "../pages/Product/FormalShoes";
+import ProtectedRoutes from "./ProtectedRoutes";
 
 function AppRoutes() {
   return (
@@ -70,7 +71,16 @@ function AppRoutes() {
           <Route path="/myorders" element={<MyOrder />} />
           <Route path="/addressmanagement" element={<AddressManagement />} />
 
-          <Route path="/sportshoes" element={<SportShoes />} />
+          <Route
+            path="/category/filter/:id"
+            element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <SportShoes />
+                </MainLayout>
+              </ProtectedRoute>
+            }
+          />
           <Route path="/casualshoes" element={<CasualShoes />} />
           <Route path="/sneakershoes" element={<SneakerShoes />} />
           <Route path="/sandleshoes" element={<SandleShoes />} />
