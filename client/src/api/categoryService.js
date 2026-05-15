@@ -1,7 +1,7 @@
 import ApiHelper from "./ApiHelper";
 
-const getCategories = () => {
-  return ApiHelper.get("/categories");
+const getCategories = (data) => {
+  return ApiHelper.get("/categories", data);
 };
 
 const getProductsByCategory = (categoryId) => {

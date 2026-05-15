@@ -21,9 +21,10 @@ import Shoes2 from "../assets/shoes2.png";
 import Shoes3 from "../assets/shoes3.png";
 import Shoes4 from "../assets/shoes4.png";
 import CategoryComponent from "./Category/CategoryComponent.jsx";
-import getCategories from "../api/categoryService.js";
+import { getCategories } from "../api/categoryService.js";
 import GenderComponent from "./GenderComponent.jsx";
 import getAllProducts from "../api/productService.js";
+import SearchBar from "./SearchBar.jsx";
 
 const Home = () => {
   const localProducts = [
@@ -114,22 +115,22 @@ const Home = () => {
   //   getCategoryList();
   // }, []);
 
-  useEffect(() => {
-    console.log("Home page useeffect");
+  // useEffect(() => {
+  //   console.log("Home page useeffect");
 
-    const fetchProducts = async () => {
-      try {
-        const res = await getAllProducts();
-        console.log("get all products api called.", res.data);
+  //   const fetchProducts = async () => {
+  //     try {
+  //       const res = await getAllProducts();
+  //       console.log("get all products api called.", res.data);
 
-        setProducts(res.data);
-      } catch (error) {
-        console.log("Product fetch error:", error);
-      }
-    };
+  //       setProducts(res.data);
+  //     } catch (error) {
+  //       console.log("Product fetch error:", error);
+  //     }
+  //   };
 
-    fetchProducts();
-  }, []);
+  //   fetchProducts();
+  // }, []);
   const getCategoryList = async () => {
     const category = await getCategories();
     // console.log(category.data);
@@ -163,6 +164,7 @@ const Home = () => {
 
   return (
     <div className="bg-gradient-layout-main">
+      {/* <SearchBar /> */}
       {/* Hero1 */}
       {/* <Hero
         title="Build Modern Web Apps Faster 🚀"

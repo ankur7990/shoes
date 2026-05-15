@@ -35,12 +35,12 @@ const GenderComponent = ({ items }) => {
             selected === "Child"
           ) {
             return (
-              <div className="space-y-20">
-                {/* <div>
+              <div className="">
+                <div>
                   <p className="text-left pl-20 text-2xl font-normal text-white underline underline-offset-12 decoration-border-bottom">
-                    Products
+                    Category List
                   </p>
-                </div> */}
+                </div>
                 <div className="flex justify-center items-center">
                   <div className="  flex flex-row flex-wrap gap-4 p-20">
                     {filteredProducts.map((item, index) => (

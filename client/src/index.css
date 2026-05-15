@@ -214,3 +214,8 @@ code {
     }
   }
 }
+
+.input-pill-category::placeholder {
+  padding-left: 26px; /* Adjusts only the placeholder text */
+  color: #fff;
+}

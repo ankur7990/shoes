@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Product from "../Product";
 import getAllProducts from "../../api/productService";
 import { handleApiError } from "../../api/errorHandler";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { getProductsByCategory } from "../../api/categoryService";
 
 const SportShoes = () => {
@@ -43,9 +43,6 @@ const SportShoes = () => {
   return (
     <div>
       <div className="bg-gradient-layout-main">
-        <div className="flex justify-center  p-10">
-          <input type="text" className="  input-pill-category    " />
-        </div>
         <div className="flex justify-center">
           <p className="text-center text-2xl font-normal text-white underline underline-offset-12 decoration-border-bottom hover:decoration-2 ">
             Sport Shoes {categoryName}
