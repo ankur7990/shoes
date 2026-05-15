@@ -21,58 +21,59 @@ import Shoes2 from "../assets/shoes2.png";
 import Shoes3 from "../assets/shoes3.png";
 import Shoes4 from "../assets/shoes4.png";
 import CategoryComponent from "./Category/CategoryComponent.jsx";
-import { getCategories } from "../api/categoryService.js";
+import getCategories from "../api/categoryService.js";
 import GenderComponent from "./GenderComponent.jsx";
-import getAllProducts from "../api/productService.js";
+// import { getAllProducts } from "../api/productService.js";
 import SearchBar from "./SearchBar.jsx";
+import { getAllProducts } from "../api/productService.js";
 
 const Home = () => {
-  const localProducts = [
-    {
-      id: 1,
-      name: "Runner 1.0",
-      brand: "Bacca Bucci",
-      price: 225,
-      description: "This is fake shoes created.",
-      is_male: true,
-      is_female: false,
-      is_child: false,
-      category: 1,
-    },
-    {
-      id: 2,
-      name: "Runner 2.0",
-      brand: "Bacca Bucci",
-      price: 225,
-      description: "This is fake shoes created.",
-      is_male: false,
-      is_female: false,
-      is_child: true,
-      category: 2,
-    },
-    {
-      id: 3,
-      name: "Runner 3.0",
-      brand: "Bacca Bucci",
-      price: 225,
-      description: "This is fake shoes created.",
-      is_male: true,
-      is_female: false,
-      is_child: false,
-      category: 3,
-    },
-    {
-      id: 4,
-      name: "Runner 5.0",
-      brand: "Bacca Bucci",
-      price: 225,
-      description: "This is fake shoes created.",
-      is_male: false,
-      is_female: true,
-      is_child: false,
-      category: 2,
-    },
-  ];
+  // const localProducts = [
+  //   {
+  //     id: 1,
+  //     name: "Runner 1.0",
+  //     brand: "Bacca Bucci",
+  //     price: 225,
+  //     description: "This is fake shoes created.",
+  //     is_male: true,
+  //     is_female: false,
+  //     is_child: false,
+  //     category: 1,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Runner 2.0",
+  //     brand: "Bacca Bucci",
+  //     price: 225,
+  //     description: "This is fake shoes created.",
+  //     is_male: false,
+  //     is_female: false,
+  //     is_child: true,
+  //     category: 2,
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Runner 3.0",
+  //     brand: "Bacca Bucci",
+  //     price: 225,
+  //     description: "This is fake shoes created.",
+  //     is_male: true,
+  //     is_female: false,
+  //     is_child: false,
+  //     category: 3,
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Runner 5.0",
+  //     brand: "Bacca Bucci",
+  //     price: 225,
+  //     description: "This is fake shoes created.",
+  //     is_male: false,
+  //     is_female: true,
+  //     is_child: false,
+  //     category: 2,
+  //   },
+  // ];
   const localItems = [
     {
       id: 1,
@@ -107,9 +108,11 @@ const Home = () => {
   ];
 
   const [list, setList] = useState([]);
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
 
   const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [trendingProducts, setTrendingProducts] = useState([]);
 
   // useEffect(() => {
   //   getCategoryList();
@@ -162,6 +165,27 @@ const Home = () => {
     };
   });
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await getAllProducts();
+
+        setProducts(res.data);
+
+        // filter trending products
+        const trending = res.data.filter(
+          (product) => product.trending === true,
+        );
+
+        setTrendingProducts(trending);
+      } catch (error) {
+        console.log("Products error:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <div className="bg-gradient-layout-main">
       {/* <SearchBar /> */}
@@ -175,13 +199,14 @@ const Home = () => {
       /> */}
       {/* Category List */}
       {/* <GenderComponent items={products} /> */}
-      <CategoryComponent
+      {/* <CategoryComponent
         // items={combinedItems}
         items={categories}
-      />
+      /> */}
+
       {/* <Product /> */}
       {/* Trending */}
-      {/* <Trending /> */}
+      <Trending items={trendingProducts} />
       {/* Special */}
       {/* <Product /> */}
       {/* <Special /> */}

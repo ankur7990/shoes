@@ -1,6 +1,5 @@
 import React from "react";
 import heart from "../assets/react.svg";
-import getAllProducts from "../api/productService";
 import { useNavigate } from "react-router-dom";
 
 const Category = ({ data }) => {

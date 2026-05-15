@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Product from "../Product";
-import getAllProducts from "../../api/productService";
+// import {getAllProducts} from "../../api/productService";
 import { handleApiError } from "../../api/errorHandler";
 import { useLocation, useParams } from "react-router-dom";
-import { getProductsByCategory } from "../../api/categoryService";
+import { getProductsByCategory } from "../../api/productService";
 
 const SportShoes = () => {
   const location = useLocation();

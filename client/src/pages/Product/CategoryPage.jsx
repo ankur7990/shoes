@@ -1,23 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { getProductsByCategory } from "../../api/categoryService";
-import { handleApiError } from "../../api/errorHandler";
+import { getProductsByCategory } from "../../api/productService";
 import Product from "../Product";
 import SearchBar from "../SearchBar";
+import getCategories from "../../api/categoryService";
 
 const CategoryPage = () => {
   const { id } = useParams();
   const location = useLocation();
   const [products, setProducts] = useState([]);
+  const [categoryName, setCategoryName] = useState("Category");
 
-  //   const categoryId = location.state?.categoryId;
-  const categoryName =
-    location.state?.categoryName?.replace("\n", " ") || "Category";
+  // fetch category name
+  useEffect(() => {
+    const fetchCategoryName = async () => {
+      try {
+        const res = await getCategories();
 
+        const matchedCategory = res.data.find(
+          (cat) => Number(cat.id) === Number(id),
+        );
+
+        if (matchedCategory) {
+          setCategoryName(matchedCategory.name.replace("\n", " "));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchCategoryName();
+  }, [id]);
+  // fetch products
   useEffect(() => {
     const fetchCategoryProducts = async () => {
       try {
         const res = await getProductsByCategory(id);
+        console.log(res.data);
+
         setProducts(res.data);
       } catch (error) {
         handleApiError(error);
@@ -35,7 +55,7 @@ const CategoryPage = () => {
         {/* <div className="flex justify-center p-10">
           <input type="text" className="input-pill-category" />
         </div> */}
-        <SearchBar />
+        {/* <SearchBar /> */}
 
         <div className="flex justify-center">
           <p className="text-center text-2xl font-normal text-white underline underline-offset-12 decoration-border-bottom hover:decoration-2">

@@ -1,6 +1,6 @@
 import React from "react";
 import heart from "../assets/react.svg";
-import shoes from "../assets/shoes.png";
+// import shoes from "../assets/shoes.png";
 
 const Product = ({ data }) => {
   const imageUrl = data.product_images?.[0]?.image;
@@ -37,7 +37,7 @@ const Product = ({ data }) => {
           <p className="text-black text-xl"> {data.name}</p>
           <p className="text-black"> {data.brand}</p>
           <h3 className="text-black text-xl font-semibold pt-2">
-            $ 5000.60 {data.price}
+            $ {data.price}
           </h3>
         </div>
         <div className="bg-amber-50 h-6 w-6 mt-18 mr-3">
