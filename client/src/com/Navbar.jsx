@@ -159,7 +159,7 @@ const Navbar = () => {
                 {showMenu1 && (
                   <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2">
                     <Link
-                      to="/sportshoes"
+                      to="/category/filter/1"
                       onClick={() => setShowMenu1(false)}
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
@@ -167,7 +167,7 @@ const Navbar = () => {
                     </Link>
 
                     <Link
-                      to="/casualshoes"
+                      to="/category/filter/2"
                       onClick={() => setShowMenu1(false)}
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
@@ -175,21 +175,21 @@ const Navbar = () => {
                     </Link>
 
                     <Link
-                      to="/sneakershoes"
+                      to="/category/filter/3"
                       onClick={() => setShowMenu1(false)}
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
                       Sneakers Shoes
                     </Link>
                     <Link
-                      to="/sandleshoes"
+                      to="/category/filter/4"
                       onClick={() => setShowMenu1(false)}
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
                       Sandle Shoes
                     </Link>
                     <Link
-                      to="/formalshoes"
+                      to="/category/filter/5"
                       onClick={() => setShowMenu1(false)}
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
