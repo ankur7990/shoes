@@ -1,12 +1,14 @@
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useEffect, useRef, useState } from "react";
+import getCategories from "../api/categoryService";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { token, logout } = useAuth();
   const [showMenu, setShowMenu] = useState(false);
   const [showMenu1, setShowMenu1] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   // Reference for dropdown area
   const menuRef = useRef();
@@ -16,6 +18,18 @@ const Navbar = () => {
   //   localStorage.removeItem("refreshToken");
   // };
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await getCategories();
+        setCategories(res.data);
+      } catch (error) {
+        console.log("Navbar category error:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -158,50 +172,16 @@ const Navbar = () => {
                 {/* Dropdown */}
                 {showMenu1 && (
                   <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2">
-                    <Link
-                      to="/category/filter/1"
-                      onClick={() => setShowMenu1(false)}
-                      className="block px-4 py-2 hover:bg-gray-100"
-                    >
-                      Sport Shoes
-                    </Link>
-
-                    <Link
-                      to="/category/filter/2"
-                      onClick={() => setShowMenu1(false)}
-                      className="block px-4 py-2 hover:bg-gray-100"
-                    >
-                      Casual Shoes
-                    </Link>
-
-                    <Link
-                      to="/category/filter/3"
-                      onClick={() => setShowMenu1(false)}
-                      className="block px-4 py-2 hover:bg-gray-100"
-                    >
-                      Sneakers Shoes
-                    </Link>
-                    <Link
-                      to="/category/filter/4"
-                      onClick={() => setShowMenu1(false)}
-                      className="block px-4 py-2 hover:bg-gray-100"
-                    >
-                      Sandle Shoes
-                    </Link>
-                    <Link
-                      to="/category/filter/5"
-                      onClick={() => setShowMenu1(false)}
-                      className="block px-4 py-2 hover:bg-gray-100"
-                    >
-                      Formal Shoes
-                    </Link>
-
-                    {/* <button
-                      onClick={handleLogout}
-                      className="block w-full  px-4 py-2 text-red-600 hover:bg-gray-100"
-                    >
-                      Logout
-                    </button> */}
+                    {categories.map((cat) => (
+                      <Link
+                        key={cat.id}
+                        to={`/category/filter/${cat.id}`}
+                        onClick={() => setShowMenu1(false)}
+                        className="block px-4 py-2 hover:bg-gray-100"
+                      >
+                        {cat.name.replace("\n", " ")}
+                      </Link>
+                    ))}
                   </div>
                 )}
               </div>

@@ -219,3 +219,7 @@ code {
   padding-left: 26px; /* Adjusts only the placeholder text */
   color: #fff;
 }
+
+.percentageColor {
+  color: #16c36d;
+}

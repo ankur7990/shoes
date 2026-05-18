@@ -4,6 +4,7 @@ import { getProductsByCategory } from "../../api/productService";
 import Product from "../Product";
 import SearchBar from "../SearchBar";
 import getCategories from "../../api/categoryService";
+import { handleApiError } from "../../api/errorHandler";
 
 const CategoryPage = () => {
   const { id } = useParams();
@@ -67,7 +68,7 @@ const CategoryPage = () => {
 
         <div className="">
           {/* <div className="flex flex-col gap-10"> */}
-          <div className=" flex flex-row flex-wrap gap-5 p-10 bg-amber-100   ">
+          <div className=" flex flex-row flex-wrap gap-5 p-10    ">
             {products.length > 0 ? (
               products.map((product) => (
                 <Product key={product.id} data={product} />

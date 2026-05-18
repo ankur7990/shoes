@@ -3,6 +3,8 @@
 import Category from "../Category";
 
 const CategoryComponent = ({ items }) => {
+  // console.log("category received", items.data);
+
   return (
     <div className="">
       <div className="flex flex-row flex-wrap gap-5  p-20">

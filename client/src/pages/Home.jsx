@@ -26,6 +26,7 @@ import GenderComponent from "./GenderComponent.jsx";
 // import { getAllProducts } from "../api/productService.js";
 import SearchBar from "./SearchBar.jsx";
 import { getAllProducts } from "../api/productService.js";
+import Star from "../components/common/Star.jsx";
 
 const Home = () => {
   // const localProducts = [
@@ -113,27 +114,8 @@ const Home = () => {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [trendingProducts, setTrendingProducts] = useState([]);
+  const [specialProducts, setSpecialProducts] = useState([]);
 
-  // useEffect(() => {
-  //   getCategoryList();
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log("Home page useeffect");
-
-  //   const fetchProducts = async () => {
-  //     try {
-  //       const res = await getAllProducts();
-  //       console.log("get all products api called.", res.data);
-
-  //       setProducts(res.data);
-  //     } catch (error) {
-  //       console.log("Product fetch error:", error);
-  //     }
-  //   };
-
-  //   fetchProducts();
-  // }, []);
   const getCategoryList = async () => {
     const category = await getCategories();
     // console.log(category.data);
@@ -147,6 +129,8 @@ const Home = () => {
     const fetchCategories = async () => {
       try {
         const res = await getCategories();
+        console.log(res);
+
         setCategories(res.data);
       } catch (error) {
         console.log("Category fetch error:", error);
@@ -177,7 +161,13 @@ const Home = () => {
           (product) => product.trending === true,
         );
 
+        // filter special products
+        const special = res.data.filter(
+          (product) => product.special_shoes === true,
+        );
+
         setTrendingProducts(trending);
+        setSpecialProducts(special);
       } catch (error) {
         console.log("Products error:", error);
       }
@@ -186,6 +176,26 @@ const Home = () => {
     fetchProducts();
   }, []);
 
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     try {
+  //       const res = await getAllProducts();
+
+  //       setProducts(res.data);
+  //       console.log(res.data.special_shoes);
+
+  //       // filter trending products
+  //       const special = res.data.filter(
+  //         (product) => product.special_shoes === true,
+  //       );
+
+  //       setSpecialProducts(special);
+  //     } catch (error) {
+  //       console.log("Products error:", error);
+  //     }
+  //   };
+  //   fetchProducts();
+  // }, []);
   return (
     <div className="bg-gradient-layout-main">
       {/* <SearchBar /> */}
@@ -199,17 +209,17 @@ const Home = () => {
       /> */}
       {/* Category List */}
       {/* <GenderComponent items={products} /> */}
-      {/* <CategoryComponent
+      <CategoryComponent
         // items={combinedItems}
         items={categories}
-      /> */}
+      />
 
       {/* <Product /> */}
       {/* Trending */}
-      <Trending items={trendingProducts} />
+      {/* <Trending items={trendingProducts} /> */}
       {/* Special */}
       {/* <Product /> */}
-      {/* <Special /> */}
+      {/* <Special items={specialProducts} /> */}
     </div>
   );
 };
