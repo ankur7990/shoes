@@ -59,7 +59,7 @@ const Product = ({ data }) => {
       <div className="h-25 w-60  radius rounded-xl flex  justify-between  ">
         <div className="  flex flex-col text-left ml-3 my-2  ">
           <p className="text-black text-xl"> {data.name}</p>
-          <p className="text-black"> {data.brand}</p>
+          <p className="text-[#A58855]"> {data.brand}</p>
           <h3 className="text-black text-xl font-semibold pt-2">
             $ {data.price}
           </h3>

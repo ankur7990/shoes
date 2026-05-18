@@ -10,7 +10,6 @@ import Special from "./Special";
 import Product from "../pages/Product";
 // import Male from "./Category";
 import { useAuth } from "../context/AuthContext";
-import CategoryItemList from "./Category/CategoryItemList";
 import Category from "./Category";
 
 import heart from "../assets/react.svg";

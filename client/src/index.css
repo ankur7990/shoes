@@ -223,3 +223,51 @@ code {
 .percentageColor {
   color: #16c36d;
 }
+
+/* Slider buttons arrow angle */
+
+/* navigation buttons */
+.swiper-button-next,
+.swiper-button-prev {
+  width: 45px !important;
+  height: 45px !important;
+
+  border-radius: 9999px;
+  backdrop-filter: blur(10px);
+  color: #43e77f !important;
+  background: rgba(255, 255, 255, 0.15);
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  transition: all 0.3s ease;
+
+  top: 45% !important;
+}
+
+/* arrow icon */
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 18px !important;
+  font-weight: bold;
+  color: white;
+}
+
+/* hover */
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  transform: scale(1.08);
+
+  background: rgba(255, 255, 255, 0.3);
+
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.25);
+}
+
+/* left button position */
+.swiper-button-prev {
+  left: 10px !important;
+}
+
+/* right button position */
+.swiper-button-next {
+  right: 10px !important;
+}
