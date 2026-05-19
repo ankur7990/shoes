@@ -18,15 +18,16 @@ import MyOrder from "../pages/MyOrder";
 import AddressManagement from "../pages/AddressManagement";
 import PasswordManager from "../pages/PasswordManager";
 import Product from "../pages/Product";
-import SportShoes from "../pages/Product/SportShoes";
-import CasualShoes from "../pages/Product/CasualShoes";
-import SneakerShoes from "../pages/Product/SneakerShoes";
-import SandleShoes from "../pages/Product/SandleShoes";
-import FormalShoes from "../pages/Product/FormalShoes";
+import SportShoes from "../pages/ProductPages/SportShoes";
+import CasualShoes from "../pages/ProductPages/CasualShoes";
+import SneakerShoes from "../pages/ProductPages/SneakerShoes";
+import SandleShoes from "../pages/ProductPages/SandleShoes";
+import FormalShoes from "../pages/ProductPages/FormalShoes";
 import ProtectedRoutes from "./ProtectedRoutes";
-import CategoryPage from "../pages/Product/CategoryPage";
+import CategoryPage from "../pages/ProductPages/CategoryPage";
 import TrendingShoes from "../pages/TrendingShoes";
 import SpecialShoes from "../pages/SpecialShoes";
+import ProductDetails from "../pages/ProductDetails";
 
 function AppRoutes() {
   return (
@@ -86,6 +87,7 @@ function AppRoutes() {
 
           {/* <Route path="/settings" element={<Settings />} /> */}
         </Route>
+        <Route path="/productdetails" element={<ProductDetails />} />
 
         {/* protected route  */}
         {/* //profile

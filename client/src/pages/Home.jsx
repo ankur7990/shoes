@@ -26,6 +26,7 @@ import GenderComponent from "./GenderComponent.jsx";
 import SearchBar from "./SearchBar.jsx";
 import { getAllProducts } from "../api/productService.js";
 import Star from "../components/common/Star.jsx";
+import ProductDetails from "./ProductDetails.jsx";
 
 const Home = () => {
   // const localProducts = [
@@ -207,18 +208,19 @@ const Home = () => {
         onButtonClick={() => console.log("Clicked")}
       /> */}
       {/* Category List */}
-      {/* <GenderComponent items={products} /> */}
-      {/* <CategoryComponent
+      <GenderComponent items={products} />
+      <CategoryComponent
         // items={combinedItems}
         items={categories}
-      /> */}
+      />
 
       {/* <Product /> */}
       {/* Trending */}
-      {/* <Trending items={trendingProducts.slice(0, 6)} /> */}
+      <Trending items={trendingProducts.slice(0, 6)} />
       {/* Special */}
       {/* <Product /> */}
       <Special items={specialProducts.slice(0, 6)} />
+      {/* <ProductDetails /> */}
     </div>
   );
 };

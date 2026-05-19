@@ -93,6 +93,9 @@ const Navbar = () => {
         <Link to="/home" className="text-2xl font-bold text-blue-600">
           MyApp
         </Link>
+        {/* <Link to="/productdetails" className="text-2xl font-bold text-blue-600">
+          Product details
+        </Link> */}
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-6">
