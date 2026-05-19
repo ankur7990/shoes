@@ -208,17 +208,17 @@ const Home = () => {
       /> */}
       {/* Category List */}
       {/* <GenderComponent items={products} /> */}
-      <CategoryComponent
+      {/* <CategoryComponent
         // items={combinedItems}
         items={categories}
-      />
+      /> */}
 
       {/* <Product /> */}
       {/* Trending */}
-      {/* <Trending items={trendingProducts} /> */}
+      {/* <Trending items={trendingProducts.slice(0, 6)} /> */}
       {/* Special */}
       {/* <Product /> */}
-      {/* <Special items={specialProducts} /> */}
+      <Special items={specialProducts.slice(0, 6)} />
     </div>
   );
 };

@@ -25,6 +25,8 @@ import SandleShoes from "../pages/Product/SandleShoes";
 import FormalShoes from "../pages/Product/FormalShoes";
 import ProtectedRoutes from "./ProtectedRoutes";
 import CategoryPage from "../pages/Product/CategoryPage";
+import TrendingShoes from "../pages/TrendingShoes";
+import SpecialShoes from "../pages/SpecialShoes";
 
 function AppRoutes() {
   return (
@@ -79,6 +81,8 @@ function AppRoutes() {
           <Route path="/sneakershoes" element={<SneakerShoes />} />
           <Route path="/sandleshoes" element={<SandleShoes />} />
           <Route path="/formalshoes" element={<FormalShoes />} />
+          <Route path="/trendingshoes" element={<TrendingShoes />} />
+          <Route path="/specialshoes" element={<SpecialShoes />} />
 
           {/* <Route path="/settings" element={<Settings />} /> */}
         </Route>
