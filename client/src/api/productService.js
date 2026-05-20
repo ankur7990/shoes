@@ -14,11 +14,18 @@ const getProductLikes = () => {
 };
 
 const createProductLikes = (data) => {
+  console.log("API called get likes");
+
   return ApiHelper.post(`/product-likes/`, data);
+};
+
+const deleteProductLikes = (id) => {
+  return ApiHelper.delete(`/product-likes/${id}`);
 };
 export {
   getAllProducts,
   getProductsByCategory,
   getProductLikes,
   createProductLikes,
+  deleteProductLikes,
 };

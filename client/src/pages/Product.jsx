@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import heart from "../assets/heart.svg";
+import heartoutline from "../assets/heartoutline.svg";
+import heartfilled from "../assets/heartfilled.svg";
 import Star from "../components/common/Star";
 import { adjustColor } from "../utils/colorUtils";
 import backstar from "../assets/backstar.png";
-import { createProductLikes } from "../api/productService";
+import { createProductLikes, getProductLikes } from "../api/productService";
 import { handleApiError } from "../api/errorHandler";
 
 // import shoes from "../assets/shoes.png";
@@ -11,6 +12,11 @@ import { handleApiError } from "../api/errorHandler";
 const Product = ({ data }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likeLoading, setLikeLoading] = useState(false);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user?.id;
+  console.log("first get user", user);
+  console.log("user id", userId);
+
   // console.log("Product data passed :", data);
 
   const imageUrl = data.image;
@@ -21,32 +27,50 @@ const Product = ({ data }) => {
 
   const [isHover, setIsHover] = useState(false);
 
-  function handleLikeClick() {
-    console.log("Product button clicked.");
-    console.log(baseColor, secondaryColor, thirdColor);
-    // post api call
-    //use product is_liked
+  const checkLikeStatus = async () => {
+    console.log("first check if there is like products.");
 
-    sendLikes();
-  }
-
-  const sendLikes = async () => {
     try {
-      const res = await createProductLikes();
-      console.log(res);
+      const res = await getProductLikes();
+      const likes = res.data;
+      console.log("get product likes", res.data);
 
-      // const matchedCategory = res.data.find(
-      //   (cat) => Number(cat.id) === Number(id),
-      // );
+      const liked = likes.some(
+        (like) =>
+          Number(like.user) === Number(userId) &&
+          Number(like.product) === Number(data.id),
+      );
 
-      // if (matchedCategory) {
-      //   setCategoryName(matchedCategory.name.replace("\n", " "));
-      // }
+      setIsLiked(liked);
     } catch (error) {
-      console.log(error);
+      handleApiError(error);
     }
   };
 
+  useEffect(() => {
+    if (userId && data?.id) {
+      checkLikeStatus();
+    }
+  }, [userId, data?.id]);
+
+  const handleLikeClick = async () => {
+    if (!userId) return;
+    console.log("like btn clicked");
+    try {
+      setLikeLoading(true);
+
+      await createProductLikes({
+        user: userId,
+        product: data.id,
+      });
+
+      setIsLiked(true);
+    } catch (error) {
+      handleApiError(error);
+    } finally {
+      setLikeLoading(false);
+    }
+  };
   return (
     <div className="  flex justify-center items-center ">
       <div className="  flex flex-row gap-25">
@@ -91,31 +115,27 @@ const Product = ({ data }) => {
             <div
               className=" h-6 w-6 mt-18 mr-3 rounded-2xl transition-all duration-300
            cursor-pointer"
-              onMouseEnter={() => setIsHover(true)}
-              onMouseLeave={() => setIsHover(false)}
-              style={{
-                backgroundColor: isHover
-                  ? `${secondaryColor}`
-                  : `${thirdColor}`,
-              }}
+              // onMouseEnter={() => setIsHover(true)}
+              // onMouseLeave={() => setIsHover(false)}
+              style={
+                {
+                  // backgroundColor: isHover
+                  //   ? `${secondaryColor}`
+                  //   : `${thirdColor}`,
+                }
+              }
             >
               {" "}
-              <button onClick={handleLikeClick} className="cursor-pointer">
-                {/* <img src={heart} alt="" text-white /> */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-6 text-white p-1"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                  />
-                </svg>
+              <button
+                onClick={handleLikeClick}
+                className="cursor-pointer"
+                disabled={likeLoading}
+              >
+                <img
+                  src={isLiked ? heartfilled : heartoutline}
+                  alt="like"
+                  text-white
+                />
               </button>
             </div>
           </div>
