@@ -16,25 +16,22 @@ const SportShoes = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
+      // const res = await getAllProducts();
+
+      // const filtered = res.data.filter((product) => {
+      //   return Number(product.category) === Number(id);
+      // });
+
       try {
-        // const res = await getAllProducts();
+        // 🔥 API CALL HERE
+        const res = await getProductsByCategory(id);
+        console.log(res.data);
 
-        // const filtered = res.data.filter((product) => {
-        //   return Number(product.category) === Number(id);
-        // });
-
-        try {
-          // 🔥 API CALL HERE
-          const res = await getProductsByCategory(id);
-
-          setProducts(res.data);
-        } catch (error) {
-          handleApiError(error);
-        }
-        setFilteredProducts(filtered);
+        setProducts(res.data.results);
       } catch (error) {
         handleApiError(error);
       }
+      setFilteredProducts(filtered);
     };
 
     fetchProducts();

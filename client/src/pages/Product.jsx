@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import heart from "../assets/heart.svg";
 import Star from "../components/common/Star";
 import { adjustColor } from "../utils/colorUtils";
 import backstar from "../assets/backstar.png";
+import { createProductLikes } from "../api/productService";
+import { handleApiError } from "../api/errorHandler";
 
 // import shoes from "../assets/shoes.png";
 
 const Product = ({ data }) => {
-  const imageUrl = data.product_images?.[0]?.image;
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeLoading, setLikeLoading] = useState(false);
+  // console.log("Product data passed :", data);
+
+  const imageUrl = data.image;
   const baseColor = data.color;
   const primaryColor = baseColor;
   const secondaryColor = adjustColor(baseColor, -20);
@@ -18,7 +24,29 @@ const Product = ({ data }) => {
   function handleLikeClick() {
     console.log("Product button clicked.");
     console.log(baseColor, secondaryColor, thirdColor);
+    // post api call
+    //use product is_liked
+
+    sendLikes();
   }
+
+  const sendLikes = async () => {
+    try {
+      const res = await createProductLikes();
+      console.log(res);
+
+      // const matchedCategory = res.data.find(
+      //   (cat) => Number(cat.id) === Number(id),
+      // );
+
+      // if (matchedCategory) {
+      //   setCategoryName(matchedCategory.name.replace("\n", " "));
+      // }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="  flex justify-center items-center ">
       <div className="  flex flex-row gap-25">

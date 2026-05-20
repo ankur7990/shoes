@@ -39,7 +39,7 @@ const CategoryPage = () => {
         const res = await getProductsByCategory(id);
         console.log(res.data);
 
-        setProducts(res.data);
+        setProducts(res.data.results);
       } catch (error) {
         handleApiError(error);
       }

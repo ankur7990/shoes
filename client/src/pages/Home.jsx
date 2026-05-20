@@ -116,20 +116,11 @@ const Home = () => {
   const [trendingProducts, setTrendingProducts] = useState([]);
   const [specialProducts, setSpecialProducts] = useState([]);
 
-  const getCategoryList = async () => {
-    const category = await getCategories();
-    // console.log(category.data);
-    // console.log("full response:", category);
-    // console.log("response data:", category.data);
-    // console.log("is array?", Array.isArray(category.data));
-    setList(category.data);
-  };
-
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const res = await getCategories();
-        console.log(res);
+        // console.log(res);
 
         setCategories(res.data);
       } catch (error) {
@@ -140,19 +131,11 @@ const Home = () => {
     fetchCategories();
   }, []);
 
-  const combinedItems = list.map((item) => {
-    const localItem = localItems.find((data) => data.id === item.id);
-
-    return {
-      ...item,
-      ...localItem,
-    };
-  });
-
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const res = await getAllProducts();
+        // console.log(res.data);
 
         setProducts(res.data);
 
@@ -208,7 +191,7 @@ const Home = () => {
         onButtonClick={() => console.log("Clicked")}
       /> */}
       {/* Category List */}
-      <GenderComponent items={products} />
+      {/* <GenderComponent items={products} /> */}
       <CategoryComponent
         // items={combinedItems}
         items={categories}
@@ -216,10 +199,10 @@ const Home = () => {
 
       {/* <Product /> */}
       {/* Trending */}
-      <Trending items={trendingProducts.slice(0, 6)} />
+      {/* <Trending items={trendingProducts.slice(0, 6)} /> */}
       {/* Special */}
       {/* <Product /> */}
-      <Special items={specialProducts.slice(0, 6)} />
+      {/* <Special items={specialProducts.slice(0, 6)} /> */}
       {/* <ProductDetails /> */}
     </div>
   );

@@ -1,7 +1,7 @@
 export const adjustColor = (hex, amount) => {
-  let color = hex.replace("#", "");
+  let color = hex?.replace("#", "");
 
-  if (color.length === 3) {
+  if (color?.length === 3) {
     color = color
       .split("")
       .map((c) => c + c)
