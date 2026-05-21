@@ -11,24 +11,6 @@ const Trending = ({ items }) => {
   const location = useLocation();
   const [categoryName, setCategoryName] = useState("Trending Shoes");
 
-  // fetch products
-  // useEffect(() => {
-  //   const fetchCategoryProducts = async () => {
-  //     try {
-  //       const res = await getProductsByCategory(id);
-  //       console.log(res.data);
-
-  //       setProducts(res.data);
-  //     } catch (error) {
-  //       handleApiError(error);
-  //     }
-  //   };
-
-  //   if (id) {
-  //     fetchCategoryProducts();
-  //   }
-  // }, [id]);
-
   return (
     <>
       <div className="   flex flex-col ">

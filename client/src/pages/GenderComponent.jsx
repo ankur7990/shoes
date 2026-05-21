@@ -12,7 +12,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 const GenderComponent = ({ items }) => {
-  console.log("Gender data", items);
+  // console.log("Gender data", items);
 
   const getFilteredProducts = (selected) => {
     if (selected === "Male") {

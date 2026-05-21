@@ -5,19 +5,24 @@ import Product from "./Product";
 
 const SpecialShoes = () => {
   const [specialProducts, setspecialProducts] = useState([]);
+  const getProductArray = (data) => {
+    if (Array.isArray(data)) return data;
+    if (Array.isArray(data?.results)) return data.results;
+    return [];
+  };
   useEffect(() => {
-    const fetchTrendingProducts = async () => {
+    const fetchSpecialProducts = async () => {
       try {
         const res = await getAllProducts();
-
-        const filtered = res.data.filter((product) => product.special_shoes);
+        const allProducts = getProductArray(res.data);
+        const filtered = allProducts.filter((product) => product.special_shoes);
         setspecialProducts(filtered);
       } catch (error) {
         handleApiError(error);
       }
     };
 
-    fetchTrendingProducts();
+    fetchSpecialProducts();
   }, []);
 
   return (

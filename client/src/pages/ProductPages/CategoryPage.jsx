@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import { getProductsByCategory } from "../../api/productService";
+import { useParams } from "react-router-dom";
+import {
+  getProductsByCategory,
+  normalizeProductResponse,
+} from "../../api/productService";
 import Product from "../Product";
 import SearchBar from "../SearchBar";
 import getCategories from "../../api/categoryService";
@@ -8,7 +11,6 @@ import { handleApiError } from "../../api/errorHandler";
 
 const CategoryPage = () => {
   const { id } = useParams();
-  const location = useLocation();
   const [products, setProducts] = useState([]);
   const [categoryName, setCategoryName] = useState("Category");
 
@@ -37,9 +39,9 @@ const CategoryPage = () => {
     const fetchCategoryProducts = async () => {
       try {
         const res = await getProductsByCategory(id);
-        console.log(res.data);
+        // console.log(res.data.results);
 
-        setProducts(res.data.results);
+        setProducts(normalizeProductResponse(res.data));
       } catch (error) {
         handleApiError(error);
       }

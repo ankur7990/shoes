@@ -4,22 +4,34 @@ import heartfilled from "../assets/heartfilled.svg";
 import Star from "../components/common/Star";
 import { adjustColor } from "../utils/colorUtils";
 import backstar from "../assets/backstar.png";
-import { createProductLikes, getProductLikes } from "../api/productService";
+import {
+  createProductLikes,
+  deleteProductLikes,
+  getProductLikes,
+} from "../api/productService";
 import { handleApiError } from "../api/errorHandler";
+import { useAuth } from "../context/AuthContext";
+import { getProductImage } from "../utils/productUtils";
 
 // import shoes from "../assets/shoes.png";
 
 const Product = ({ data }) => {
-  const [isLiked, setIsLiked] = useState(false);
-  const [likeLoading, setLikeLoading] = useState(false);
-  const user = JSON.parse(localStorage.getItem("user"));
-  const userId = user?.id;
-  console.log("first get user", user);
-  console.log("user id", userId);
+  // console.log("product incoming data", data);
 
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeId, setLikeId] = useState(null);
+
+  const [likeLoading, setLikeLoading] = useState(false);
+  // const user = JSON.parse(localStorage.getItem("user"));
+  const { user } = useAuth();
+  // console.log(user?.id);
+
+  const userId = user?.id;
   // console.log("Product data passed :", data);
 
-  const imageUrl = data.image;
+  // const imageUrl = data.product_images?.[0]?.image;
+  // const imageUrl = data.image;
+  const imageUrl = getProductImage(data);
   const baseColor = data.color;
   const primaryColor = baseColor;
   const secondaryColor = adjustColor(baseColor, -20);
@@ -27,48 +39,47 @@ const Product = ({ data }) => {
 
   const [isHover, setIsHover] = useState(false);
 
-  const checkLikeStatus = async () => {
-    console.log("first check if there is like products.");
-
-    try {
-      const res = await getProductLikes();
-      const likes = res.data;
-      console.log("get product likes", res.data);
-
-      const liked = likes.some(
-        (like) =>
-          Number(like.user) === Number(userId) &&
-          Number(like.product) === Number(data.id),
-      );
-
-      setIsLiked(liked);
-    } catch (error) {
-      handleApiError(error);
-    }
-  };
-
   useEffect(() => {
-    if (userId && data?.id) {
-      checkLikeStatus();
-    }
-  }, [userId, data?.id]);
+    const fetchLikes = async () => {
+      try {
+        const res = await getProductLikes();
+        const likes = res.data;
+
+        const found = likes.find(
+          (like) =>
+            Number(like.user) === Number(userId) &&
+            Number(like.product) === Number(data.id),
+        );
+
+        if (found) {
+          setIsLiked(true);
+          setLikeId(found.id);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (userId) fetchLikes();
+  }, [userId, data.id]);
 
   const handleLikeClick = async () => {
-    if (!userId) return;
-    console.log("like btn clicked");
     try {
-      setLikeLoading(true);
+      if (isLiked && likeId) {
+        await deleteProductLikes(likeId);
+        setIsLiked(false);
+        setLikeId(null);
+      } else {
+        const res = await createProductLikes({
+          user: userId,
+          product: data.id,
+        });
 
-      await createProductLikes({
-        user: userId,
-        product: data.id,
-      });
-
-      setIsLiked(true);
+        setIsLiked(true);
+        setLikeId(res.data.id); // if backend returns created like record
+      }
     } catch (error) {
-      handleApiError(error);
-    } finally {
-      setLikeLoading(false);
+      console.log(error);
     }
   };
   return (
@@ -86,7 +97,10 @@ const Product = ({ data }) => {
             //   cursor-pointer"
             style={{ backgroundColor: `${secondaryColor}` }}
           >
-            <div className="grid grid-col-4 items-baseline ">
+            <div
+              className="grid grid-col-4 items-baseline bg-contain bg-center bg-no-repeat  "
+              style={{ backgroundImage: `url(${backstar})` }}
+            >
               <div className="  w-15 h-8 col-span-1 col-start-1">
                 <div className=" bg-white w-15 h-6 flex gap-1 justify-center items-center m-3 rounded-2xl p-1">
                   <span>
@@ -96,7 +110,8 @@ const Product = ({ data }) => {
                 </div>
               </div>
               <div className="  col-start-1 col-end-4 h-40 w-55 flex justify-center items-center">
-                {imageUrl ? <img src={imageUrl} alt={data.name} /> : null}
+                {/* {imageUrl ? <img src={imageUrl} alt={data.name} /> : null} */}
+                <img src={imageUrl} alt={data.name} />
               </div>
 
               <div className="bg-white percentageColor font-semibold w-20 h-7 rounded-tl-lg rounded-br-lg col-span-1 col-start-3">
@@ -115,15 +130,13 @@ const Product = ({ data }) => {
             <div
               className=" h-6 w-6 mt-18 mr-3 rounded-2xl transition-all duration-300
            cursor-pointer"
-              // onMouseEnter={() => setIsHover(true)}
-              // onMouseLeave={() => setIsHover(false)}
-              style={
-                {
-                  // backgroundColor: isHover
-                  //   ? `${secondaryColor}`
-                  //   : `${thirdColor}`,
-                }
-              }
+              onMouseEnter={() => setIsHover(true)}
+              onMouseLeave={() => setIsHover(false)}
+              style={{
+                backgroundColor: isHover
+                  ? `${secondaryColor}`
+                  : `${thirdColor}`,
+              }}
             >
               {" "}
               <button
@@ -131,11 +144,14 @@ const Product = ({ data }) => {
                 className="cursor-pointer"
                 disabled={likeLoading}
               >
-                <img
+                {" "}
+                {/* {isLiked ? "❤️" : "🤍"} */}
+                {likeLoading ? "..." : isLiked ? "❤️" : "🤍"}
+                {/* <img
                   src={isLiked ? heartfilled : heartoutline}
                   alt="like"
                   text-white
-                />
+                /> */}
               </button>
             </div>
           </div>

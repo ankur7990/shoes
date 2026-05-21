@@ -7,9 +7,16 @@ import { getUserProfile } from "../api/authService";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || null,
-  );
+  const getStoredUser = () => {
+    try {
+      const user = localStorage.getItem("user");
+
+      return user && user !== "undefined" ? JSON.parse(user) : null;
+    } catch (error) {
+      return null;
+    }
+  };
+  const [user, setUser] = useState(getStoredUser());
   const [loading, setLoading] = useState(true);
 
   const [token, setToken] = useState(
@@ -46,10 +53,10 @@ export const AuthProvider = ({ children }) => {
   const fetchProfile = async () => {
     try {
       const response = await getUserProfile();
-
-      setUser(response.data);
+      // console.log("PROFILE RESPONSE:", response.data);
+      setUser(response.data.data);
       // store full user object
-      localStorage.setItem("user", JSON.stringify(response.data));
+      localStorage.setItem("user", JSON.stringify(response.data.data));
     } catch (error) {
       console.log(error);
 
@@ -65,9 +72,11 @@ export const AuthProvider = ({ children }) => {
     } else {
       setLoading(false);
     }
-  }, []);
+  }, [token]);
   return (
-    <AuthContext.Provider value={{ token, login, logout, user, loading }}>
+    <AuthContext.Provider
+      value={{ token, login, logout, user, loading, fetchProfile }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -9,8 +9,7 @@ const SportShoes = () => {
   const location = useLocation();
   const { id } = useParams();
 
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const categoryId = location.state?.categoryId;
+  // const [filteredProducts, setFilteredProducts] = useState([]);
   const categoryName = location.state?.categoryName || "Sport Shoes";
   const [products, setProducts] = useState([]);
 
@@ -23,15 +22,15 @@ const SportShoes = () => {
       // });
 
       try {
-        // 🔥 API CALL HERE
+        //  API CALL HERE
         const res = await getProductsByCategory(id);
-        console.log(res.data);
+        console.log(res.data.results);
 
-        setProducts(res.data.results);
+        setProducts(res.data);
       } catch (error) {
         handleApiError(error);
       }
-      setFilteredProducts(filtered);
+      // setFilteredProducts(filtered);
     };
 
     fetchProducts();
@@ -47,8 +46,8 @@ const SportShoes = () => {
         </div>
         <br />
         <div className="px-20">
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((product) => (
+          {products.length > 0 ? (
+            products.map((product) => (
               <Product key={product.id} data={products} />
             ))
           ) : (

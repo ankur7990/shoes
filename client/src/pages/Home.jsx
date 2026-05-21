@@ -149,6 +149,9 @@ const Home = () => {
           (product) => product.special_shoes === true,
         );
 
+        // console.log("trending ", trending);
+        // console.log("special", special);
+
         setTrendingProducts(trending);
         setSpecialProducts(special);
       } catch (error) {
@@ -159,26 +162,6 @@ const Home = () => {
     fetchProducts();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchProducts = async () => {
-  //     try {
-  //       const res = await getAllProducts();
-
-  //       setProducts(res.data);
-  //       console.log(res.data.special_shoes);
-
-  //       // filter trending products
-  //       const special = res.data.filter(
-  //         (product) => product.special_shoes === true,
-  //       );
-
-  //       setSpecialProducts(special);
-  //     } catch (error) {
-  //       console.log("Products error:", error);
-  //     }
-  //   };
-  //   fetchProducts();
-  // }, []);
   return (
     <div className="bg-gradient-layout-main">
       {/* <SearchBar /> */}
@@ -191,15 +174,15 @@ const Home = () => {
         onButtonClick={() => console.log("Clicked")}
       /> */}
       {/* Category List */}
-      <GenderComponent items={products} />
-      {/* <CategoryComponent items={categories}/> */}
+      {/* <GenderComponent items={products} /> */}
+      {/* <CategoryComponent items={categories} /> */}
 
       {/* <Product /> */}
       {/* Trending */}
       <Trending items={trendingProducts.slice(0, 6)} />
       {/* Special */}
       {/* <Product /> */}
-      <Special items={specialProducts.slice(0, 6)} />
+      {/* <Special items={specialProducts.slice(0, 6)} /> */}
       {/* <ProductDetails /> */}
     </div>
   );

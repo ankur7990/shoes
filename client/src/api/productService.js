@@ -14,7 +14,7 @@ const getProductLikes = () => {
 };
 
 const createProductLikes = (data) => {
-  console.log("API called get likes");
+  console.log("post api called.");
 
   return ApiHelper.post(`/product-likes/`, data);
 };
@@ -22,10 +22,17 @@ const createProductLikes = (data) => {
 const deleteProductLikes = (id) => {
   return ApiHelper.delete(`/product-likes/${id}`);
 };
+
+const normalizeProductResponse = (data) => {
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data?.results)) return data.results;
+  return [];
+};
 export {
   getAllProducts,
   getProductsByCategory,
   getProductLikes,
   createProductLikes,
   deleteProductLikes,
+  normalizeProductResponse,
 };
