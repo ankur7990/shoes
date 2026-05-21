@@ -12,12 +12,13 @@ import {
 import { handleApiError } from "../api/errorHandler";
 import { useAuth } from "../context/AuthContext";
 import { getProductImage } from "../utils/productUtils";
+import { useNavigate } from "react-router-dom";
 
 // import shoes from "../assets/shoes.png";
 
 const Product = ({ data }) => {
   // console.log("product incoming data", data);
-
+  const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
   const [likeId, setLikeId] = useState(null);
 
@@ -82,8 +83,21 @@ const Product = ({ data }) => {
       console.log(error);
     }
   };
+
+  const handleProductClick = () => {
+    console.log("click and navigate.");
+
+    // getProductByProductId
+    console.log("Path is ", data.id);
+
+    navigate(`/product/${data.id}`);
+  };
+
   return (
-    <div className="  flex justify-center items-center ">
+    <div
+      className="  flex justify-center items-center   cursor-pointer"
+      onClick={handleProductClick}
+    >
       <div className="  flex flex-row gap-25">
         <div
           className="h-90 w-60  radius rounded-xl flex flex-col items-center justify-center gap-3"
@@ -140,7 +154,10 @@ const Product = ({ data }) => {
             >
               {" "}
               <button
-                onClick={handleLikeClick}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleLikeClick();
+                }}
                 className="cursor-pointer"
                 disabled={likeLoading}
               >

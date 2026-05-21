@@ -4,6 +4,10 @@ const getAllProducts = (data) => {
   return ApiHelper.get("/products/", data);
 };
 
+const getProductById = (id) => {
+  return ApiHelper.get(`/product/${id}`);
+};
+
 const getProductsByCategory = (categoryId) => {
   return ApiHelper.get(`/category/filter/?category=${categoryId}`);
   //  return ApiHelper.get(`/products/?category=${categoryId}`);
@@ -35,4 +39,5 @@ export {
   createProductLikes,
   deleteProductLikes,
   normalizeProductResponse,
+  getProductById,
 };
