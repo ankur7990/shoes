@@ -20,28 +20,8 @@ const ProductDetails = () => {
 
   const [selectedSize, setSelectedSize] = useState(40);
   const [selectedColor, setSelectedColor] = useState("Black");
+  const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState(null);
-
-  // const product = {
-  //   name: "Nike Air Zoom",
-  //   price: 5999,
-  //   description:
-  //     "Premium running shoes with lightweight comfort and flexible sole.",
-  //   deliveryText: "Delivery within 3-5 business days.",
-  //   returnsText: "Easy 7-day return policy.",
-  //   // images: [
-  //   //   "/images/shoe1.png",
-  //   //   "/images/shoe2.png",
-  //   //   "/images/shoe3.png",
-  //   //   "/images/shoe4.png",
-  //   // ],
-  //   colors: [
-  //     { name: "Black", value: "#111111" },
-  //     { name: "White", value: "#f5f5f5" },
-  //     { name: "Blue", value: "#2563eb" },
-  //   ],
-  //   sizes: [5, 6, 7, 8, 9, 10, 11, 12],
-  // };
 
   useEffect(() => {
     console.log("ID is:", id);
@@ -73,15 +53,45 @@ const ProductDetails = () => {
 
   // const imageUrl = product?.image || product?.product_images?.[0]?.image;
 
+  const handleAddToCart = async () => {
+    const cartItem = {
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.images?.[0],
+      size: selectedSize,
+      color: selectedColor,
+      quantity,
+    };
+
+    try {
+      // call your API here
+      // await cartApi.addToCart(cartItem);
+      const cartapi = await console.log("Add to cart payload:", cartItem);
+
+      // keep user on same page
+      // show toast or success message
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleBuyNow = async () => {
+    console.log("handleBuyNow");
+  };
   return (
     <div className="min-h-screen bg-gradient-layout-main text-white px-4 py-6 bg-amber-400">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-8 lg:grid-cols-2">
+        <div className="grid gap-8 lg:grid-cols-2 ">
           <ProductImageGallery images={product.product_images || []} />
 
           <div className="space-y-6">
-            <ProductHeader name={product.name} />
-            <ProductReaction />
+            {/* Header + Wishlist */}
+            <div className="flex items-start justify-between gap-4 px-20">
+              {/*  Wishlist Slider */}
+              <ProductReaction initialLiked={product.is_liked} />
+              <ProductHeader name={product.name} />
+            </div>
 
             <ProductPrice price={product.price} />
             <SizeSelector
@@ -100,18 +110,39 @@ const ProductDetails = () => {
               returnsText={product.returnsText}
             />
             <ProductActions
-              onAddToCart={() => console.log("Add to cart")}
-              onBuyNow={() => console.log("Buy now")}
+              onAddToCart={handleAddToCart}
+              onBuyNow={handleBuyNow}
             />
           </div>
         </div>
         {/* Review Section */}
-        <div>
+        {/* <div>
           <ProductReview reviews={product.is_liked} />
-        </div>
+        </div> */}
       </div>
     </div>
   );
 };
 
 export default ProductDetails;
+
+// const product = {
+//   name: "Nike Air Zoom",
+//   price: 5999,
+//   description:
+//     "Premium running shoes with lightweight comfort and flexible sole.",
+//   deliveryText: "Delivery within 3-5 business days.",
+//   returnsText: "Easy 7-day return policy.",
+//   // images: [
+//   //   "/images/shoe1.png",
+//   //   "/images/shoe2.png",
+//   //   "/images/shoe3.png",
+//   //   "/images/shoe4.png",
+//   // ],
+//   colors: [
+//     { name: "Black", value: "#111111" },
+//     { name: "White", value: "#f5f5f5" },
+//     { name: "Blue", value: "#2563eb" },
+//   ],
+//   sizes: [5, 6, 7, 8, 9, 10, 11, 12],
+// };

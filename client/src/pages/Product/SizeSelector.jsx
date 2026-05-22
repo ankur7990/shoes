@@ -4,7 +4,7 @@ const SizeSelector = ({ sizes = [], selectedSize, onSelectSize }) => {
     <div>
       <h2 className="mb-3 text-lg font-semibold">Select Size</h2>
 
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap justify-center items-center gap-3">
         {sizes.map((size) => {
           const active = selectedSize === size;
 

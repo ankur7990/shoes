@@ -1,41 +1,40 @@
 import { useState } from "react";
 import { Heart } from "lucide-react";
 
-const WishlistSlider = () => {
-  const [liked, setLiked] = useState(false);
+const WishlistSlider = ({ initialLiked = false }) => {
+  const [liked, setLiked] = useState(initialLiked);
 
   return (
     <div className="flex items-center justify-center">
       {/* Vertical Slider */}
-      <div className="relative h-30 w-14 rounded-full border-2 border-[#43e77f] bg-black/30 flex items-start justify-center p-2 bg-amber-100">
+      <div className="relative h-30 w-10 rounded-full   flex items-start justify-center p-2 bg-[#D9D9D9]">
         {/* Slider Handle */}
         <button
           type="button"
           onClick={() => setLiked(!liked)}
           className={`
-            absolute
-            transition-all
-            duration-300
-            ease-in-out
-            flex
-            items-center
-            justify-center
-            w-10
-            h-10
-            rounded-full
-            border-2
-            border-[#43e77f]
-            shadow-lg
-            ${liked ? "bg-[#43e77f] top-18" : "bg-black top-2"}
+           absolute
+    transition-all
+    duration-300
+    ease-in-out
+    flex
+    items-center
+    justify-center
+    w-15
+    h-15
+    rounded-full
+    shadow-lg
+    ${liked ? "bg-[#FF2E2E] top-0" : "bg-white top-18"}
           `}
         >
           <Heart
+            strokeWidth={0}
             className={`
-              w-15
-              h-15
-              transition-all
-              ${liked ? "fill-black text-black" : "text-white"}
-            `}
+    w-8
+    h-8
+    transition-all
+    ${liked ? "fill-white text-white" : "fill-black text-black"}
+  `}
           />
         </button>
 

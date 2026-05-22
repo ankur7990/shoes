@@ -174,15 +174,15 @@ const Home = () => {
         onButtonClick={() => console.log("Clicked")}
       /> */}
       {/* Category List */}
-      <GenderComponent items={products} />
-      <CategoryComponent items={categories} />
+      {/* <GenderComponent items={products} /> */}
+      {/* <CategoryComponent items={categories} /> */}
 
       {/* <Product /> */}
       {/* Trending */}
       <Trending items={trendingProducts.slice(0, 6)} />
       {/* Special */}
       {/* <Product /> */}
-      <Special items={specialProducts.slice(0, 6)} />
+      {/* <Special items={specialProducts.slice(0, 6)} /> */}
       {/* <ProductDetails /> */}
     </div>
   );
