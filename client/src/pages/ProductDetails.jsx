@@ -11,6 +11,8 @@ import ProductDescription from "../pages/Product/ProductDescription";
 import { useParams } from "react-router-dom";
 import { handleApiError } from "../api/errorHandler";
 import { getProductById } from "../api/productService";
+import ProductReview from "./Product/ProductReview";
+import ProductReaction from "./Product/ProductReaction";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -49,8 +51,13 @@ const ProductDetails = () => {
         const res = await getProductById(id);
 
         // depending on API shape
-        setProduct(res.data.data || res.data);
-        console.log(res.data);
+        // adjust this if backend wraps response in data.data
+        const productData = res.data.data || res.data;
+        setProduct(productData);
+        console.log("productData", productData);
+
+        // set default color from API
+        // setSelectedColor(productData.color || null);
       } catch (error) {
         handleApiError(error);
       }
@@ -70,31 +77,37 @@ const ProductDetails = () => {
     <div className="min-h-screen bg-gradient-layout-main text-white px-4 py-6 bg-amber-400">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-2">
-          {/* <ProductImageGallery images={product.images} /> */}
+          <ProductImageGallery images={product.product_images || []} />
 
           <div className="space-y-6">
             <ProductHeader name={product.name} />
+            <ProductReaction />
+
             <ProductPrice price={product.price} />
-            {/* <SizeSelector
-              sizes={product.sizes}
+            <SizeSelector
+              sizes={product.size || []}
               selectedSize={selectedSize}
               onSelectSize={setSelectedSize}
-            /> */}
+            />
             {/* <ColorSelector
-              colors={product.colors}
+              colors={product.color}
               selectedColor={selectedColor}
               onSelectColor={setSelectedColor}
             /> */}
-            {/* <ProductDescription text={product.description} /> */}
-            {/* <DeliveryReturns
+            <ProductDescription text={product.description} />
+            <DeliveryReturns
               deliveryText={product.deliveryText}
               returnsText={product.returnsText}
-            /> */}
-            {/* <ProductActions
+            />
+            <ProductActions
               onAddToCart={() => console.log("Add to cart")}
               onBuyNow={() => console.log("Buy now")}
-            /> */}
+            />
           </div>
+        </div>
+        {/* Review Section */}
+        <div>
+          <ProductReview reviews={product.is_liked} />
         </div>
       </div>
     </div>
