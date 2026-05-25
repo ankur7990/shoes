@@ -1,7 +1,10 @@
 import ApiHelper from "./ApiHelper";
 
 const addToCart = (data) => {
-  return ApiHelper.get("/cart/add/", data);
+  return ApiHelper.post("/cart/add/", data);
 };
 
-export { addToCart };
+const getCart = () => {
+  return ApiHelper.get("/cart/");
+};
+export { addToCart, getCart };

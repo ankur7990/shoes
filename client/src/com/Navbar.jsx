@@ -2,6 +2,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useEffect, useRef, useState } from "react";
 import getCategories from "../api/categoryService";
+import { useCart } from "../context/cartContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -13,6 +14,8 @@ const Navbar = () => {
   // Reference for dropdown area
   const menuRef = useRef();
   const menuRefProduct = useRef();
+  const { cartCount } = useCart();
+
   // const logout = () => {
   //   localStorage.removeItem("accessToken");
   //   localStorage.removeItem("refreshToken");
@@ -188,6 +191,15 @@ const Navbar = () => {
                   </div>
                 )}
               </div>
+              <Link to="/cart" className="relative">
+                <span className="text-2xl">🛍️</span>
+
+                {cartCount > 0 && (
+                  <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#FF2E2E] text-xs text-white">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
             </>
           )}
         </div>

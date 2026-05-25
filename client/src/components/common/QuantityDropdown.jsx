@@ -5,35 +5,37 @@ const sizes = {
   md: "px-5 py-2 text-base",
   lg: "px-7 py-3 text-lg",
 };
-const Button = ({
-  children,
-  variant = "primary",
+
+const QuantityDropdown = ({
+  value = 1,
+  onChange,
   size = "md",
   disabled = false,
-  loading = false,
   fullWidth = false,
-  type = "button",
-  onClick,
   className = "",
-  useDefaultStyle = true, // 👈 NEW FLAG
+  useDefaultStyle = true,
 }) => {
   return (
-    <button
-      type={type}
-      disabled={disabled || loading}
-      onClick={onClick}
+    <select
+      value={value}
+      onChange={onChange}
+      disabled={disabled}
       className={`
         ${useDefaultStyle ? "btn-pill-gradient" : ""}
-       
         ${sizes[size] || ""}
         ${fullWidth ? "w-full" : ""}
         ${disabled ? "opacity-50 cursor-not-allowed" : ""}
+        outline-none rounded-full
         ${className}
       `}
     >
-      {loading ? "Loading..." : children}
-    </button>
+      {[...Array(11)].map((_, index) => (
+        <option key={index} value={index} className="text-black">
+          {index}
+        </option>
+      ))}
+    </select>
   );
 };
 
-export default Button;
+export default QuantityDropdown;

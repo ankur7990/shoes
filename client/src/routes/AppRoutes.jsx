@@ -28,6 +28,7 @@ import CategoryPage from "../pages/ProductPages/CategoryPage";
 import TrendingShoes from "../pages/TrendingShoes";
 import SpecialShoes from "../pages/SpecialShoes";
 import ProductDetails from "../pages/ProductDetails";
+import CartPage from "../pages/ProductPages/CartPage";
 
 function AppRoutes() {
   return (
@@ -89,6 +90,8 @@ function AppRoutes() {
           {/* <Route path="/settings" element={<Settings />} /> */}
         </Route>
         <Route path="/productdetails" element={<ProductDetails />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/cart" element={<CartPage />} />
 
         {/* protected route  */}
         {/* //profile
