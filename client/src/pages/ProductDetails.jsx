@@ -21,6 +21,7 @@ import ProductReaction from "./Product/ProductReaction";
 import WishlistSlider from "./Product/ProductReaction";
 import { addToCart, getCartItems, updateCartItem } from "../api/cartService";
 import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -145,29 +146,41 @@ const ProductDetails = () => {
 
   // const imageUrl = product?.image || product?.product_images?.[0]?.image;
 
-  const fetchCart = async () => {
-    try {
-      const response = await getCart();
-      if (response?.data?.status) {
-        setCartCount(response.data.items?.length || 0);
-      }
-    } catch (error) {
-      console.log("Cart fetch error:", error);
-    }
-  };
+  // const fetchCart = async () => {
+  //   try {
+  //     const response = await getCartItems();
+  //     if (response?.data?.status) {
+  //       setCartCount(response.data.items?.length || 0);
+  //     }
+  //   } catch (error) {
+  //     console.log("Cart fetch error:", error);
+  //   }
+  // };
 
   // add to cart
   const handleAddToCart = async () => {
+    console.log("add to cart clicked.");
+
     try {
       if (!selectedSize) {
-        alert("Please select a size first");
+        toast.error("Please select a size first");
+        return;
+      }
+
+      if (!user?.id) {
+        toast.error("User not found");
         return;
       }
 
       setCartLoading(true);
 
       const cartRes = await getCartItems();
-      const existingItem = cartRes.data.find(
+      console.log("get cart items.", cartRes.data.items);
+
+      const cartItems =
+        cartRes.data.items || cartRes.data.results || cartRes.data || [];
+
+      const existingItem = cartItems.find(
         (item) =>
           Number(item.product) === Number(product.id) &&
           item.size === selectedSize,
@@ -179,14 +192,14 @@ const ProductDetails = () => {
         });
       } else {
         await addToCart({
-          user: user?.id,
+          user: user.id,
           product: product.id,
           size: selectedSize,
-          quantity: 1,
+          quantity: quantity,
         });
       }
 
-      alert("Added to cart");
+      toast.success("Added to cart");
     } catch (error) {
       handleApiError(error);
     } finally {

@@ -27,6 +27,7 @@ import SearchBar from "./SearchBar.jsx";
 import { getAllProducts } from "../api/productService.js";
 import Star from "../components/common/Star.jsx";
 import ProductDetails from "./ProductDetails.jsx";
+import Checkout from "./Checkout.jsx";
 
 const Home = () => {
   // const localProducts = [
@@ -184,6 +185,7 @@ const Home = () => {
       {/* <Product /> */}
       {/* <Special items={specialProducts.slice(0, 6)} /> */}
       {/* <ProductDetails /> */}
+      <Checkout />
     </div>
   );
 };
