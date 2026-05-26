@@ -25,6 +25,13 @@ const SizeSelector = ({ sizes = [], selectedSize, onSelectSize }) => {
           );
         })}
       </div>
+
+      {/* selected size text */}
+      {selectedSize && (
+        <p className="mt-4 text-sm text-[#43e77f]">
+          Selected Size: {selectedSize}
+        </p>
+      )}
     </div>
   );
 };

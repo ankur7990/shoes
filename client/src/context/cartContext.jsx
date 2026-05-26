@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getCart } from "../api/cartService";
+import { getCartItems } from "../api/cartService";
 
 const CartContext = createContext();
 export const CartProvider = ({ children }) => {
@@ -10,7 +10,7 @@ export const CartProvider = ({ children }) => {
   const fetchCart = async () => {
     try {
       setLoading(true);
-      const response = await getCart();
+      const response = await getCartItems();
 
       if (response?.data?.status) {
         setCartData(response.data);

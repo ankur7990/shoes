@@ -4,7 +4,15 @@ const addToCart = (data) => {
   return ApiHelper.post("/cart/add/", data);
 };
 
-const getCart = () => {
+const getCartItems = () => {
   return ApiHelper.get("/cart/");
 };
-export { addToCart, getCart };
+
+const updateCartItem = (id, data) => {
+  return ApiHelper.patch(`/cart/${id}/`, data);
+};
+
+const removeCartItem = (id) => {
+  return ApiHelper.delete(`/cart/${id}/`);
+};
+export { addToCart, getCartItems, updateCartItem, removeCartItem };

@@ -6,6 +6,7 @@ import QuantityDropdown from "../../components/common/QuantityDropdown";
 import PromoCodeBox from "../../components/common/PromoCodeBox";
 import CartSummaryBox from "../../components/common/CartSummaryBox";
 import CartRightPanel from "../../components/common/CartRightPanel ";
+import getProductImage from "../../utils/getProductImage";
 
 const CartPage = () => {
   const { cartData, fetchCart, loading } = useCart();
@@ -14,6 +15,7 @@ const CartPage = () => {
 
   useEffect(() => {
     fetchCart();
+    console.log(cartData.items);
   }, []);
 
   if (loading) {
@@ -40,6 +42,11 @@ const CartPage = () => {
                   {/* IMAGE */}
                   <div className="bg-amber-400">
                     <p>image </p>
+                    <img
+                      src={getProductImage(item)}
+                      alt={item?.product?.name || "Product"}
+                      className="w-24 h-24 object-cover rounded-xl"
+                    />
                   </div>
 
                   {/* TEXT */}

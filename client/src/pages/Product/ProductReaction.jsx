@@ -1,9 +1,6 @@
-import { useState } from "react";
 import { Heart } from "lucide-react";
 
-const WishlistSlider = ({ initialLiked = false }) => {
-  const [liked, setLiked] = useState(initialLiked);
-
+const ProductReaction = ({ liked, onToggle, loading = false }) => {
   return (
     <div className="flex items-center justify-center">
       {/* Vertical Slider */}
@@ -11,7 +8,8 @@ const WishlistSlider = ({ initialLiked = false }) => {
         {/* Slider Handle */}
         <button
           type="button"
-          onClick={() => setLiked(!liked)}
+          onClick={onToggle}
+          disabled={loading}
           className={`
            absolute
     transition-all
@@ -25,6 +23,7 @@ const WishlistSlider = ({ initialLiked = false }) => {
     rounded-full
     shadow-lg
     ${liked ? "bg-[#FF2E2E] top-0" : "bg-white top-18"}
+     ${loading ? "opacity-60 cursor-not-allowed" : ""}
           `}
         >
           <Heart
@@ -45,4 +44,4 @@ const WishlistSlider = ({ initialLiked = false }) => {
   );
 };
 
-export default WishlistSlider;
+export default ProductReaction;

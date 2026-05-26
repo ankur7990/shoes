@@ -2,16 +2,16 @@ import React from "react";
 
 import Button from "../../components/common/Button";
 
-const ProductActions = ({ onAddToCart, onBuyNow, loading = false }) => {
+const ProductActions = ({ onAddToCart, onBuyNow, cartLoading }) => {
   return (
     <div className="flex gap-4">
       <Button
         type="button"
-        loading={loading}
         onClick={onAddToCart}
+        disabled={cartLoading}
         className="flex-1"
       >
-        Add to Cart
+        {cartLoading ? "Adding..." : "Add to Cart"}
       </Button>
 
       <Button type="button" onClick={onBuyNow} className="flex-1">

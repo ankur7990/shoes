@@ -10,30 +10,98 @@ import ProductImageGallery from "../pages/Product/ProductImageGallery";
 import ProductDescription from "../pages/Product/ProductDescription";
 import { useParams } from "react-router-dom";
 import { handleApiError } from "../api/errorHandler";
-import { getProductById } from "../api/productService";
+import {
+  createProductLikes,
+  deleteProductLikes,
+  getProductById,
+  getProductLikes,
+} from "../api/productService";
 import ProductReview from "./Product/ProductReview";
 import ProductReaction from "./Product/ProductReaction";
 import WishlistSlider from "./Product/ProductReaction";
-import { addToCart, getCart } from "../api/cartService";
+import { addToCart, getCartItems, updateCartItem } from "../api/cartService";
+import { useAuth } from "../context/AuthContext";
 
 const ProductDetails = () => {
   const { id } = useParams();
-  console.log("ID is:", id);
+  const { user } = useAuth();
 
-  const [selectedSize, setSelectedSize] = useState(40);
+  // console.log("ID is:", id);
+  // console.log("User is:", user);
+
+  const [selectedSize, setSelectedSize] = useState(null);
   const [selectedColor, setSelectedColor] = useState("Black");
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState(null);
+  const [liked, setLiked] = useState(false);
+  const [likeId, setLikeId] = useState(null);
+  const [loadingLike, setLoadingLike] = useState(false);
   const [loading, setLoading] = useState(false);
   const [cartLoading, setCartLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
   const [cartCount, setCartCount] = useState(0);
+  const userId = user?.id;
+
+  // handle like
+  useEffect(() => {
+    const fetchLikes = async () => {
+      try {
+        if (!userId || !id) return;
+
+        const res = await getProductLikes();
+        const likes = res.data;
+
+        const matchedLike = likes.find(
+          (like) =>
+            Number(like.user) === Number(userId) &&
+            Number(like.product) === Number(id),
+        );
+
+        if (matchedLike) {
+          setLiked(true);
+          setLikeId(matchedLike.id);
+        } else {
+          setLiked(false);
+          setLikeId(null);
+        }
+      } catch (error) {
+        handleApiError(error);
+      }
+    };
+
+    fetchLikes();
+  }, [userId, id]);
+
+  // handle toggle like
+  const handleToggleLike = async () => {
+    try {
+      if (!userId) return;
+
+      setLoadingLike(true);
+
+      if (liked && likeId) {
+        await deleteProductLikes(likeId);
+        setLiked(false);
+        setLikeId(null);
+      } else {
+        const res = await createProductLikes({
+          user: userId,
+          product: Number(id),
+        });
+
+        setLiked(true);
+        setLikeId(res.data.id);
+      }
+    } catch (error) {
+      handleApiError(error);
+    } finally {
+      setLoadingLike(false);
+    }
+  };
 
   //passed product details
   useEffect(() => {
-    console.log("ID is:", id);
-
     const fetchProduct = async () => {
       try {
         const res = await getProductById(id);
@@ -42,7 +110,22 @@ const ProductDetails = () => {
         // adjust this if backend wraps response in data.data
         const productData = res.data.data || res.data;
         setProduct(productData);
-        console.log("productData send to product details page", productData);
+        // ✅ auto select first size
+        if (productData.size?.length > 0) {
+          setSelectedSize(productData.size[0]);
+        }
+
+        // console.log("productData send to product details page", productData);
+        // console.log("brand:", productData.brand);
+        // console.log("brand:", productData.name);
+
+        // console.log("brand:", productData.description);
+
+        // console.log("price:", productData.price);
+
+        // console.log("brand:", productData.brand);
+
+        // console.log("brand:", productData.brand);
 
         // set default color from API
         // setSelectedColor(productData.color || null);
@@ -73,27 +156,39 @@ const ProductDetails = () => {
     }
   };
 
+  // add to cart
   const handleAddToCart = async () => {
     try {
+      if (!selectedSize) {
+        alert("Please select a size first");
+        return;
+      }
+
       setCartLoading(true);
 
-      const payload = {
-        product: Number(product.id),
-        quantity: 1,
-      };
+      const cartRes = await getCartItems();
+      const existingItem = cartRes.data.find(
+        (item) =>
+          Number(item.product) === Number(product.id) &&
+          item.size === selectedSize,
+      );
 
-      const response = await addToCart(payload);
-      console.log("item added", response.data);
-
-      if (response?.data?.status) {
-        await fetchCart();
-        setSuccessMessage(response.data.message || "Item added to cart");
-        setTimeout(() => setSuccessMessage(""), 2000);
+      if (existingItem) {
+        await updateCartItem(existingItem.id, {
+          quantity: existingItem.quantity + 1,
+        });
+      } else {
+        await addToCart({
+          user: user?.id,
+          product: product.id,
+          size: selectedSize,
+          quantity: 1,
+        });
       }
+
+      alert("Added to cart");
     } catch (error) {
-      console.log("Add to cart error:", error);
-      setSuccessMessage("Failed to add item to cart");
-      setTimeout(() => setSuccessMessage(""), 2000);
+      handleApiError(error);
     } finally {
       setCartLoading(false);
     }
@@ -117,10 +212,18 @@ const ProductDetails = () => {
           <div className="space-y-6">
             {/* Header + Wishlist */}
             <div className="flex items-start justify-between gap-4 px-20">
-              <ProductReaction initialLiked={product.is_liked} />
+              <ProductReaction
+                liked={liked}
+                onToggle={handleToggleLike}
+                loading={loadingLike}
+              />
               {/* Product Name + Subtitle */}
               <div className="flex-1">
-                <ProductHeader name={product.name} />
+                <ProductHeader
+                  name={product.name}
+                  brand={product.brand}
+                  text={product.description}
+                />
               </div>{" "}
               {/* Wishlist */}
               {/* <WishlistSlider initialLiked={product.is_liked} /> */}
@@ -145,6 +248,7 @@ const ProductDetails = () => {
             <ProductActions
               onAddToCart={handleAddToCart}
               onBuyNow={handleBuyNow}
+              cartLoading={cartLoading}
             />
             <div className="text-sm text-gray-300">Cart items: {cartCount}</div>
           </div>
