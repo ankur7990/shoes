@@ -112,30 +112,14 @@ const ProductDetails = () => {
       try {
         const res = await getProductById(id);
 
-        // depending on API shape
-        // adjust this if backend wraps response in data.data
         const productData = res.data.data || res.data;
         setProduct(productData);
-        console.log("productData", productData);
 
         const firstColor =
           Object.keys(productData.product_images || {})[0] || "";
         setSelectedColor(firstColor);
 
-        // console.log("productData send to product details page", productData);
-        // console.log("brand:", productData.brand);
-        // console.log("brand:", productData.name);
-
-        // console.log("brand:", productData.description);
-
-        // console.log("price:", productData.price);
-
-        // console.log("brand:", productData.brand);
-
-        // console.log("brand:", productData.brand);
-
-        // set default color from API
-        // setSelectedColor(productData.color || null);
+        console.log("productData send to product details page", productData);
       } catch (error) {
         handleApiError(error);
       }
@@ -278,7 +262,7 @@ const ProductDetails = () => {
               cartLoading={cartLoading}
               selectedSize={selectedSize}
             />
-            <div className="text-sm text-gray-300">Cart items: {cartCount}</div>
+            {/* <div className="text-sm text-gray-300">Cart items: {cartCount}</div> */}
           </div>
         </div>
         {/* Review Section */}

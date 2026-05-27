@@ -24,7 +24,7 @@ const SportShoes = () => {
       try {
         //  API CALL HERE
         const res = await getProductsByCategory(id);
-        console.log(res.data.results);
+        console.log(res.data);
 
         setProducts(res.data);
       } catch (error) {

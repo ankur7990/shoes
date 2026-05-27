@@ -12,6 +12,8 @@ import toast from "react-hot-toast";
 import { handleApiError } from "../../api/errorHandler";
 
 const CartPage = () => {
+  console.log("Add to cart clicked.");
+
   const { cartData, fetchCart, loading } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [promoCode, setPromoCode] = useState("");
@@ -177,7 +179,7 @@ const CartPage = () => {
                       <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl bg-white/5">
                         <img
                           // src={getProductImage(item)}
-                          src={item.product_images?.[0]?.image}
+
                           alt={item?.product_name || "Product"}
                           className="h-full w-full object-contain p-2"
                         />
@@ -196,13 +198,13 @@ const CartPage = () => {
                           </p>
                         </div>
                         {/* button */}
-                        <div className="space-x-1">
+                        <div className="">
                           <Button type="button" className="px-4 py-2">
-                            $.{item.product_price}
+                            $ {item.product_price}
                           </Button>
 
                           <QuantityDropdown
-                            value={quantity}
+                            value={item.quantity}
                             onChange={(e) =>
                               handleQuantityChange(item.id, e.target.value)
                             }
@@ -213,7 +215,7 @@ const CartPage = () => {
                             className="px-4 py-2"
                             onClick={() => handleDeleteCartItem(item.id)}
                           >
-                            Delete
+                            ❌
                           </Button>
                         </div>
                       </div>

@@ -138,7 +138,7 @@ const Home = () => {
         const res = await getAllProducts();
         console.log(`get all products : `, res);
 
-        setProducts(res.data);
+        setProducts(res);
 
         // filter trending products
         const trending = res.data.filter(

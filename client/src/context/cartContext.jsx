@@ -11,6 +11,8 @@ export const CartProvider = ({ children }) => {
     try {
       setLoading(true);
       const response = await getCartItems();
+      //1. hit
+      console.log("response cart items get:", response.data.items);
 
       if (response?.data?.status) {
         setCartData(response.data);
@@ -27,7 +29,9 @@ export const CartProvider = ({ children }) => {
     try {
       const res = await getCartItems();
       const cartItems = res.data.items || res.data.results || res.data || [];
-      setCartCount(cartItems.length);
+      console.log("cart items", cartItems);
+
+      setCartCount(cartItems);
     } catch (error) {
       console.log("Cart count error:", error);
     }
