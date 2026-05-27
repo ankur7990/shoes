@@ -29,7 +29,7 @@ const QuantityDropdown = ({
         ${className}
       `}
     >
-      {[...Array(11)].map((_, index) => (
+      {[...Array(6)].map((_, index) => (
         <option key={index} value={index} className="text-black">
           {index}
         </option>

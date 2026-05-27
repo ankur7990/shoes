@@ -5,8 +5,8 @@ export const getProductImage = (product) => {
   }
 
   // nested product_images array
-  if (product?.product_images?.length > 0) {
-    return product.product_images[0].image;
+  if (product?.product_image?.length > 0) {
+    return product.product_image;
   }
 
   // fallback image

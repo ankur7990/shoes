@@ -23,6 +23,19 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  const fetchCartCount = async () => {
+    try {
+      const res = await getCartItems();
+      const cartItems = res.data.items || res.data.results || res.data || [];
+      setCartCount(cartItems.length);
+    } catch (error) {
+      console.log("Cart count error:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCartCount();
+  }, []);
   useEffect(() => {
     fetchCart();
   }, []);

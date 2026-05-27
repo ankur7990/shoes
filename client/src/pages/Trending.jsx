@@ -7,8 +7,8 @@ import { handleApiError } from "../api/errorHandler";
 import Product from "./Product";
 
 const Trending = ({ items }) => {
-  const { id } = useParams();
-  const location = useLocation();
+  // console.log("Trending page displayed", items.length);
+
   const [categoryName, setCategoryName] = useState("Trending Shoes");
 
   return (

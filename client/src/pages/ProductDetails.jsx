@@ -8,7 +8,7 @@ import DeliveryReturns from "../pages/Product/DeliveryReturns";
 import ProductActions from "../pages/Product/ProductActions";
 import ProductImageGallery from "../pages/Product/ProductImageGallery";
 import ProductDescription from "../pages/Product/ProductDescription";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { handleApiError } from "../api/errorHandler";
 import {
   createProductLikes,
@@ -22,8 +22,13 @@ import WishlistSlider from "./Product/ProductReaction";
 import { addToCart, getCartItems, updateCartItem } from "../api/cartService";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
+import { useCart } from "../context/cartContext";
 
 const ProductDetails = () => {
+  console.log("product details loaded.");
+
+  const navigate = useNavigate();
+  const { fetchCartCount } = useCart();
   const { id } = useParams();
   const { user } = useAuth();
 
@@ -111,10 +116,11 @@ const ProductDetails = () => {
         // adjust this if backend wraps response in data.data
         const productData = res.data.data || res.data;
         setProduct(productData);
-        // ✅ auto select first size
-        if (productData.size?.length > 0) {
-          setSelectedSize(productData.size[0]);
-        }
+        console.log("productData", productData);
+
+        const firstColor =
+          Object.keys(productData.product_images || {})[0] || "";
+        setSelectedColor(firstColor);
 
         // console.log("productData send to product details page", productData);
         // console.log("brand:", productData.brand);
@@ -175,16 +181,17 @@ const ProductDetails = () => {
       setCartLoading(true);
 
       const cartRes = await getCartItems();
-      console.log("get cart items.", cartRes.data.items);
 
       const cartItems =
         cartRes.data.items || cartRes.data.results || cartRes.data || [];
+      console.log("cart items already", cartItems[0]);
 
-      const existingItem = cartItems.find(
-        (item) =>
+      const existingItem = cartItems.find((item) => {
+        return (
           Number(item.product) === Number(product.id) &&
-          item.size === selectedSize,
-      );
+          String(item.size) === String(selectedSize)
+        );
+      });
 
       if (existingItem) {
         await updateCartItem(existingItem.id, {
@@ -195,11 +202,16 @@ const ProductDetails = () => {
           user: user.id,
           product: product.id,
           size: selectedSize,
-          quantity: quantity,
+          quantity: 1,
         });
       }
 
+      if (typeof fetchCartCount === "function") {
+        await fetchCartCount();
+      }
+
       toast.success("Added to cart");
+      navigate("/cart");
     } catch (error) {
       handleApiError(error);
     } finally {
@@ -220,7 +232,9 @@ const ProductDetails = () => {
           </div>
         )}
         <div className="grid gap-8 lg:grid-cols-2 ">
-          <ProductImageGallery images={product.product_images || []} />
+          <ProductImageGallery
+            images={product.product_images?.[selectedColor] || []}
+          />
 
           <div className="space-y-6">
             {/* Header + Wishlist */}
@@ -248,11 +262,11 @@ const ProductDetails = () => {
               selectedSize={selectedSize}
               onSelectSize={setSelectedSize}
             />
-            {/* <ColorSelector
-              colors={product.color}
+            <ColorSelector
+              colors={Object.keys(product.product_images || {})}
               selectedColor={selectedColor}
               onSelectColor={setSelectedColor}
-            /> */}
+            />
             <ProductDescription text={product.description} />
             <DeliveryReturns
               deliveryText={product.deliveryText}
@@ -262,6 +276,7 @@ const ProductDetails = () => {
               onAddToCart={handleAddToCart}
               onBuyNow={handleBuyNow}
               cartLoading={cartLoading}
+              selectedSize={selectedSize}
             />
             <div className="text-sm text-gray-300">Cart items: {cartCount}</div>
           </div>

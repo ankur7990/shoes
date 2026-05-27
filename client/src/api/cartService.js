@@ -9,10 +9,10 @@ const getCartItems = () => {
 };
 
 const updateCartItem = (id, data) => {
-  return ApiHelper.patch(`/cart/${id}/`, data);
+  return ApiHelper.patch(`/cart/update/${id}/`, data);
 };
 
 const removeCartItem = (id) => {
-  return ApiHelper.delete(`/cart/${id}/`);
+  return ApiHelper.delete(`/cart/remove/${id}/`);
 };
 export { addToCart, getCartItems, updateCartItem, removeCartItem };

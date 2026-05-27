@@ -17,7 +17,6 @@ import { useNavigate } from "react-router-dom";
 // import shoes from "../assets/shoes.png";
 
 const Product = ({ data }) => {
-  // console.log("product incoming data", data);
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
   const [likeId, setLikeId] = useState(null);
@@ -40,6 +39,7 @@ const Product = ({ data }) => {
 
   const [isHover, setIsHover] = useState(false);
 
+  //likes
   useEffect(() => {
     const fetchLikes = async () => {
       try {
@@ -64,6 +64,7 @@ const Product = ({ data }) => {
     if (userId) fetchLikes();
   }, [userId, data.id]);
 
+  //unlike
   const handleLikeClick = async () => {
     try {
       if (isLiked && likeId) {

@@ -7,11 +7,15 @@ import PromoCodeBox from "../../components/common/PromoCodeBox";
 import CartSummaryBox from "../../components/common/CartSummaryBox";
 import CartRightPanel from "../../components/common/CartRightPanel ";
 import getProductImage from "../../utils/getProductImage";
+import { removeCartItem, updateCartItem } from "../../api/cartService";
+import toast from "react-hot-toast";
+import { handleApiError } from "../../api/errorHandler";
 
 const CartPage = () => {
   const { cartData, fetchCart, loading } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [promoCode, setPromoCode] = useState("");
+  const { fetchCartCount } = useCart();
 
   useEffect(() => {
     fetchCart();
@@ -22,6 +26,39 @@ const CartPage = () => {
     return <div className="p-6 text-white">Loading cart...</div>;
   }
 
+  //delete
+  const handleDeleteCartItem = async (cartItemId) => {
+    const confirmDelete = window.confirm("Remove this item from cart?");
+    if (!confirmDelete) return;
+
+    try {
+      await removeCartItem(cartItemId);
+      toast.success("Item removed from cart");
+      await fetchCart();
+      await fetchCartCount();
+    } catch (error) {
+      handleApiError(error);
+    }
+  };
+
+  //select qty
+  const handleQuantityChange = async (cartItemId, quantity) => {
+    try {
+      await updateCartItem(cartItemId, {
+        quantity: Number(quantity),
+      });
+
+      toast.success("Quantity updated");
+
+      await fetchCart();
+
+      if (typeof fetchCartCount === "function") {
+        await fetchCartCount();
+      }
+    } catch (error) {
+      handleApiError(error);
+    }
+  };
   // return (
   //   <div className="flex min-h-screen bg-gradient-layout-main px-4 py-6 text-white ">
   //     {/* left panel  */}
@@ -161,17 +198,21 @@ const CartPage = () => {
                         {/* button */}
                         <div className="space-x-1">
                           <Button type="button" className="px-4 py-2">
-                            {item.product_price}
+                            $.{item.product_price}
                           </Button>
 
                           <QuantityDropdown
                             value={quantity}
                             onChange={(e) =>
-                              setQuantity(Number(e.target.value))
+                              handleQuantityChange(item.id, e.target.value)
                             }
                           />
 
-                          <Button type="button" className="px-4 py-2">
+                          <Button
+                            type="button"
+                            className="px-4 py-2"
+                            onClick={() => handleDeleteCartItem(item.id)}
+                          >
                             Delete
                           </Button>
                         </div>

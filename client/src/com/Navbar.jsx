@@ -191,7 +191,10 @@ const Navbar = () => {
                   </div>
                 )}
               </div>
-              <Link to="/cart" className="relative">
+              <Link
+                to="/cart"
+                className="relative text-gray-600 hover:text-blue-600"
+              >
                 <span className="text-2xl">🛍️</span>
 
                 {cartCount > 0 && (
