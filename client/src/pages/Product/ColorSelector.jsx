@@ -1,6 +1,6 @@
 import React from "react";
 
-const ColorSelector = ({ colors = [], selectedColor, onSelectedolor }) => {
+const ColorSelector = ({ colors = [], selectedColor, onSelectColor }) => {
   if (!Array.isArray(colors) || colors.length === 0) return null;
   return (
     <div>
@@ -14,12 +14,12 @@ const ColorSelector = ({ colors = [], selectedColor, onSelectedolor }) => {
             <button
               key={color}
               type="button"
-              onClick={() => onSelectedolor(color)}
+              onClick={() => onSelectColor(color)}
               className={`h-10 w-10 rounded-full border-2 transition-all ${
                 active ? "scale-110 border-[#43e77f]" : "border-white/40"
               }`}
               style={{ backgroundColor: color }}
-              title={color.name}
+              // title={color.name}
             />
           );
         })}

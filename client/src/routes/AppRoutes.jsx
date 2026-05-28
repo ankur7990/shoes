@@ -29,6 +29,7 @@ import TrendingShoes from "../pages/TrendingShoes";
 import SpecialShoes from "../pages/SpecialShoes";
 import ProductDetails from "../pages/ProductDetails";
 import CartPage from "../pages/ProductPages/CartPage";
+import Checkout from "../pages/Checkout";
 
 function AppRoutes() {
   return (
@@ -87,11 +88,13 @@ function AppRoutes() {
           <Route path="/trendingshoes" element={<TrendingShoes />} />
           <Route path="/specialshoes" element={<SpecialShoes />} />
 
-          {/* <Route path="/settings" element={<Settings />} /> */}
+          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<Checkout />} />
         </Route>
-        <Route path="/productdetails" element={<ProductDetails />} />
-        <Route path="/product/:id" element={<ProductDetails />} />
-        <Route path="/cart" element={<CartPage />} />
+        {/* <Route path="/productdetails" element={<ProductDetails />} /> */}
+
+        {/* <Route path="/cart" element={<CartPage />} /> */}
 
         {/* protected route  */}
         {/* //profile

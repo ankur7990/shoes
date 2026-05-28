@@ -10,6 +10,8 @@ import getProductImage from "../../utils/getProductImage";
 import { removeCartItem, updateCartItem } from "../../api/cartService";
 import toast from "react-hot-toast";
 import { handleApiError } from "../../api/errorHandler";
+import { Trash2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
   console.log("Add to cart clicked.");
@@ -18,6 +20,7 @@ const CartPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [promoCode, setPromoCode] = useState("");
   const { fetchCartCount } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCart();
@@ -168,37 +171,40 @@ const CartPage = () => {
                 Cart is empty.
               </div>
             ) : (
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-4 md:grid-cols-2  ">
                 {cartData.items.map((item) => (
                   <div
                     key={item.id}
-                    className="flex flex-col gap-4 rounded-3xl border border-[#43e77f] bg-black/20 p-5 sm:flex-row sm:items-center sm:justify-between"
+                    className="flex flex-col gap-4 rounded-3xl border border-[#43e77f] bg-black/20 p-5 sm:flex-row sm:items-center sm:justify-between  "
                   >
                     {/* Left image + text */}
-                    <div className="flex items-center gap-4">
-                      <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl bg-white/5">
+                    <div className="flex items-center gap-4 ">
+                      <div
+                        className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl bg-white
+                      "
+                      >
                         <img
+                          src={item.product_image}
                           // src={getProductImage(item)}
-
                           alt={item?.product_name || "Product"}
                           className="h-full w-full object-contain p-2"
                         />
                       </div>
 
                       <div className="">
-                        <div className="space-y-1">
+                        <div className="space-y-1 text-left p-2">
                           <h2 className="text-lg font-semibold">
-                            {item.product_name}
+                            {item.product_name.toUpperCase()}
                           </h2>
                           {/* <p className="text-sm text-gray-300">
                           Product ID: {item.product}
                         </p> */}
-                          <p className="text-sm text-gray-300">
-                            size: {item.product_size}
+                          <p className="text-sm text-2xl text-gray-300">
+                            SIZE : {item.product_size.toUpperCase()}
                           </p>
                         </div>
                         {/* button */}
-                        <div className="">
+                        <div className="flex gap-4">
                           <Button type="button" className="px-4 py-2">
                             $ {item.product_price}
                           </Button>
@@ -215,7 +221,7 @@ const CartPage = () => {
                             className="px-4 py-2"
                             onClick={() => handleDeleteCartItem(item.id)}
                           >
-                            ❌
+                            <Trash2 />
                           </Button>
                         </div>
                       </div>
@@ -251,7 +257,8 @@ const CartPage = () => {
               promoCode={promoCode}
               setPromoCode={setPromoCode}
               onApplyPromo={() => console.log("Apply promo:", promoCode)}
-              onCheckout={() => console.log("Checkout")}
+              // onCheckout={() => console.log("Checkout")}
+              onCheckout={() => navigate("/checkout")}
             />
           </div>
         </div>

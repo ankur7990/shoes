@@ -25,7 +25,7 @@ import toast from "react-hot-toast";
 import { useCart } from "../context/cartContext";
 
 const ProductDetails = () => {
-  console.log("product details loaded.");
+  // console.log("product details loaded.");
 
   const navigate = useNavigate();
   const { fetchCartCount } = useCart();
@@ -36,7 +36,7 @@ const ProductDetails = () => {
   // console.log("User is:", user);
 
   const [selectedSize, setSelectedSize] = useState(null);
-  const [selectedColor, setSelectedColor] = useState("Black");
+  const [selectedColor, setSelectedColor] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState(null);
   const [liked, setLiked] = useState(false);
@@ -149,7 +149,7 @@ const ProductDetails = () => {
 
   // add to cart
   const handleAddToCart = async () => {
-    console.log("add to cart clicked.");
+    // console.log("add to cart clicked.");
 
     try {
       if (!selectedSize) {
@@ -173,7 +173,8 @@ const ProductDetails = () => {
       const existingItem = cartItems.find((item) => {
         return (
           Number(item.product) === Number(product.id) &&
-          String(item.size) === String(selectedSize)
+          String(item.size) === String(selectedSize) &&
+          String(item.product_color) === String(selectedColor)
         );
       });
 
@@ -182,12 +183,14 @@ const ProductDetails = () => {
           quantity: existingItem.quantity + 1,
         });
       } else {
-        await addToCart({
+        const cartObj = await addToCart({
           user: user.id,
           product: product.id,
           size: selectedSize,
+          color: selectedColor,
           quantity: 1,
         });
+        console.log("Add to cart:", cartObj.color);
       }
 
       if (typeof fetchCartCount === "function") {
@@ -203,8 +206,38 @@ const ProductDetails = () => {
     }
   };
 
-  const handleBuyNow = async () => {
-    console.log("handleBuyNow");
+  const handleBuyNow = () => {
+    try {
+      if (!selectedSize) {
+        toast.error("Please select a size first");
+        return;
+      }
+
+      if (!selectedColor) {
+        toast.error("Please select a color first");
+        return;
+      }
+
+      navigate("/checkout", {
+        state: {
+          buyNowItem: {
+            product: {
+              id: product.id,
+              name: product.name,
+              brand: product.brand,
+              price: product.price,
+              description: product.description,
+              product_images: product.product_images,
+            },
+            size: selectedSize,
+            color: selectedColor,
+            quantity: 1,
+          },
+        },
+      });
+    } catch (error) {
+      handleApiError(error);
+    }
   };
   return (
     <div className="min-h-screen bg-gradient-layout-main text-white px-4 py-6 bg-amber-400">

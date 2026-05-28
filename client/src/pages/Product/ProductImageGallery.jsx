@@ -21,17 +21,23 @@ const ProductImageGallery = ({ images = [] }) => {
 
       {/* THUMBNAILS */}
       <div className="grid grid-cols-4 gap-3">
-        {images.map((img, index) => (
+        {images.map((img) => (
           <button
-            key={index}
+            key={img}
             type="button"
             onClick={() => setSelectedImage(img)}
-            className="overflow-hidden rounded-2xl border border-[#43e77f] bg-black/20"
+            // className="overflow-hidden rounded-2xl border border-[#43e77f] bg-black/20"
+            className={`rounded-2xl border-2 p-2 transition-all ${
+              selectedImage === img
+                ? "border-white scale-105"
+                : "border-transparent"
+            }`}
           >
             <img
               src={img}
-              alt={`thumb-${index}`}
-              className="h-20 w-full object-cover"
+              alt={`thumbnail`}
+              // className="h-20 w-full object-cover"
+              className="h-20 w-20 rounded-xl object-contain bg-white/10"
             />
           </button>
         ))}

@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { useCart } from "../context/cartContext";
+import { useAuth } from "../context/AuthContext";
 
 const initialAddresses = [
   {
@@ -33,12 +36,80 @@ const paymentOptions = [
 ];
 
 const Checkout = () => {
+  const location = useLocation();
+  const { cartData, loading: cartLoading } = useCart();
+  const { user } = useAuth();
+
+  const buyNowItem = location.state?.buyNowItem;
+  const checkoutItems = buyNowItem ? [buyNowItem] : cartData || [];
+
   const [addresses, setAddresses] = useState(initialAddresses);
   const [selectedAddressId, setSelectedAddressId] = useState(
     initialAddresses[0]?.id,
   );
   const [editingAddress, setEditingAddress] = useState(initialAddresses[0]);
   const [selectedPayment, setSelectedPayment] = useState("upi");
+
+  const BASE_URL = "http://192.168.0.178:8000";
+
+  const subtotal = useMemo(() => {
+    return checkoutItems.reduce((sum, item) => {
+      const price = Number(item.product?.price || item.product_price || 0);
+      const qty = Number(item.quantity || 1);
+      return sum + price * qty;
+    }, 0);
+  }, [checkoutItems]);
+
+  const deliveryCharge = subtotal > 0 ? 100 : 0;
+  const discount = 0;
+  const total = subtotal + deliveryCharge - discount;
+
+  const getItemImage = (item) => {
+    // Buy Now item shape
+    if (item?.product?.product_images) {
+      const images = item.product.product_images;
+
+      // object keyed by color
+      if (!Array.isArray(images) && item.color) {
+        const colorImages = images[item.color];
+        if (Array.isArray(colorImages) && colorImages.length > 0) {
+          return colorImages[0];
+        }
+      }
+
+      // fallback array shape
+      if (Array.isArray(images) && images.length > 0) {
+        return images[0].image || images[0];
+      }
+    }
+
+    // Cart item shape
+    if (item?.product_images?.length > 0) {
+      const firstImage = item.product_images[0];
+
+      if (typeof firstImage === "string") {
+        return firstImage.startsWith("http")
+          ? firstImage
+          : `${BASE_URL}${firstImage}`;
+      }
+
+      if (firstImage?.image) {
+        return firstImage.image.startsWith("http")
+          ? firstImage.image
+          : `${BASE_URL}${firstImage.image}`;
+      }
+    }
+
+    return "/placeholder.png";
+  };
+
+  if (cartLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-layout-main text-white p-10">
+        Loading checkout...
+      </div>
+    );
+  }
 
   const handleSelectAddress = (address) => {
     setSelectedAddressId(address.id);
@@ -73,7 +144,7 @@ const Checkout = () => {
             {/* Ship To */}
             <div className="rounded-3xl bg-white/10 backdrop-blur-md p-6 shadow-lg">
               <h2 className="text-2xl font-semibold mb-4">Ship To</h2>
-
+              {/* your address list here */}
               <div className="space-y-4">
                 {addresses.map((address) => {
                   const active = selectedAddressId === address.id;
@@ -167,7 +238,92 @@ const Checkout = () => {
                   );
                 })}
               </div>
+              <button className="mt-6 w-full rounded-2xl bg-[#43e77f] px-5 py-3 font-semibold text-black">
+                Pay Now
+              </button>
             </div>
+          </div>
+
+          {/* RIGHT SIDE */}
+          {/* Order Summary */}
+          <div className="rounded-3xl bg-white/10 backdrop-blur-md p-6 shadow-lg">
+            <h2 className="text-2xl font-semibold mb-4">Order Summary</h2>
+
+            {checkoutItems.length > 0 ? (
+              <div className="space-y-4">
+                {checkoutItems.map((item) => {
+                  const itemName =
+                    item.product?.name || item.product_name || "Product";
+                  const itemBrand = item.product?.brand || item.brand || "";
+                  const itemPrice = Number(
+                    item.product?.price || item.product_price || 0,
+                  );
+                  const itemQty = Number(item.quantity || 1);
+                  const itemSize = item.size || item.product_size || "";
+                  const itemColor = item.color || item.product_color || "";
+
+                  return (
+                    <div
+                      key={item.id || item.product?.id}
+                      className="flex gap-4 rounded-2xl bg-white/5 p-4"
+                    >
+                      <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl bg-white/5">
+                        <img
+                          src={getItemImage(item)}
+                          alt={itemName}
+                          className="h-full w-full object-contain p-2"
+                        />
+                      </div>
+
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold">{itemName}</h3>
+                        {itemBrand && (
+                          <p className="text-white/70">{itemBrand}</p>
+                        )}
+                        {itemSize && (
+                          <p className="text-white/70">Size: {itemSize}</p>
+                        )}
+                        {itemColor && (
+                          <p className="text-white/70">Color: {itemColor}</p>
+                        )}
+                        <p className="text-white/70">Qty: {itemQty}</p>
+                        <p className="mt-2 font-semibold">
+                          ₹ {itemPrice * itemQty}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                <div className="border-t border-white/20 pt-4 space-y-2">
+                  <div className="flex justify-between">
+                    <span>Subtotal</span>
+                    <span>₹ {subtotal}</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span>Delivery</span>
+                    <span>₹ {deliveryCharge}</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span>Discount</span>
+                    <span>₹ {discount}</span>
+                  </div>
+
+                  <div className="flex justify-between text-lg font-semibold">
+                    <span>Total</span>
+                    <span>₹ {total}</span>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <p className="text-white/70">No items to checkout.</p>
+            )}
+
+            <button className="mt-6 w-full rounded-2xl bg-[#43e77f] px-5 py-3 font-semibold text-black">
+              Place Order
+            </button>
           </div>
 
           {/* RIGHT SIDE */}
