@@ -15,4 +15,24 @@ const updateCartItem = (id, data) => {
 const removeCartItem = (id) => {
   return ApiHelper.delete(`/cart/remove/${id}/`);
 };
-export { addToCart, getCartItems, updateCartItem, removeCartItem };
+
+const applyPromoCode = (data) => {
+  return ApiHelper.post(`/promo/apply/`, data);
+};
+
+export const checkPromoCode = (cartId, promoCode) => {
+  return ApiHelper.get("/cart/check-promo/", {
+    params: {
+      cart_id: cartId,
+      promo_code: promoCode,
+    },
+  });
+};
+
+export {
+  addToCart,
+  getCartItems,
+  updateCartItem,
+  removeCartItem,
+  applyPromoCode,
+};

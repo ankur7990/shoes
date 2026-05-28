@@ -7,7 +7,12 @@ import PromoCodeBox from "../../components/common/PromoCodeBox";
 import CartSummaryBox from "../../components/common/CartSummaryBox";
 import CartRightPanel from "../../components/common/CartRightPanel ";
 import getProductImage from "../../utils/getProductImage";
-import { removeCartItem, updateCartItem } from "../../api/cartService";
+import {
+  applyPromoCode,
+  checkPromoCode,
+  removeCartItem,
+  updateCartItem,
+} from "../../api/cartService";
 import toast from "react-hot-toast";
 import { handleApiError } from "../../api/errorHandler";
 import { Trash2 } from "lucide-react";
@@ -19,12 +24,16 @@ const CartPage = () => {
   const { cartData, fetchCart, loading } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [promoCode, setPromoCode] = useState("");
+  const [promoSummary, setPromoSummary] = useState(null);
+  const [promoLoading, setPromoLoading] = useState(false);
   const { fetchCartCount } = useCart();
   const navigate = useNavigate();
+  const delivery = 0;
+  const subtotal = cartData?.["total price"] || 0;
+  const cartId = cartData?.id;
 
   useEffect(() => {
     fetchCart();
-    // console.log(cartData.items);
   }, []);
 
   if (loading) {
@@ -62,6 +71,46 @@ const CartPage = () => {
       }
     } catch (error) {
       handleApiError(error);
+    }
+  };
+
+  const handlePromoCode = async () => {
+    console.log("button promo clicked");
+    console.log("cartData", cartData);
+
+    try {
+      if (!promoCode.trim()) {
+        toast.error("Please enter promo code");
+        return;
+      }
+
+      if (!cartId) {
+        toast.error("Cart not found");
+        return;
+      }
+      setPromoLoading(true);
+
+      // const resc = await checkPromoCode(cartId, promoCode);
+      // console.log("promo response:", resc.data);
+      // setPromoSummary(resc.data);
+      // setPromoCode(resc.data.promo_code || promoCode);
+
+      const payload = {
+        cart_id: cartData.cart_id,
+        promo_code: promoCode,
+      };
+
+      const resa = await applyPromoCode(payload);
+
+      console.log("promo response:", resa.data);
+
+      // setPromoSummary(resa.data);
+
+      toast.success("Promo applied successfully");
+    } catch (error) {
+      handleApiError(error);
+    } finally {
+      setPromoLoading(false);
     }
   };
   // return (
@@ -251,14 +300,21 @@ const CartPage = () => {
           {/* RIGHT: Summary Panel */}
           <div className="lg:sticky lg:top-6 h-fit">
             <CartRightPanel
-              subtotal={cartData?.["total price"] || 0}
-              delivery={"Free"}
-              total={cartData?.["total price"] || 0}
+              subtotal={
+                promoSummary?.cart_total || cartData?.["total price"] || 0
+              }
+              disabled={promoLoading}
+              delivery={delivery}
+              total={
+                promoSummary?.final_total || cartData?.["total price"] || 0
+              }
               promoCode={promoCode}
               setPromoCode={setPromoCode}
-              onApplyPromo={() => console.log("Apply promo:", promoCode)}
+              onApplyPromo={handlePromoCode}
               // onCheckout={() => console.log("Checkout")}
               onCheckout={() => navigate("/checkout")}
+              promoLoading={promoLoading}
+              discount={promoSummary?.discount || 0}
             />
           </div>
         </div>

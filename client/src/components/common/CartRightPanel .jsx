@@ -10,6 +10,7 @@ const CartRightPanel = ({
   setPromoCode,
   onApplyPromo,
   onCheckout,
+  promoLoading = false,
   className = "",
 }) => {
   return (
@@ -34,9 +35,20 @@ const CartRightPanel = ({
           className="w-full bg-transparent outline-none text-white placeholder:text-gray-400"
         />
 
-        <Button type="button" onClick={onApplyPromo} className="px-4 py-2">
-          Apply
+        <Button
+          type="button"
+          onClick={onApplyPromo}
+          disabled={promoLoading}
+          className="px-4 py-2"
+        >
+          {promoLoading ? "Applying..." : "Apply"}
         </Button>
+
+        {discount > 0 && (
+          <p className="mb-4 text-sm text-[#43e77f]">
+            Promo applied successfully
+          </p>
+        )}
       </div>
 
       {/* Summary Rows */}

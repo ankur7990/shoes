@@ -165,10 +165,11 @@ const ProductDetails = () => {
       setCartLoading(true);
 
       const cartRes = await getCartItems();
+      // console.log("cart ID:", cartRes.data.results);
 
       const cartItems =
         cartRes.data.items || cartRes.data.results || cartRes.data || [];
-      console.log("cart items already", cartItems[0]);
+      // console.log("cart items :", cartItems);
 
       const existingItem = cartItems.find((item) => {
         return (
