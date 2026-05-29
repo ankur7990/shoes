@@ -8,8 +8,8 @@ import CartSummaryBox from "../../components/common/CartSummaryBox";
 import CartRightPanel from "../../components/common/CartRightPanel ";
 import getProductImage from "../../utils/getProductImage";
 import {
-  applyPromoCode,
-  checkPromoCode,
+  applyPromoCodePost,
+  checkPromoCodeGet,
   removeCartItem,
   updateCartItem,
 } from "../../api/cartService";
@@ -19,7 +19,7 @@ import { Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
-  console.log("Add to cart clicked.");
+  // console.log("Add to cart clicked.");
 
   const { cartData, fetchCart, loading } = useCart();
   const [quantity, setQuantity] = useState(1);
@@ -29,7 +29,7 @@ const CartPage = () => {
   const { fetchCartCount } = useCart();
   const navigate = useNavigate();
   const delivery = 0;
-  const subtotal = cartData?.["total price"] || 0;
+  // const subtotal = cartData?.["total price"] || 0;
   const cartId = cartData?.id;
 
   useEffect(() => {
@@ -74,40 +74,35 @@ const CartPage = () => {
     }
   };
 
-  const handlePromoCode = async () => {
-    console.log("button promo clicked");
-    console.log("cartData", cartData);
-
+  const handleApplyPromoCode = async () => {
     try {
       if (!promoCode.trim()) {
         toast.error("Please enter promo code");
         return;
       }
 
+      const cartId = cartData?.cart_id;
+
       if (!cartId) {
-        toast.error("Cart not found");
+        toast.error("Cart ID not found");
+        console.log("cartData:", cartData);
         return;
       }
+
       setPromoLoading(true);
 
-      // const resc = await checkPromoCode(cartId, promoCode);
-      // console.log("promo response:", resc.data);
-      // setPromoSummary(resc.data);
-      // setPromoCode(resc.data.promo_code || promoCode);
-
-      const payload = {
-        cart_id: cartData.cart_id,
+      const res = await applyPromoCodePost(cartId, {
         promo_code: promoCode,
-      };
+      });
 
-      const resa = await applyPromoCode(payload);
-
-      console.log("promo response:", resa.data);
-
-      // setPromoSummary(resa.data);
+      console.log("apply promo response:", res.data);
+      const data = res.data.data || res.data; // important fallback
+      setPromoSummary(data);
+      setPromoCode(data.promo_code || promoCode);
 
       toast.success("Promo applied successfully");
     } catch (error) {
+      console.log("promo error:", error.response?.data);
       handleApiError(error);
     } finally {
       setPromoLoading(false);
@@ -310,7 +305,7 @@ const CartPage = () => {
               }
               promoCode={promoCode}
               setPromoCode={setPromoCode}
-              onApplyPromo={handlePromoCode}
+              onApplyPromo={handleApplyPromoCode}
               // onCheckout={() => console.log("Checkout")}
               onCheckout={() => navigate("/checkout")}
               promoLoading={promoLoading}

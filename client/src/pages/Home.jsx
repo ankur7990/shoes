@@ -117,11 +117,12 @@ const Home = () => {
   const [trendingProducts, setTrendingProducts] = useState([]);
   const [specialProducts, setSpecialProducts] = useState([]);
 
+  //fetch all categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const res = await getCategories();
-        // console.log(res);
+        console.log("get all categories", res);
 
         setCategories(res.data);
       } catch (error) {
@@ -132,13 +133,14 @@ const Home = () => {
     fetchCategories();
   }, []);
 
+  //fetch all products
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const res = await getAllProducts();
         console.log(`get all products : `, res);
 
-        setProducts(res);
+        setProducts(res.data);
 
         // filter trending products
         const trending = res.data.filter(

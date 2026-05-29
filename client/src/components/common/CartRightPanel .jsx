@@ -37,7 +37,9 @@ const CartRightPanel = ({
 
         <Button
           type="button"
-          onClick={onApplyPromo}
+          onClick={() => {
+            (console.log("apply button clicked."), onApplyPromo());
+          }}
           disabled={promoLoading}
           className="px-4 py-2"
         >
@@ -45,9 +47,9 @@ const CartRightPanel = ({
         </Button>
 
         {discount > 0 && (
-          <p className="mb-4 text-sm text-[#43e77f]">
+          <div className="mb-4 text-sm text-[#43e77f]">
             Promo applied successfully
-          </p>
+          </div>
         )}
       </div>
 

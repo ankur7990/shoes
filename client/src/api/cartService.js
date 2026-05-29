@@ -1,3 +1,4 @@
+import { data } from "react-router-dom";
 import ApiHelper from "./ApiHelper";
 
 const addToCart = (data) => {
@@ -15,12 +16,14 @@ const updateCartItem = (id, data) => {
 const removeCartItem = (id) => {
   return ApiHelper.delete(`/cart/remove/${id}/`);
 };
-
-const applyPromoCode = (data) => {
-  return ApiHelper.post(`/promo/apply/`, data);
+const applyPromoCodePost = (cartId, data) => {
+  return ApiHelper.post("/promo/apply/", {
+    cart_id: cartId,
+    ...data,
+  });
 };
 
-export const checkPromoCode = (cartId, promoCode) => {
+const checkPromoCodeGet = (cartId, promoCode) => {
   return ApiHelper.get("/cart/check-promo/", {
     params: {
       cart_id: cartId,
@@ -34,5 +37,6 @@ export {
   getCartItems,
   updateCartItem,
   removeCartItem,
-  applyPromoCode,
+  applyPromoCodePost,
+  checkPromoCodeGet,
 };
