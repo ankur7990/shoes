@@ -307,7 +307,7 @@ const CartPage = () => {
               setPromoCode={setPromoCode}
               onApplyPromo={handleApplyPromoCode}
               // onCheckout={() => console.log("Checkout")}
-              onCheckout={() => navigate("/checkout")}
+              onCheckout={() => navigate("/checkout/")}
               promoLoading={promoLoading}
               discount={promoSummary?.discount || 0}
             />
