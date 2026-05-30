@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { useCart } from "../context/cartContext";
 import { useAuth } from "../context/AuthContext";
 import Button from "../components/common/Button";
+import toast from "react-hot-toast";
 
 const initialAddresses = [
   {
@@ -28,7 +29,6 @@ const initialAddresses = [
     pinCode: "360002",
   },
 ];
-
 const paymentOptions = [
   { id: "credit-card", label: "Credit Card" },
   { id: "upi", label: "UPI" },
@@ -38,22 +38,18 @@ const paymentOptions = [
 
 const Checkout = () => {
   const location = useLocation();
-  const { cartData, loading: cartLoading } = useCart();
-  const { user } = useAuth();
+  const { cartData } = useCart();
 
   const buyNowItem = location.state?.buyNowItem;
-  // const checkoutItems = buyNowItem ? [buyNowItem] : cartData || [];
 
   const [addresses, setAddresses] = useState(initialAddresses);
+  const [editingAddress, setEditingAddress] = useState(null);
   const [selectedAddressId, setSelectedAddressId] = useState(
     initialAddresses[0]?.id,
   );
-  const [editingAddress, setEditingAddress] = useState(initialAddresses[0]);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+
   const [selectedPayment, setSelectedPayment] = useState("upi");
-
-  const [isEditclicked, setIsEditclicked] = useState(true);
-
-  const BASE_URL = "http://192.168.0.178:8000";
 
   const checkoutItems = buyNowItem
     ? [buyNowItem]
@@ -61,76 +57,43 @@ const Checkout = () => {
       ? cartData.items
       : [];
 
-  const subtotal = useMemo(() => {
-    return checkoutItems.reduce((sum, item) => {
-      const price = Number(item.product?.price || item.product_price || 0);
-      const qty = Number(item.quantity || 1);
-      return sum + price * qty;
-    }, 0);
-  }, [checkoutItems]);
+  // const subtotal = useMemo(() => {
+  //   return checkoutItems.reduce((sum, item) => {
+  //     const price = Number(item.product?.price || item.product_price || 0);
+  //     const qty = Number(item.quantity || 1);
+  //     return sum + price * qty;
+  //   }, 0);
+  // }, [checkoutItems]);
+
+  const promoSummary = location.state?.promoSummary;
+  const subtotal = promoSummary?.cart_total || cartData?.["total price"] || 0;
 
   const deliveryCharge = subtotal > 0 ? 100 : 0;
-  const discount = 0;
-  const total = subtotal + deliveryCharge - discount;
-
-  // const getItemImage = (item) => {
-  //   // Buy Now item shape
-  //   if (item?.product?.product_images) {
-  //     const images = item.product.product_images;
-
-  //     // object keyed by color
-  //     if (!Array.isArray(images) && item.color) {
-  //       const colorImages = images[item.color];
-  //       if (Array.isArray(colorImages) && colorImages.length > 0) {
-  //         return colorImages[0];
-  //       }
-  //     }
-
-  //     // fallback array shape
-  //     if (Array.isArray(images) && images.length > 0) {
-  //       return images[0].image || images[0];
-  //     }
-  //   }
-
-  //   // Cart item shape
-  //   if (item?.product_images?.length > 0) {
-  //     const firstImage = item.product_images[0];
-
-  //     if (typeof firstImage === "string") {
-  //       return firstImage.startsWith("http")
-  //         ? firstImage
-  //         : `${BASE_URL}${firstImage}`;
-  //     }
-
-  //     if (firstImage?.image) {
-  //       return firstImage.image.startsWith("http")
-  //         ? firstImage.image
-  //         : `${BASE_URL}${firstImage.image}`;
-  //     }
-  //   }
-
-  //   return "/placeholder.png";
-  // };
-
-  if (cartLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-layout-main text-white p-10">
-        Loading checkout...
-      </div>
-    );
-  }
+  const discount = promoSummary?.discount || 0;
+  const total = promoSummary?.final_total || cartData?.["total price"] || 0;
 
   const handleSelectAddress = (address) => {
     setSelectedAddressId(address.id);
-    setEditingAddress(address);
+    console.log("selected address:", address);
   };
 
-  const handleSelectAddressClick = (address) => {
-    console.log("handleSelectAddressClick");
+  const handleSaveAddress = () => {
+    if (!editingAddress) return;
 
-    setSelectedAddressId(address.id);
+    setAddresses((prev) =>
+      prev.map((addr) =>
+        addr.id === editingAddress.id ? editingAddress : addr,
+      ),
+    );
+
+    setSelectedAddressId(editingAddress.id);
+    setIsEditOpen(false);
+    setEditingAddress(null);
+  };
+
+  const handleEditClick = (address) => {
     setEditingAddress(address);
-    setIsEditclicked(true);
+    setIsEditOpen(true);
   };
 
   const handleChange = (e) => {
@@ -141,111 +104,35 @@ const Checkout = () => {
     }));
   };
 
-  const handleSave = () => {
-    if (!editingAddress) return;
-    setAddresses(
-      (prev) =>
-        prev.map((addr) =>
-          addr.id === editingAddress.id ? editingAddress : addr,
-        ),
-      setIsEditclicked(true),
-      setSelectedAddressId(editingAddress.id),
-      setEditingAddress(null),
-    );
-  };
-
-  // const handlePlaceOrder = () => {
-  //   console.log("Order Placed");
-  //   console.log("Payment method selected", selectedPayment);
-  //   console.log("Address selected", selectedAddressId);
-  // };
-
-  const getItemImage = (item) => {
-    const normalizeUrl = (path) => {
-      if (!path) return "";
-      return path.startsWith("http") ? path : `${BASE_URL}${path}`;
-    };
-
-    // 1) Buy-now shape: item.product.product_images
-    const productImages = item?.product?.product_images;
-
-    if (productImages) {
-      // If product_images is an ARRAY
-      if (Array.isArray(productImages)) {
-        const first = productImages[0];
-
-        if (typeof first === "string") return normalizeUrl(first);
-        if (first?.image) return normalizeUrl(first.image);
-      }
-
-      // If product_images is an OBJECT keyed by color
-      if (typeof productImages === "object" && !Array.isArray(productImages)) {
-        const selectedColor =
-          item?.color || item?.product_color || Object.keys(productImages)[0];
-
-        const imagesForColor = productImages?.[selectedColor];
-
-        if (Array.isArray(imagesForColor) && imagesForColor.length > 0) {
-          return normalizeUrl(imagesForColor[0]);
-        }
-      }
-    }
-
-    // 2) Cart item shape: item.product_images
-    if (Array.isArray(item?.product_images) && item.product_images.length > 0) {
-      const first = item.product_images[0];
-
-      if (typeof first === "string") return normalizeUrl(first);
-      if (first?.image) return normalizeUrl(first.image);
-    }
-
-    return "/placeholder.png";
-  };
-
   const handlePlaceOrder = () => {
     if (!selectedAddressId) {
-      alert("Please select an address");
+      toast.error("Please select address");
       return;
     }
 
     if (!selectedPayment) {
-      alert("Please select payment method");
+      toast.error("Please select payment method");
       return;
     }
 
-    console.log("Place order payload:", {
-      user_id: user?.id,
-      cart_id: cartData?.cart_id,
-      selectedAddressId,
-      selectedPayment,
-      total,
-      items: checkoutItems,
-    });
-
-    // call place-order api here
+    if (checkoutItems.length === 0) {
+      toast.error("No items found");
+      return;
+    }
   };
-
-  if (cartLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-layout-main px-4 py-6 text-white">
-        <div className="mx-auto max-w-7xl">Loading checkout...</div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-gradient-layout-main text-white px-4 py-6">
+    <div className="min-h-screen bg-gradient-layout-main px-4 py-6 text-white">
       <div className="mx-auto max-w-7xl">
         <h1 className="text-3xl font-bold mb-2">Checkout</h1>
         <div className="h-[2px] w-full bg-white/20 mb-6" />
 
-        <div className="grid gap-6 lg:grid-cols-2">
+        <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           {/* LEFT SIDE */}
           <div className="space-y-6">
             {/* Ship To */}
-            <div className="rounded-3xl bg-white/10 backdrop-blur-md p-6 shadow-lg">
+            <div className="rounded-3xl bg-white/10 p-6 shadow-lg">
               <h2 className="text-2xl font-semibold mb-4">Ship To</h2>
-              {/* your address list here */}
+
               <div className="space-y-4">
                 {addresses.map((address) => {
                   const active = selectedAddressId === address.id;
@@ -253,7 +140,7 @@ const Checkout = () => {
                   return (
                     <div
                       key={address.id}
-                      className={`rounded-2xl border p-4 transition-all cursor-pointer ${
+                      className={`rounded-2xl border p-4 cursor-pointer ${
                         active
                           ? "border-[#43e77f] bg-white/10"
                           : "border-white/20 bg-white/5"
@@ -279,17 +166,15 @@ const Checkout = () => {
                               type="button"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                handleSelectAddress(address);
-                                handleSelectAddressClick(address);
-                                setIsEditclicked(false);
+                                handleEditClick(address);
                               }}
-                              className="text-sm text-[#43e77f] hover:underline "
+                              className="text-sm text-[#43e77f] hover:underline"
                             >
                               Edit
                             </button>
                           </div>
 
-                          <p className="text-sm text-white/80 mt-2">
+                          <p className="mt-2 text-sm text-white/80">
                             {address.fullName}
                           </p>
                           <p className="text-sm text-white/80">
@@ -309,8 +194,89 @@ const Checkout = () => {
               </div>
             </div>
 
+            {/* Edit Address Modal */}
+            {isEditOpen && editingAddress && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
+                <div className="w-full max-w-2xl rounded-3xl bg-[#111827] p-6 text-white shadow-2xl">
+                  <div className="mb-5 flex items-center justify-between">
+                    <h2 className="text-2xl font-semibold">Edit Address</h2>
+                    <button
+                      type="button"
+                      onClick={() => setIsEditOpen(false)}
+                      className="text-white/70 hover:text-white"
+                    >
+                      ✕
+                    </button>
+                  </div>
+
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <Input
+                      label="Full Name"
+                      name="fullName"
+                      value={editingAddress.fullName}
+                      onChange={handleChange}
+                    />
+                    <Input
+                      label="Mobile Number"
+                      name="mobile"
+                      value={editingAddress.mobile}
+                      onChange={handleChange}
+                    />
+                    <Input
+                      label="Street Area"
+                      name="street"
+                      value={editingAddress.street}
+                      onChange={handleChange}
+                    />
+                    <Input
+                      label="Society / Apartment Name"
+                      name="society"
+                      value={editingAddress.society}
+                      onChange={handleChange}
+                    />
+                    <Input
+                      label="City"
+                      name="city"
+                      value={editingAddress.city}
+                      onChange={handleChange}
+                    />
+                    <Input
+                      label="State"
+                      name="state"
+                      value={editingAddress.state}
+                      onChange={handleChange}
+                    />
+                    <Input
+                      label="Pin Code"
+                      name="pinCode"
+                      value={editingAddress.pinCode}
+                      onChange={handleChange}
+                    />
+                  </div>
+
+                  <div className="mt-6 flex gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setIsEditOpen(false)}
+                      className="w-full rounded-2xl border border-white/20 px-5 py-3 font-semibold text-white transition hover:bg-white/10"
+                    >
+                      Cancel
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleSaveAddress}
+                      className="w-full rounded-2xl bg-[#43e77f] px-5 py-3 font-semibold text-black transition hover:opacity-90"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Payment Method */}
-            <div className="rounded-3xl bg-white/10 backdrop-blur-md p-6 shadow-lg">
+            <div className="rounded-3xl bg-white/10 p-6 shadow-lg">
               <h2 className="text-2xl font-semibold mb-4">Payment Method</h2>
 
               <div className="space-y-3">
@@ -343,16 +309,19 @@ const Checkout = () => {
               </div>
             </div>
           </div>
-          {/* /////////////////////////////////////////////////// */}
 
           {/* RIGHT SIDE */}
-          {/* /* --- EDIT ADDRESS SECTION --- */}
-          <div className="rounded-3xl bg-white/10 backdrop-blur-md p-6 shadow-lg">
+          <div className="rounded-3xl bg-white/10 p-6 shadow-lg lg:sticky lg:top-6 h-fit">
             <h2 className="text-2xl font-semibold mb-4">Order Summary</h2>
 
             {checkoutItems.length > 0 ? (
               <div className="space-y-4">
                 {checkoutItems.map((item) => {
+                  // console.log("checkout item:", checkoutItems[0]);
+                  // console.log(
+                  //   "product_images:",
+                  //   checkoutItems[0]?.product_image,
+                  // );
                   const itemName =
                     item.product?.name || item.product_name || "Product";
                   const itemBrand = item.product?.brand || item.brand || "";
@@ -369,11 +338,15 @@ const Checkout = () => {
                       className="flex gap-4 rounded-2xl bg-white/5 p-4"
                     >
                       <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl bg-white/5">
-                        <img
-                          src={getItemImage(item)}
-                          alt={itemName}
-                          className="h-full w-full object-contain p-2"
-                        />
+                        {item?.product_image ? (
+                          <img
+                            src={item.product_image}
+                            alt={itemName}
+                            className="h-full w-full object-contain p-2"
+                          />
+                        ) : (
+                          <div className="text-white/50 text-xs">No image</div>
+                        )}
                       </div>
 
                       <div className="flex-1">
@@ -417,174 +390,23 @@ const Checkout = () => {
                     <span>₹ {total}</span>
                   </div>
                 </div>
+
+                <button
+                  type="button"
+                  className="mt-4 w-full rounded-2xl bg-[#43e77f] px-5 py-3 font-semibold text-black transition hover:opacity-90"
+                >
+                  Place Order
+                </button>
               </div>
             ) : (
               <p className="text-white/70">No items to checkout.</p>
             )}
-
-            {/* <button
-                className=""
-                // className="mt-6 w-full rounded-2xl bg-[#43e77f] px-5 py-3 font-semibold text-black"
-                
-                onClick={handlePlaceOrder}
-              >
-                Place Order
-              </button> */}
-            <Button
-              fullWidth
-              type="submit"
-              className="mt-5"
-              onClick={handlePlaceOrder}
-            >
-              Place Order
-            </Button>
           </div>
-          {/* /* --- ORDER SUMMARY SECTION --- */}
-
-          {/* EDIT ADDRESS MODAL */}
-          {isEditclicked && editingAddress && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
-              <div className="w-full max-w-2xl rounded-3xl bg-[#111827] p-6 text-white shadow-2xl">
-                <div className="mb-5 flex items-center justify-between">
-                  <h2 className="text-2xl font-semibold">Edit Address</h2>
-                  <button
-                    type="button"
-                    onClick={() => setIsEditclicked(false)}
-                    className="text-white/70 hover:text-white"
-                  >
-                    ✕
-                  </button>
-                </div>
-
-                <div className="grid gap-4 md:grid-cols-2">
-                  <Input
-                    label="Full Name"
-                    name="fullName"
-                    value={editingAddress.fullName}
-                    onChange={handleChange}
-                  />
-                  <Input
-                    label="Mobile Number"
-                    name="mobile"
-                    value={editingAddress.mobile}
-                    onChange={handleChange}
-                  />
-                  <Input
-                    label="Street Area"
-                    name="street"
-                    value={editingAddress.street}
-                    onChange={handleChange}
-                  />
-                  <Input
-                    label="Society / Apartment Name"
-                    name="society"
-                    value={editingAddress.society}
-                    onChange={handleChange}
-                  />
-                  <Input
-                    label="City"
-                    name="city"
-                    value={editingAddress.city}
-                    onChange={handleChange}
-                  />
-                  <Input
-                    label="State"
-                    name="state"
-                    value={editingAddress.state}
-                    onChange={handleChange}
-                  />
-                  <Input
-                    label="Pin Code"
-                    name="pinCode"
-                    value={editingAddress.pinCode}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className="mt-6 flex gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setIsEditclicked(false)}
-                    className="w-full rounded-2xl border border-white/20 px-5 py-3 font-semibold text-white transition hover:bg-white/10"
-                  >
-                    Cancel
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={handleSave}
-                    className="w-full rounded-2xl bg-[#43e77f] px-5 py-3 font-semibold text-black transition hover:opacity-90"
-                  >
-                    Save
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-          {/* <div className="rounded-3xl bg-white/10 backdrop-blur-md p-6 shadow-lg">
-            <h2 className="text-2xl font-semibold mb-4">
-              Edit Address Details
-            </h2>
-
-            <div className="space-y-4">
-              <Input
-                label="Full Name"
-                name="fullName"
-                value={editingAddress?.fullName || ""}
-                onChange={handleChange}
-              />
-              <Input
-                label="Mobile Number"
-                name="mobile"
-                value={editingAddress?.mobile || ""}
-                onChange={handleChange}
-              />
-              <Input
-                label="Street Area"
-                name="street"
-                value={editingAddress?.street || ""}
-                onChange={handleChange}
-              />
-              <Input
-                label="Society / Apartment Name"
-                name="society"
-                value={editingAddress?.society || ""}
-                onChange={handleChange}
-              />
-              <Input
-                label="City"
-                name="city"
-                value={editingAddress?.city || ""}
-                onChange={handleChange}
-              />
-              <Input
-                label="State"
-                name="state"
-                value={editingAddress?.state || ""}
-                onChange={handleChange}
-              />
-              <Input
-                label="Pin Code"
-                name="pinCode"
-                value={editingAddress?.pinCode || ""}
-                onChange={handleChange}
-              />
-
-              <button
-                type="button"
-                onClick={handleSave}
-                className="w-full rounded-2xl bg-[#43e77f] px-5 py-3 font-semibold text-black transition hover:opacity-90"
-              >
-                Save
-              </button>
-            </div>
-          </div> */}
         </div>
       </div>
     </div>
   );
 };
-
 const Input = ({ label, name, value, onChange }) => {
   return (
     <div>
