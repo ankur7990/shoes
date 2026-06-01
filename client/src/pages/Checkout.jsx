@@ -1,9 +1,12 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { useCart } from "../context/cartContext";
 import { useAuth } from "../context/AuthContext";
 import Button from "../components/common/Button";
 import toast from "react-hot-toast";
+import getCheckoutItemImage from "../utils/getCheckoutItemImage";
+import { createOrder } from "../api/orderService";
+import { handleApiError } from "../api/errorHandler";
 
 const initialAddresses = [
   {
@@ -31,7 +34,7 @@ const initialAddresses = [
 ];
 const paymentOptions = [
   { id: "credit-card", label: "Credit Card" },
-  { id: "upi", label: "UPI" },
+  { id: "UPI", label: "UPI" },
   { id: "google-pay", label: "Google Pay" },
   { id: "cod", label: "Cash on Delivery" },
 ];
@@ -39,6 +42,7 @@ const paymentOptions = [
 const Checkout = () => {
   const location = useLocation();
   const { cartData } = useCart();
+  const navigate = useNavigate();
 
   const buyNowItem = location.state?.buyNowItem;
 
@@ -49,7 +53,7 @@ const Checkout = () => {
   );
   const [isEditOpen, setIsEditOpen] = useState(false);
 
-  const [selectedPayment, setSelectedPayment] = useState("upi");
+  const [selectedPayment, setSelectedPayment] = useState("UPI");
 
   const checkoutItems = buyNowItem
     ? [buyNowItem]
@@ -104,20 +108,42 @@ const Checkout = () => {
     }));
   };
 
-  const handlePlaceOrder = () => {
-    if (!selectedAddressId) {
-      toast.error("Please select address");
-      return;
-    }
+  const handlePlaceOrder = async () => {
+    try {
+      if (!selectedAddressId) {
+        toast.error("Please select an address");
+        return;
+      }
 
-    if (!selectedPayment) {
-      toast.error("Please select payment method");
-      return;
-    }
+      if (!selectedPayment) {
+        toast.error("Please select payment method");
+        return;
+      }
 
-    if (checkoutItems.length === 0) {
-      toast.error("No items found");
-      return;
+      if (!checkoutItems.length) {
+        toast.error("No items found");
+        return;
+      }
+
+      const payload = {
+        address: selectedAddressId,
+        total_amount: total,
+        payment_method: selectedPayment,
+        discount: promoSummary?.discount || 0,
+        promo_code: promoSummary?.promo_code || "",
+      };
+
+      // console.log("order payload:", payload);
+
+      const res = await createOrder(payload);
+
+      console.log("order created:", res.data);
+
+      toast.success("Order placed successfully");
+      navigate("/myorders");
+    } catch (error) {
+      console.log("order error:", error.response?.data);
+      handleApiError(error);
     }
   };
   return (
@@ -331,6 +357,7 @@ const Checkout = () => {
                   const itemQty = Number(item.quantity || 1);
                   const itemSize = item.size || item.product_size || "";
                   const itemColor = item.color || item.product_color || "";
+                  const imageSrc = getCheckoutItemImage(item);
 
                   return (
                     <div
@@ -338,9 +365,9 @@ const Checkout = () => {
                       className="flex gap-4 rounded-2xl bg-white/5 p-4"
                     >
                       <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl bg-white/5">
-                        {item?.product_image ? (
+                        {imageSrc ? (
                           <img
-                            src={item.product_image}
+                            src={imageSrc}
                             alt={itemName}
                             className="h-full w-full object-contain p-2"
                           />
@@ -393,6 +420,7 @@ const Checkout = () => {
 
                 <button
                   type="button"
+                  onClick={handlePlaceOrder}
                   className="mt-4 w-full rounded-2xl bg-[#43e77f] px-5 py-3 font-semibold text-black transition hover:opacity-90"
                 >
                   Place Order
