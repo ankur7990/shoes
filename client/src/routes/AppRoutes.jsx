@@ -66,7 +66,7 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         >
-          <Route path="/home" element={<Home />} />
+          {/* <Route path="/home" element={<Home />} /> */}
 
           <Route path="/product" element={<Product />} />
           <Route path="/product/:id" element={<ProductDetails />} />
@@ -75,7 +75,6 @@ function AppRoutes() {
 
           <Route path="/passwordmanager" element={<PasswordManager />} />
 
-          <Route path="/myorders" element={<MyOrder />} />
           <Route path="/addressmanagement" element={<AddressManagement />} />
 
           <Route path="/category/filter/:id" element={<CategoryPage />} />
@@ -92,6 +91,8 @@ function AppRoutes() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<Checkout />} />
         </Route>
+        <Route path="/home" element={<Home />} />
+        <Route path="/myorders" element={<MyOrder />} />
         {/* <Route path="/productdetails" element={<ProductDetails />} /> */}
 
         {/* <Route path="/cart" element={<CartPage />} /> */}
