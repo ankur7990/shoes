@@ -87,15 +87,15 @@ const OrderDetails = () => {
             <div className="flex items-center gap-2 text-white">
               <User className="h-4 w-4 text-[#43e77f]" />
               <span className="font-semibold">
-                {order?.fullName || "Customer Name"}
+                {order?.username || "Customer Name"}
               </span>
             </div>
 
-            <p>{order?.mobile || "Mobile number"}</p>
+            <p>{order?.phone_number || "Mobile number"}</p>
             <p>{order?.street || "Street area"}</p>
             <p>
-              {order?.society || "Society"}, {order.city || "City"},{" "}
-              {order.state || "State"} - {order?.pinCode || "Pincode"}
+              {order?.society_name || "Society"}, {order.city || "City"},{" "}
+              {order.state || "State"} - {order?.pincode || "Pincode"}
             </p>
           </div>
         </div>

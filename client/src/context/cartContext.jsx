@@ -12,7 +12,7 @@ export const CartProvider = ({ children }) => {
       setLoading(true);
       const response = await getCartItems();
       //1. hit
-      // console.log("response cart items get:", response.data.items);
+      console.log("response cart items get:", response.data.items);
 
       if (response?.data?.status) {
         setCartData(response.data);

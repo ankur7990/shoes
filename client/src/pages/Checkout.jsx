@@ -7,31 +7,9 @@ import toast from "react-hot-toast";
 import getCheckoutItemImage from "../utils/getCheckoutItemImage";
 import { createOrder } from "../api/orderService";
 import { handleApiError } from "../api/errorHandler";
+import { getAddresses } from "../api/addressService";
+import CheckoutAddressSection from "./CheckoutAddressSection";
 
-const initialAddresses = [
-  {
-    id: 1,
-    label: "Home",
-    fullName: "Ankur Patel",
-    mobile: "9876543210",
-    street: "12, Green Street",
-    society: "Sunrise Society",
-    city: "Rajkot",
-    state: "Gujarat",
-    pinCode: "360001",
-  },
-  {
-    id: 2,
-    label: "Office",
-    fullName: "Ankur Patel",
-    mobile: "9876543210",
-    street: "45, Business Park",
-    society: "Titan Plaza",
-    city: "Rajkot",
-    state: "Gujarat",
-    pinCode: "360002",
-  },
-];
 const paymentOptions = [
   { id: "credit-card", label: "Credit Card" },
   { id: "UPI", label: "UPI" },
@@ -40,19 +18,16 @@ const paymentOptions = [
 ];
 
 const Checkout = () => {
-  const { cartData, loading: cartLoading, fetchCart } = useCart();
+  const { cartData, loading: cartLoading } = useCart();
 
   const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const buyNowItem = location.state?.buyNowItem;
 
-  const [addresses, setAddresses] = useState(initialAddresses);
-  const [editingAddress, setEditingAddress] = useState(null);
-  const [selectedAddressId, setSelectedAddressId] = useState(
-    initialAddresses[0]?.id,
-  );
-  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [addresses, setAddresses] = useState([]);
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
 
   const [selectedPayment, setSelectedPayment] = useState("UPI");
 
@@ -62,56 +37,65 @@ const Checkout = () => {
       ? cartData.items
       : [];
 
-  // const subtotal = useMemo(() => {
-  //   return checkoutItems.reduce((sum, item) => {
-  //     const price = Number(item.product?.price || item.product_price || 0);
-  //     const qty = Number(item.quantity || 1);
-  //     return sum + price * qty;
-  //   }, 0);
-  // }, [checkoutItems]);
-
   const promoSummary = location.state?.promoSummary;
   const subtotal = promoSummary?.cart_total || cartData?.["total price"] || 0;
 
   const deliveryCharge = subtotal > 0 ? 100 : 0;
   const discount = promoSummary?.discount || 0;
   const total = promoSummary?.final_total || cartData?.["total price"] || 0;
+  const promo_id = promoSummary?.id || 0;
 
+  // useEffect(() => {
+  //   fetchCart();
+  // }, [fetchCart]);
+
+  // const handleSelectAddress = (address) => {
+  //   setSelectedAddressId(address.id);
+  //   console.log("selected address:", address);
+  // };
+
+  // const handleSaveAddress = () => {
+  //   if (!editingAddress) return;
+
+  //   setAddresses((prev) =>
+  //     prev.map((addr) =>
+  //       addr.id === editingAddress.id ? editingAddress : addr,
+  //     ),
+  //   );
+
+  //   setSelectedAddressId(editingAddress.id);
+  //   setIsEditOpen(false);
+  //   setEditingAddress(null);
+  // };
+
+  //select address
   useEffect(() => {
-    fetchCart();
-  }, [fetchCart]);
+    const fetchAddresses = async () => {
+      try {
+        const res = await getAddresses();
+        console.log("address response:", res.data);
 
-  const handleSelectAddress = (address) => {
-    setSelectedAddressId(address.id);
-    console.log("selected address:", address);
-  };
+        const list = Array.isArray(res.data)
+          ? res.data
+          : Array.isArray(res.data?.results)
+            ? res.data.results
+            : Array.isArray(res.data?.data)
+              ? res.data.data
+              : [];
 
-  const handleSaveAddress = () => {
-    if (!editingAddress) return;
+        setAddresses(list);
 
-    setAddresses((prev) =>
-      prev.map((addr) =>
-        addr.id === editingAddress.id ? editingAddress : addr,
-      ),
-    );
+        if (list.length > 0) {
+          setSelectedAddressId(list[0].id);
+        }
+      } catch (error) {
+        console.log("address error:", error.response?.data);
+        handleApiError(error);
+      }
+    };
 
-    setSelectedAddressId(editingAddress.id);
-    setIsEditOpen(false);
-    setEditingAddress(null);
-  };
-
-  const handleEditClick = (address) => {
-    setEditingAddress(address);
-    setIsEditOpen(true);
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditingAddress((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+    fetchAddresses();
+  }, []);
 
   const handlePlaceOrder = async () => {
     try {
@@ -135,10 +119,15 @@ const Checkout = () => {
         total_amount: total,
         payment_method: selectedPayment,
         discount: promoSummary?.discount || 0,
-        promo_code: promoSummary?.promo_code || "",
+        promo_code: promoSummary?.id || null,
+        // promo_code: promoSummary?.promo_code || "",
+        user: user?.id,
+        cart_id: cartData?.cart_id || null,
+        address_id: selectedAddressId,
       };
 
-      // console.log("order payload:", payload);
+      console.log("order payload:", payload);
+      console.log("promoSummary", promoSummary.promo_code);
 
       const res = await createOrder(payload);
 
@@ -151,6 +140,14 @@ const Checkout = () => {
       handleApiError(error);
     }
   };
+
+  if (cartLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-layout-main px-4 py-6 text-white">
+        <div className="mx-auto max-w-7xl">Loading checkout...</div>
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen bg-gradient-layout-main px-4 py-6 text-white">
       <div className="mx-auto max-w-7xl">
@@ -161,150 +158,12 @@ const Checkout = () => {
           {/* LEFT SIDE */}
           <div className="space-y-6">
             {/* Ship To */}
-            <div className="rounded-3xl bg-white/10 p-6 shadow-lg">
-              <h2 className="text-2xl font-semibold mb-4">Ship To</h2>
-
-              <div className="space-y-4">
-                {addresses.map((address) => {
-                  const active = selectedAddressId === address.id;
-
-                  return (
-                    <div
-                      key={address.id}
-                      className={`rounded-2xl border p-4 cursor-pointer ${
-                        active
-                          ? "border-[#43e77f] bg-white/10"
-                          : "border-white/20 bg-white/5"
-                      }`}
-                      onClick={() => handleSelectAddress(address)}
-                    >
-                      <div className="flex items-start gap-3">
-                        <input
-                          type="radio"
-                          name="selectedAddress"
-                          checked={active}
-                          onChange={() => handleSelectAddress(address)}
-                          className="mt-1 accent-[#43e77f]"
-                        />
-
-                        <div className="flex-1">
-                          <div className="flex items-center justify-between gap-4">
-                            <h3 className="text-lg font-semibold">
-                              {address.label}
-                            </h3>
-
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleEditClick(address);
-                              }}
-                              className="text-sm text-[#43e77f] hover:underline"
-                            >
-                              Edit
-                            </button>
-                          </div>
-
-                          <p className="mt-2 text-sm text-white/80">
-                            {address.fullName}
-                          </p>
-                          <p className="text-sm text-white/80">
-                            {address.mobile}
-                          </p>
-                          <p className="text-sm text-white/80">
-                            {address.street}, {address.society}
-                          </p>
-                          <p className="text-sm text-white/80">
-                            {address.city}, {address.state} - {address.pinCode}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Edit Address Modal */}
-            {isEditOpen && editingAddress && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
-                <div className="w-full max-w-2xl rounded-3xl bg-[#111827] p-6 text-white shadow-2xl">
-                  <div className="mb-5 flex items-center justify-between">
-                    <h2 className="text-2xl font-semibold">Edit Address</h2>
-                    <button
-                      type="button"
-                      onClick={() => setIsEditOpen(false)}
-                      className="text-white/70 hover:text-white"
-                    >
-                      ✕
-                    </button>
-                  </div>
-
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <Input
-                      label="Full Name"
-                      name="fullName"
-                      value={editingAddress.fullName}
-                      onChange={handleChange}
-                    />
-                    <Input
-                      label="Mobile Number"
-                      name="mobile"
-                      value={editingAddress.mobile}
-                      onChange={handleChange}
-                    />
-                    <Input
-                      label="Street Area"
-                      name="street"
-                      value={editingAddress.street}
-                      onChange={handleChange}
-                    />
-                    <Input
-                      label="Society / Apartment Name"
-                      name="society"
-                      value={editingAddress.society}
-                      onChange={handleChange}
-                    />
-                    <Input
-                      label="City"
-                      name="city"
-                      value={editingAddress.city}
-                      onChange={handleChange}
-                    />
-                    <Input
-                      label="State"
-                      name="state"
-                      value={editingAddress.state}
-                      onChange={handleChange}
-                    />
-                    <Input
-                      label="Pin Code"
-                      name="pinCode"
-                      value={editingAddress.pinCode}
-                      onChange={handleChange}
-                    />
-                  </div>
-
-                  <div className="mt-6 flex gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setIsEditOpen(false)}
-                      className="w-full rounded-2xl border border-white/20 px-5 py-3 font-semibold text-white transition hover:bg-white/10"
-                    >
-                      Cancel
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={handleSaveAddress}
-                      className="w-full rounded-2xl bg-[#43e77f] px-5 py-3 font-semibold text-black transition hover:opacity-90"
-                    >
-                      Save
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
+            <CheckoutAddressSection
+              addresses={addresses}
+              setAddresses={setAddresses}
+              selectedAddressId={selectedAddressId}
+              setSelectedAddressId={setSelectedAddressId}
+            />
 
             {/* Payment Method */}
             <div className="rounded-3xl bg-white/10 p-6 shadow-lg">
