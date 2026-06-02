@@ -4,7 +4,7 @@ const createOrder = (data) => {
   return ApiHelper.post("/order-create/", data);
 };
 const getOrders = () => {
-  return ApiHelper.get("/order-create/");
+  return ApiHelper.get("/my-orders/");
 };
 const getOrderById = (id) => {
   return ApiHelper.get(`/order-create/${id}/`);
@@ -18,4 +18,15 @@ const deleteOrder = (id) => {
   return ApiHelper.delete(`/order-create/${id}/`);
 };
 
-export { createOrder, getOrderById, getOrders, updateOrder, deleteOrder };
+const orderDetails = (id) => {
+  return ApiHelper.get(`/orders/${id}/`);
+};
+
+export {
+  createOrder,
+  getOrderById,
+  getOrders,
+  updateOrder,
+  deleteOrder,
+  orderDetails,
+};

@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useCart } from "../context/cartContext";
 import { useAuth } from "../context/AuthContext";
 import Button from "../components/common/Button";
@@ -40,8 +40,9 @@ const paymentOptions = [
 ];
 
 const Checkout = () => {
+  const { cartData, loading: cartLoading, fetchCart } = useCart();
+
   const location = useLocation();
-  const { cartData } = useCart();
   const navigate = useNavigate();
 
   const buyNowItem = location.state?.buyNowItem;
@@ -75,6 +76,10 @@ const Checkout = () => {
   const deliveryCharge = subtotal > 0 ? 100 : 0;
   const discount = promoSummary?.discount || 0;
   const total = promoSummary?.final_total || cartData?.["total price"] || 0;
+
+  useEffect(() => {
+    fetchCart();
+  }, [fetchCart]);
 
   const handleSelectAddress = (address) => {
     setSelectedAddressId(address.id);

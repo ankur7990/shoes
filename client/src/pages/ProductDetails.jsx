@@ -191,7 +191,7 @@ const ProductDetails = () => {
           color: selectedColor,
           quantity: 1,
         });
-        console.log("Add to cart:", cartObj.color);
+        console.log("Add to cart:", cartObj);
       }
 
       if (typeof fetchCartCount === "function") {

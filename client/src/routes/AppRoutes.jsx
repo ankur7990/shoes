@@ -30,6 +30,7 @@ import SpecialShoes from "../pages/SpecialShoes";
 import ProductDetails from "../pages/ProductDetails";
 import CartPage from "../pages/ProductPages/CartPage";
 import Checkout from "../pages/Checkout";
+import OrderDetails from "../pages/OrderDetails";
 
 function AppRoutes() {
   return (
@@ -93,6 +94,7 @@ function AppRoutes() {
         </Route>
         <Route path="/home" element={<Home />} />
         <Route path="/myorders" element={<MyOrder />} />
+        <Route path="/orders/:id" element={<OrderDetails />} />
         {/* <Route path="/productdetails" element={<ProductDetails />} /> */}
 
         {/* <Route path="/cart" element={<CartPage />} /> */}

@@ -74,6 +74,7 @@ const CartPage = () => {
     }
   };
 
+  //prmomo code
   const handleApplyPromoCode = async () => {
     try {
       if (!promoCode.trim()) {
@@ -108,101 +109,6 @@ const CartPage = () => {
       setPromoLoading(false);
     }
   };
-  // return (
-  //   <div className="flex min-h-screen bg-gradient-layout-main px-4 py-6 text-white ">
-  //     {/* left panel  */}
-  //     <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
-  //       <div className="mx-auto max-w-5xl space-y-6 flex flex-col justify-center items-center">
-  //         <h1 className="text-3xl font-bold">Your Cart</h1>
-  //         {!cartData?.items?.length ? (
-  //           <div className="rounded-3xl border border-[#43e77f] p-6">
-  //             Cart is empty.
-  //           </div>
-  //         ) : (
-  //           <div className=" flex flex-col gap-3  ">
-  //             {cartData.items.map((item) => (
-  //               <div
-  //                 key={item.id}
-  //                 className="flex items-center gap-20  rounded-2xl border border-[#43e77f] bg-black/20 p-5"
-  //               >
-  //                 {/* IMAGE */}
-  //                 <div className="bg-amber-400">
-  //                   <p>image </p>
-  //                   <img
-  //                     src={getProductImage(item)}
-  //                     alt={item?.product?.name || "Product"}
-  //                     className="w-24 h-24 object-cover rounded-xl"
-  //                   />
-  //                 </div>
-
-  //                 {/* TEXT */}
-  //                 <div className="space-y-2">
-  //                   <div className=" text-left">
-  //                     <h2 className="text-lg font-semibold">
-  //                       {item.product_name}
-  //                     </h2>
-  //                     <p className="text-sm text-gray-300">
-  //                       Product ID: {item.product}
-  //                     </p>
-  //                     <p className="text-sm text-gray-300">
-  //                       Quantity: {item.quantity}
-  //                     </p>
-  //                   </div>
-  //                   {/* LASTLINE */}
-  //                   <div className="flex flex-row gap-5">
-  //                     <Button>Price</Button>
-  //                     {/* <Button>dwopdown</Button> */}
-
-  //                     <QuantityDropdown
-  //                       value={quantity}
-  //                       onChange={(e) => setQuantity(Number(e.target.value))}
-  //                     />
-  //                     <Button>delete</Button>
-  //                   </div>
-  //                 </div>
-  //               </div>
-  //             ))}
-  //           </div>
-  //         )}
-
-  //         {/* <PromoCodeBox
-  //         value={promoCode}
-  //         onChange={(e) => setPromoCode(e.target.value)}
-  //         onApply={() => console.log("Apply promo:", promoCode)}
-  //       /> */}
-
-  //         {/* <div className="space-y-6"> */}
-  //         {/* cart items list */}
-  //         {/* <CartSummaryBox
-  //           subtotal={cartData?.["total price"] || 0}
-  //           delivery={"Free"}
-  //           total={cartData?.["total price"] || 0}
-  //         /> */}
-  //         {/* </div> */}
-  //         {/* <div className="rounded-2xl border border-[#43e77f] bg-black/20 p-4">
-  //         <p className="text-lg font-semibold">
-  //           Total Price: {cartData?.["total price"] || 0}
-  //         </p>
-  //       </div> */}
-  //       </div>
-
-  //       {/* right panel */}
-  //     </div>
-  //     <div className="">
-  //       <CartRightPanel
-  //         subtotal={cartData?.["total price"] || 0}
-  //         delivery={"Free"}
-  //         // discount={discount}
-  //         total={cartData?.["total price"] || 0}
-  //         promoCode={promoCode}
-  //         setPromoCode={setPromoCode}
-  //         onApplyPromo={() => console.log("Apply promo:", promoCode)}
-  //         onCheckout={() => console.log("Checkout")}
-  //       />
-  //     </div>
-  //   </div>
-  // );
-
   return (
     <div className="min-h-screen bg-gradient-layout-main px-4 py-6 text-white">
       <div className="mx-auto w-full max-w-7xl">
