@@ -16,10 +16,10 @@ const MyOrder = () => {
   const itemPrice = 1200;
   const imageSrc = Shoes1;
 
-  function getOrderDetail(id) {
-    const getDetail = orderDetails(id);
-    console.log("order detail called", getDetail);
-  }
+  const getOrderDetail = async (id) => {
+    const getDetail = await orderDetails(id);
+    console.log("order detail called", getDetail.data);
+  };
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -33,8 +33,12 @@ const MyOrder = () => {
             : Array.isArray(res.data?.results)
               ? res.data.results
               : [];
+
         setOrders(list);
-        getOrderDetail(res.data.id);
+
+        if (list.length > 0) {
+          getOrderDetail(list[0].id);
+        }
       } catch (error) {
         console.log("order error:", error.response?.data);
         handleApiError(error);

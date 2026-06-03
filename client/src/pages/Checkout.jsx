@@ -43,30 +43,6 @@ const Checkout = () => {
   const deliveryCharge = subtotal > 0 ? 100 : 0;
   const discount = promoSummary?.discount || 0;
   const total = promoSummary?.final_total || cartData?.["total price"] || 0;
-  const promo_id = promoSummary?.id || 0;
-
-  // useEffect(() => {
-  //   fetchCart();
-  // }, [fetchCart]);
-
-  // const handleSelectAddress = (address) => {
-  //   setSelectedAddressId(address.id);
-  //   console.log("selected address:", address);
-  // };
-
-  // const handleSaveAddress = () => {
-  //   if (!editingAddress) return;
-
-  //   setAddresses((prev) =>
-  //     prev.map((addr) =>
-  //       addr.id === editingAddress.id ? editingAddress : addr,
-  //     ),
-  //   );
-
-  //   setSelectedAddressId(editingAddress.id);
-  //   setIsEditOpen(false);
-  //   setEditingAddress(null);
-  // };
 
   //select address
   useEffect(() => {
@@ -122,12 +98,12 @@ const Checkout = () => {
         promo_code: promoSummary?.id || null,
         // promo_code: promoSummary?.promo_code || "",
         user: user?.id,
-        cart_id: cartData?.cart_id || null,
+        // cart_id: cartData?.cart_id || null,
         address_id: selectedAddressId,
       };
 
       console.log("order payload:", payload);
-      console.log("promoSummary", promoSummary.promo_code);
+      // console.log("promoSummary", promoSummary.promo_code);
 
       const res = await createOrder(payload);
 

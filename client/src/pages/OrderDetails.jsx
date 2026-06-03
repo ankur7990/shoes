@@ -9,6 +9,8 @@ import {
   Download,
   PhoneCall,
   User,
+  House,
+  ShoppingCart,
 } from "lucide-react";
 
 const OrderDetails = () => {
@@ -83,20 +85,35 @@ const OrderDetails = () => {
             <h2 className="text-xl font-semibold">Delivery Address</h2>
           </div>
 
-          <div className="space-y-2 text-white/80">
-            <div className="flex items-center gap-2 text-white">
+          <div className="space-y-2 text-white/80 text-left">
+            <div className="flex items-center gap-2 text-white ">
               <User className="h-4 w-4 text-[#43e77f]" />
               <span className="font-semibold">
                 {order?.username || "Customer Name"}
               </span>
             </div>
 
-            <p>{order?.phone_number || "Mobile number"}</p>
-            <p>{order?.street || "Street area"}</p>
-            <p>
-              {order?.society_name || "Society"}, {order.city || "City"},{" "}
-              {order.state || "State"} - {order?.pincode || "Pincode"}
-            </p>
+            <div className=" flex flex-row gap-55 ">
+              <div className=" ">
+                <p>{order?.phone_number || "Mobile number"}</p>
+                <p>{order?.address.street || "Street area"}</p>
+                <p>{order?.address.area || "Street area"}</p>
+                <p>
+                  {order?.address.society_name || "Society"},{" "}
+                  {order?.address.city || "City"},{" "}
+                  {order?.address.state || "State"} -{" "}
+                  {order?.address.pincode || "Pincode"}
+                </p>
+              </div>
+              <div className="content-end ">
+                <button class="bg-green-400 hover:bg-green-500 text-black font-bold py-2 px-5 rounded-full mx-auto max-w-xl ">
+                  <div className="flex items-center justify-center gap-2">
+                    <House className="h-4 w-4" />
+                    {order?.address.address_type.toUpperCase()}
+                  </div>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -126,10 +143,14 @@ const OrderDetails = () => {
           </div>
         </div>
 
+        {/* <h2 className="text-xl font-semibold">Order Timeline</h2> */}
         {/* 4. ORDER TIMELINE */}
         <div className="rounded-3xl bg-white/10 p-6 shadow-lg backdrop-blur-md border-1 border-white">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-xl font-semibold">Order Timeline</h2>
+            <div className="mb-4 flex items-center gap-2">
+              <ShoppingCart className="h-5 w-5 text-[#43e77f]" />
+              <h2 className="text-xl font-semibold">Order Timeline</h2>
+            </div>
             <Clock3 className="h-5 w-5 text-[#43e77f]" />
           </div>
 

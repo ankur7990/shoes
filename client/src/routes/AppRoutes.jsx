@@ -91,10 +91,11 @@ function AppRoutes() {
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/myorders" element={<MyOrder />} />
+          <Route path="/orders/:id" element={<OrderDetails />} />
         </Route>
-        <Route path="/home" element={<Home />} />
-        <Route path="/myorders" element={<MyOrder />} />
-        <Route path="/orders/:id" element={<OrderDetails />} />
+
         {/* <Route path="/productdetails" element={<ProductDetails />} /> */}
 
         {/* <Route path="/cart" element={<CartPage />} /> */}

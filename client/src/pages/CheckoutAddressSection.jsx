@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import {
-  getAddresses,
   createAddress,
   updateAddress,
+  getAddresses,
 } from "../api/addressService";
 import { handleApiError } from "../api/errorHandler";
+import toast from "react-hot-toast";
 
 const CheckoutAddressSection = ({
   addresses = [],
@@ -37,6 +38,7 @@ const CheckoutAddressSection = ({
       state: "",
       pincode: "",
       location: "",
+      address_type: "Home",
     });
     setIsEditOpen(true);
   };
@@ -60,25 +62,30 @@ const CheckoutAddressSection = ({
         state: editingAddress.state,
         pincode: editingAddress.pincode,
         location: editingAddress.location,
+        address_type: editingAddress.address_type || "Home",
       };
 
-      let savedAddress;
-
       if (editingAddress.id) {
-        const res = await updateAddress(editingAddress.id, payload);
-        savedAddress = res.data;
-        setAddresses((prev) =>
-          prev.map((addr) =>
-            addr.id === editingAddress.id ? savedAddress : addr,
-          ),
-        );
+        await updateAddress(editingAddress.id, payload);
       } else {
-        const res = await createAddress(payload);
-        savedAddress = res.data;
-        setAddresses((prev) => [...prev, savedAddress]);
+        await createAddress(payload);
       }
 
-      setSelectedAddressId(savedAddress.id);
+      const res = await getAddresses();
+      const list = Array.isArray(res.data)
+        ? res.data
+        : Array.isArray(res.data?.results)
+          ? res.data.results
+          : Array.isArray(res.data?.data)
+            ? res.data.data
+            : [];
+
+      setAddresses(list);
+
+      if (list.length > 0) {
+        setSelectedAddressId(list[0].id);
+      }
+
       setIsEditOpen(false);
       setEditingAddress(null);
       toast.success("Address saved");
@@ -158,7 +165,8 @@ const CheckoutAddressSection = ({
                     <div className="flex-1">
                       <div className="flex items-center justify-between gap-4">
                         <h3 className="text-lg font-semibold">
-                          Address {index + 1}
+                          {/* Address {index + 1} */}
+                          {address.address_type || "Address"}
                         </h3>
 
                         <button
@@ -217,6 +225,24 @@ const CheckoutAddressSection = ({
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
+              <div>
+                <label className="mb-2 block text-sm font-medium text-white/80">
+                  Address Type
+                </label>
+                <select
+                  name="address_type"
+                  value={editingAddress.address_type}
+                  onChange={handleChange}
+                  className="w-full rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-white outline-none"
+                >
+                  <option value="home" className="text-black">
+                    Home
+                  </option>
+                  <option value="office" className="text-black">
+                    Office
+                  </option>
+                </select>
+              </div>
               <Input
                 label="Street"
                 name="street"
