@@ -31,6 +31,9 @@ import ProductDetails from "../pages/ProductDetails";
 import CartPage from "../pages/ProductPages/CartPage";
 import Checkout from "../pages/Checkout";
 import OrderDetails from "../pages/OrderDetails";
+import ScanandUpload from "../pages/ai/AiShoeFinderPage";
+import AiShoeFinderPage from "../pages/ai/AiShoeFinderPage";
+import AiShoePreferencesPage from "../pages/ai/AiShoePreferencesPage ";
 
 function AppRoutes() {
   return (
@@ -96,7 +99,13 @@ function AppRoutes() {
           <Route path="/orders/:id" element={<OrderDetails />} />
         </Route>
 
-        {/* <Route path="/productdetails" element={<ProductDetails />} /> */}
+        <Route>
+          <Route path="/ai-finder" element={<AiShoeFinderPage />} />
+          <Route
+            path="/ai-finder/preferences"
+            element={<AiShoePreferencesPage />}
+          />
+        </Route>
 
         {/* <Route path="/cart" element={<CartPage />} /> */}
 

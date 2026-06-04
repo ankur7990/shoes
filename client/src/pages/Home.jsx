@@ -28,6 +28,7 @@ import { getAllProducts } from "../api/productService.js";
 import Star from "../components/common/Star.jsx";
 import ProductDetails from "./ProductDetails.jsx";
 import Checkout from "./Checkout.jsx";
+import ScanandUpload from "./ai/AiShoeFinderPage.jsx";
 
 const Home = () => {
   // const localProducts = [
@@ -182,12 +183,13 @@ const Home = () => {
 
       {/* <Product /> */}
       {/* Trending */}
-      <Trending items={trendingProducts.slice(0, 6)} />
+      {/* <Trending items={trendingProducts.slice(0, 6)} /> */}
       {/* Special */}
       {/* <Product /> */}
       {/* <Special items={specialProducts.slice(0, 6)} /> */}
       {/* <ProductDetails /> */}
       {/* <Checkout /> */}
+      <ScanandUpload />
     </div>
   );
 };

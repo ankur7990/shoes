@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "../common/Button";
+import toast from "react-hot-toast";
 
 const CartRightPanel = ({
   subtotal = 0,
@@ -7,7 +8,7 @@ const CartRightPanel = ({
   discount = 0,
   total = 0,
   promoCode = "",
-  setPromoCode,
+  setPromoCode = "",
   onApplyPromo,
   onCheckout,
   promoLoading = false,
@@ -38,7 +39,9 @@ const CartRightPanel = ({
         <Button
           type="button"
           onClick={() => {
-            (console.log("apply button clicked."), onApplyPromo());
+            // console.log("apply button clicked."),
+            onApplyPromo();
+            setPromoCode("");
           }}
           disabled={promoLoading}
           className="px-4 py-2"
@@ -48,7 +51,7 @@ const CartRightPanel = ({
 
         {discount > 0 && (
           <div className="mb-4 text-sm text-[#43e77f]">
-            Promo applied successfully
+            {` ${toast.success("Promo applied successfully")}`}
           </div>
         )}
       </div>

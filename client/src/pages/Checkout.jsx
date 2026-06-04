@@ -95,15 +95,19 @@ const Checkout = () => {
         total_amount: total,
         payment_method: selectedPayment,
         discount: promoSummary?.discount || 0,
-        promo_code: promoSummary?.id || null,
+        promo_code: promoSummary?.promo_code || null,
         // promo_code: promoSummary?.promo_code || "",
         user: user?.id,
         // cart_id: cartData?.cart_id || null,
         address_id: selectedAddressId,
       };
 
-      console.log("order payload:", payload);
+      // console.log("order payload:", payload);
       // console.log("promoSummary", promoSummary.promo_code);
+
+      console.log("promoSummary:", promoSummary);
+      console.log("total:", total);
+      console.log("payload:", payload);
 
       const res = await createOrder(payload);
 

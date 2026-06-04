@@ -99,10 +99,13 @@ const CartPage = () => {
       console.log("apply promo response:", res.data);
       const data = res.data.data || res.data; // important fallback
       setPromoSummary(data);
+      // Clear textbox
+
       setPromoCode(data.promo_code || promoCode);
 
       toast.success("Promo applied successfully");
     } catch (error) {
+      toast.success("Invalid PromoCode..");
       console.log("promo error:", error.response?.data);
       handleApiError(error);
     } finally {
