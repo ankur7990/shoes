@@ -20,7 +20,7 @@ const OrderDetails = () => {
   useEffect(() => {
     const fetchOrder = async () => {
       const res = await orderDetails(id);
-      console.log("order details:", res.data);
+      console.log("Order Detail page, Api called:", res.data);
       setOrder(res.data);
     };
 
@@ -63,7 +63,7 @@ const OrderDetails = () => {
                     {item.product_name}
                   </h3>
                   <p className="text-white/70">Qty: {item.quantity}</p>
-                  <p className="mt-2 font-semibold">₹ {item.product_price}</p>
+                  <p className="mt-2 font-semibold">₹ {item.discount_total}</p>
                 </div>
                 <div className="flex-1 text-right">
                   <p className="text-white/70">Delivered</p>
@@ -127,7 +127,7 @@ const OrderDetails = () => {
           <div className="space-y-3">
             <Row
               label="Item Price"
-              value={`₹ ${orderItem?.product_price || order.total_amount}`}
+              value={`₹ ${order?.product_price || order.total_amount}`}
             />
             <Row label="Delivery Charge" value="Free" />
             <Row

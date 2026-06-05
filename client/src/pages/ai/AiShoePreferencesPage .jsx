@@ -5,10 +5,11 @@ import { useNavigate } from "react-router-dom";
 import Dropdown from "../../components/common/Dropdown";
 import AiCategorySelector from "./AiCategorySelector";
 import AiBrandSelector from "./AiBrandSelector";
+import { useRef } from "react";
 
 const AiShoePreferencesPage = () => {
   const navigate = useNavigate();
-
+  const cameraInputRef = useRef(null);
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
   const [price, setPrice] = useState(5000);
@@ -25,6 +26,8 @@ const AiShoePreferencesPage = () => {
   };
 
   const handleTakePhoto = () => {
+    console.log("Take Photo");
+
     const validationError = validateForm();
 
     if (validationError) {
@@ -34,21 +37,23 @@ const AiShoePreferencesPage = () => {
 
     setError("");
 
-    document.getElementById("cameraInput").click();
+    cameraInputRef.current?.click();
+
+    // document.getElementById("cameraInput").click();
   };
 
-  const handleUploadImage = () => {
-    const validationError = validateForm();
+  // const handleUploadImage = () => {
+  //   const validationError = validateForm();
 
-    if (validationError) {
-      setError(validationError);
-      return;
-    }
+  //   if (validationError) {
+  //     setError(validationError);
+  //     return;
+  //   }
 
-    setError("");
+  //   setError("");
 
-    document.getElementById("galleryInput").click();
-  };
+  //   document.getElementById("galleryInput").click();
+  // };
 
   const handleImageSelected = (event) => {
     const file = event.target.files?.[0];
@@ -167,9 +172,8 @@ const AiShoePreferencesPage = () => {
             {/* Shoe Size */}
             <div>
               <label className="mb-3 block font-medium">Select Size</label>
-
               <div className="flex flex-wrap gap-3">
-                {[36, 37, 38, 39, 40, 41, 42, 43, 44].map((item) => (
+                {[5, 6, 7, 8, 9, 10, 11, 12].map((item) => (
                   <button
                     key={item}
                     type="button"
@@ -203,11 +207,20 @@ const AiShoePreferencesPage = () => {
                 🖼 Upload Image
               </Button> */}
             </div>
+
+            <div>
+              <p>{category}</p>
+
+              <p>{price}</p>
+              <p>{brand}</p>
+              <p>{size}</p>
+            </div>
           </div>
         </div>
 
         {/* Camera Input */}
         <input
+          ref={cameraInputRef}
           id="cameraInput"
           type="file"
           accept="image/*"

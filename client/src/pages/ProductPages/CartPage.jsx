@@ -74,44 +74,6 @@ const CartPage = () => {
     }
   };
 
-  //prmomo code
-  const handleApplyPromoCode = async () => {
-    try {
-      if (!promoCode.trim()) {
-        toast.error("Please enter promo code");
-        return;
-      }
-
-      const cartId = cartData?.cart_id;
-
-      if (!cartId) {
-        toast.error("Cart ID not found");
-        console.log("cartData:", cartData);
-        return;
-      }
-
-      setPromoLoading(true);
-
-      const res = await applyPromoCodePost(cartId, {
-        promo_code: promoCode,
-      });
-
-      console.log("apply promo response:", res.data);
-      const data = res.data.data || res.data; // important fallback
-      setPromoSummary(data);
-      // Clear textbox
-
-      setPromoCode(data.promo_code || promoCode);
-
-      toast.success("Promo applied successfully");
-    } catch (error) {
-      toast.success("Invalid PromoCode..");
-      console.log("promo error:", error.response?.data);
-      handleApiError(error);
-    } finally {
-      setPromoLoading(false);
-    }
-  };
   return (
     <div className="min-h-screen bg-gradient-layout-main px-4 py-6 text-white">
       <div className="mx-auto w-full max-w-7xl">
@@ -202,7 +164,7 @@ const CartPage = () => {
           </div>
 
           {/* RIGHT: Summary Panel */}
-          <div className="lg:sticky lg:top-6 h-fit">
+          {/* <div className="lg:sticky lg:top-6 h-fit">
             <CartRightPanel
               subtotal={
                 promoSummary?.cart_total || cartData?.["total price"] || 0
@@ -226,6 +188,11 @@ const CartPage = () => {
               promoLoading={promoLoading}
               discount={promoSummary?.discount || 0}
             />
+          </div> */}
+          <div className="lg:sticky lg:top-6 h-fit">
+            <Button fullWidth onClick={() => navigate("/checkout")}>
+              Proceed To Checkout
+            </Button>
           </div>
         </div>
       </div>

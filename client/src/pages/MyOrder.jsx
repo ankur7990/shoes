@@ -8,23 +8,16 @@ import { useNavigate } from "react-router-dom";
 const MyOrder = () => {
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
-  const itemName = "NIKE Shoes air max";
-  const itemBrand = "Nike";
-  const itemSize = "5";
-  const itemColor = "red";
-  const itemQty = 5;
-  const itemPrice = 1200;
-  const imageSrc = Shoes1;
 
-  const getOrderDetail = async (id) => {
-    const getDetail = await orderDetails(id);
-    console.log("order detail called", getDetail.data);
-  };
+  // const getOrderDetail = async (id) => {
+  //   const getDetail = await orderDetails(id);
+  //   console.log("order detail called", getDetail.data);
+  // };
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const res = await getOrders();
-        console.log("orders response:", res.data);
+        console.log("My Order Page, List of orders:", res.data);
 
         const list = Array.isArray(res.data)
           ? res.data
@@ -36,9 +29,9 @@ const MyOrder = () => {
 
         setOrders(list);
 
-        if (list.length > 0) {
-          getOrderDetail(list[0].id);
-        }
+        // if (list.length > 0) {
+        //   getOrderDetail(list[0].id);
+        // }
       } catch (error) {
         console.log("order error:", error.response?.data);
         handleApiError(error);
@@ -48,10 +41,10 @@ const MyOrder = () => {
     fetchOrders();
   }, []);
 
-  const handleClickDetails = async () => {
-    console.log("handle clicked order click");
-    getOrderDetail();
-  };
+  // const handleClickDetails = async () => {
+  //   console.log("handle clicked order click");
+  //   getOrderDetail();
+  // };
   return (
     <div className="min-h-screen bg-gradient-layout-main px-4 py-6 text-white">
       <div className="mx-auto max-w-xl space-y-6">
@@ -92,7 +85,7 @@ const MyOrder = () => {
                         </h3>
                         <p className="text-white/70">Qty: {item.quantity}</p>
                         <p className="mt-2 font-semibold">
-                          ₹ {item.product_price}
+                          ₹ {item.discount_total}
                         </p>
                       </div>
                       <div className="flex-1 text-right">
@@ -113,7 +106,7 @@ const MyOrder = () => {
                 <div className="flex flex-col">
                   {/* <button className="bg-green-700 "></button> */}
                   <button
-                    class="bg-green-400 hover:bg-green-500 text-black font-bold py-2 px-4 rounded-full mx-auto max-w-xl "
+                    className="bg-green-400 hover:bg-green-500 text-black font-bold py-2 px-4 rounded-full mx-auto max-w-xl "
                     onClick={() => navigate(`/orders/${order.id}`)}
                   >
                     View Details

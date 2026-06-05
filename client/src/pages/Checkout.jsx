@@ -9,6 +9,7 @@ import { createOrder } from "../api/orderService";
 import { handleApiError } from "../api/errorHandler";
 import { getAddresses } from "../api/addressService";
 import CheckoutAddressSection from "./CheckoutAddressSection";
+import { applyPromoCodePost } from "../api/cartService";
 
 const paymentOptions = [
   { id: "credit-card", label: "Credit Card" },
@@ -19,27 +20,23 @@ const paymentOptions = [
 
 const Checkout = () => {
   const { cartData, loading: cartLoading } = useCart();
-
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
-
   const buyNowItem = location.state?.buyNowItem;
-
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
-
   const [selectedPayment, setSelectedPayment] = useState("UPI");
-
+  const [promoCode, setPromoCode] = useState("");
+  const [promoSummary, setPromoSummary] = useState(null);
+  const [promoLoading, setPromoLoading] = useState(false);
   const checkoutItems = buyNowItem
     ? [buyNowItem]
     : Array.isArray(cartData?.items)
       ? cartData.items
       : [];
 
-  const promoSummary = location.state?.promoSummary;
   const subtotal = promoSummary?.cart_total || cartData?.["total price"] || 0;
-
   const deliveryCharge = subtotal > 0 ? 100 : 0;
   const discount = promoSummary?.discount || 0;
   const total = promoSummary?.final_total || cartData?.["total price"] || 0;
@@ -95,7 +92,10 @@ const Checkout = () => {
         total_amount: total,
         payment_method: selectedPayment,
         discount: promoSummary?.discount || 0,
-        promo_code: promoSummary?.promo_code || null,
+        promo_code: promoSummary?.promo_id
+          ? Number(promoSummary.promo_id)
+          : null,
+        // promo_code: promoSummary?.promo_id || null,
         // promo_code: promoSummary?.promo_code || "",
         user: user?.id,
         // cart_id: cartData?.cart_id || null,
@@ -121,6 +121,44 @@ const Checkout = () => {
     }
   };
 
+  //prmomo code
+  const handleApplyPromoCode = async () => {
+    try {
+      if (!promoCode.trim()) {
+        toast.error("Please enter promo code");
+        return;
+      }
+
+      const cartId = cartData?.cart_id;
+
+      if (!cartId) {
+        toast.error("Cart ID not found");
+        console.log("cartData:", cartData);
+        return;
+      }
+
+      setPromoLoading(true);
+
+      const res = await applyPromoCodePost(cartId, {
+        promo_code: promoCode,
+      });
+
+      console.log("apply promo response:", res.data);
+      const data = res.data.data || res.data; // important fallback
+      setPromoSummary(data);
+      // Clear textbox
+
+      setPromoCode(data.promo_code || promoCode);
+
+      toast.success("Promo applied successfully");
+    } catch (error) {
+      toast.success("Invalid PromoCode..");
+      console.log("promo error:", error.response?.data);
+      handleApiError(error);
+    } finally {
+      setPromoLoading(false);
+    }
+  };
   if (cartLoading) {
     return (
       <div className="min-h-screen bg-gradient-layout-main px-4 py-6 text-white">
@@ -182,6 +220,23 @@ const Checkout = () => {
 
           {/* RIGHT SIDE */}
           <div className="rounded-3xl bg-white/10 p-6 shadow-lg lg:sticky lg:top-6 h-fit">
+            <div className="mb-5 flex items-center gap-3 rounded-full border-2 border-[#43e77f] px-4 py-2">
+              <input
+                type="text"
+                value={promoCode}
+                onChange={(e) => setPromoCode(e.target.value)}
+                placeholder="Enter promo code"
+                className="w-full bg-transparent outline-none text-white"
+              />
+
+              <Button
+                type="button"
+                onClick={handleApplyPromoCode}
+                disabled={promoLoading}
+              >
+                {promoLoading ? "Applying..." : "Apply"}
+              </Button>
+            </div>
             <h2 className="text-2xl font-semibold mb-4">Order Summary</h2>
 
             {checkoutItems.length > 0 ? (
@@ -220,7 +275,7 @@ const Checkout = () => {
                         )}
                       </div>
 
-                      <div className="flex-1">
+                      <div className="flex-1 items-center ">
                         <h3 className="text-lg font-semibold">{itemName}</h3>
                         {itemBrand && (
                           <p className="text-white/70">{itemBrand}</p>
@@ -229,7 +284,17 @@ const Checkout = () => {
                           <p className="text-white/70">Size: {itemSize}</p>
                         )}
                         {itemColor && (
-                          <p className="text-white/70">Color: {itemColor}</p>
+                          //<p className="text-white/70">Color: {itemColor}</p>
+                          <div className="flex items-center justify-center gap-2">
+                            <span className="text-white/70">Color:</span>
+
+                            <div
+                              className="h-5 w-5 rounded-full border border-white/30"
+                              style={{ backgroundColor: itemColor }}
+                            />
+
+                            {/* <span>{itemColor}</span> */}
+                          </div>
                         )}
                         <p className="text-white/70">Qty: {itemQty}</p>
                         <p className="mt-2 font-semibold">
