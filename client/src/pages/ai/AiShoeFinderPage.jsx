@@ -10,9 +10,9 @@ const AiShoeFinderPage = () => {
     navigate("/ai-finder/preferences");
   };
   return (
-    <div className="min-h-screen bg-gradient-layout-main text-white px-4 py-8">
-      <div className="mx-auto max-w-6xl">
-        <div className="grid items-center gap-10 lg:grid-cols-2">
+    <div className="min-h-screen bg-gradient-layout-main text-white px-4 py-8 ">
+      <div className="mx-auto max-w-6xl ">
+        <div className="grid items-center gap-10 lg:grid-cols-2 ">
           {/* LEFT SECTION */}
           <div className="flex flex-col gap-6">
             <h1 className="text-5xl font-bold leading-tight">AI Shoe Finder</h1>

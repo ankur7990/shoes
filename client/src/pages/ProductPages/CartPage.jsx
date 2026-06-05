@@ -76,17 +76,18 @@ const CartPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-layout-main px-4 py-6 text-white">
-      <div className="mx-auto w-full max-w-7xl">
+      <div className="mx-auto w-full max-w-7xl ">
         <h1 className="text-3xl font-bold ">Your Cart</h1>
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_380px]">
+
+        <div className="flex gap-10">
           {/* LEFT: Cart Items */}
-          <div className="space-y-6">
+          <div className="space-y-6 ">
             {!cartData?.items?.length ? (
               <div className="rounded-3xl border border-[#43e77f] bg-black/20 p-6">
                 Cart is empty.
               </div>
             ) : (
-              <div className="grid gap-4 md:grid-cols-2  ">
+              <div className="grid gap-4 md:grid-cols-3  ">
                 {cartData.items.map((item) => (
                   <div
                     key={item.id}
@@ -189,11 +190,12 @@ const CartPage = () => {
               discount={promoSummary?.discount || 0}
             />
           </div> */}
-          <div className="lg:sticky lg:top-6 h-fit">
-            <Button fullWidth onClick={() => navigate("/checkout")}>
-              Proceed To Checkout
-            </Button>
-          </div>
+        </div>
+        <br />
+        <div className="mx-auto w-full max-w-xl ">
+          <Button fullWidth onClick={() => navigate("/checkout")}>
+            Proceed To Checkout
+          </Button>
         </div>
       </div>
     </div>
