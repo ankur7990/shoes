@@ -51,7 +51,7 @@ const OrderDetails = () => {
                     <img
                       src={item.product_image}
                       alt={item.product_name}
-                      className="h-full w-full object-contain p-2"
+                      className="h-full w-full object-contain p-2 -rotate-30"
                     />
                   ) : (
                     <div className="text-xs text-white/50">No image</div>
@@ -63,11 +63,13 @@ const OrderDetails = () => {
                     {item.product_name}
                   </h3>
                   <p className="text-white/70">Qty: {item.quantity}</p>
-                  <p className="mt-2 font-semibold">₹ {item.discount_total}</p>
+                  <p className="mt-2 font-semibold">{item.gender}'s Shoes</p>
                 </div>
                 <div className="flex-1 text-right">
                   <p className="text-white/70">Delivered</p>
-                  <p className="mt-2 font-semibold">₹ {item.product_price}</p>
+                  <p className="mt-2 font-semibold bg-amber-900">
+                    {/* ₹ {item.total_amount} 55 */}₹ {item.final_total}
+                  </p>
                   <p className="text-white/70">
                     Date:{" "}
                     {new Date(order.created_at).toLocaleDateString("en-IN")}
@@ -132,7 +134,7 @@ const OrderDetails = () => {
             <Row label="Delivery Charge" value="Free" />
             <Row
               label="Discount / Coupon"
-              value={`₹ ${order.discount || "0.00"}`}
+              value={`₹ ${order.discount_amount || "0.00"}`}
             />
             <div className="flex items-center justify-between rounded-2xl border border-[#43e77f] px-4 py-3">
               <span className="font-semibold">Total Amount</span>

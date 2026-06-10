@@ -87,14 +87,14 @@ const CartPage = () => {
                 Cart is empty.
               </div>
             ) : (
-              <div className="grid gap-4 md:grid-cols-3  ">
+              <div className="grid gap-4 md:grid-cols-3   ">
                 {cartData.items.map((item) => (
                   <div
                     key={item.id}
-                    className="flex flex-col gap-4 rounded-3xl border border-[#43e77f] bg-black/20 p-5 sm:flex-row sm:items-center sm:justify-between  "
+                    className="flex flex-col gap-4 rounded-3xl border border-[#43e77f] bg-black/20 p-5 sm:flex-row sm:items-center sm:justify-between bg-amber-400 "
                   >
                     {/* Left image + text */}
-                    <div className="flex items-center gap-4 ">
+                    <div className="flex items-center gap-4  ">
                       <div
                         className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl bg-white
                       "
@@ -115,7 +115,7 @@ const CartPage = () => {
                           {/* <p className="text-sm text-gray-300">
                           Product ID: {item.product}
                         </p> */}
-                          <p className="text-sm text-2xl text-gray-300">
+                          <p className=" text-2xl text-gray-300">
                             SIZE : {item.product_size.toUpperCase()}
                           </p>
                         </div>

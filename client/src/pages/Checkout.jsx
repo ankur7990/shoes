@@ -92,7 +92,7 @@ const Checkout = () => {
         total_amount: total,
         payment_method: selectedPayment,
         discount: promoSummary?.discount || 0,
-        promo_code: promoSummary?.promo_id
+        promo_code_id: promoSummary?.promo_id
           ? Number(promoSummary.promo_id)
           : null,
         // promo_code: promoSummary?.promo_id || null,

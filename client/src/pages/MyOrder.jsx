@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { getOrders, orderDetails } from "../api/orderService";
+import { getOrders } from "../api/orderService";
 import { handleApiError } from "../api/errorHandler";
 import Shoes1 from "../assets/shoes1.png";
 import Button from "../components/common/Button";
 import { useNavigate } from "react-router-dom";
+import {
+  Package,
+  MapPin,
+  CreditCard,
+  Clock3,
+  Download,
+  PhoneCall,
+  User,
+  House,
+  ShoppingCart,
+} from "lucide-react";
 
 const MyOrder = () => {
   const [orders, setOrders] = useState([]);
@@ -67,12 +78,12 @@ const MyOrder = () => {
                 <div className="space-y-4">
                   {order.items?.map((item) => (
                     <div key={item.id} className="flex gap-4">
-                      <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl bg-white/5">
+                      <div className="flex h-24 w-24 items-center justify-center  rounded-2xl bg-white/5">
                         {item.product_image ? (
                           <img
                             src={item.product_image}
                             alt={item.product_name}
-                            className="h-full w-full object-contain p-2"
+                            className="h-full w-full object-contain p-2 -rotate-30 scale-125"
                           />
                         ) : (
                           <div className="text-xs text-white/50">No image</div>
@@ -85,13 +96,22 @@ const MyOrder = () => {
                         </h3>
                         <p className="text-white/70">Qty: {item.quantity}</p>
                         <p className="mt-2 font-semibold">
-                          ₹ {item.discount_total}
+                          {item.gender}'s Shoes
                         </p>
+                        <div class="h-0.5 w-30 bg-green-400 my-4"></div>
                       </div>
+
                       <div className="flex-1 text-right">
-                        <p className="text-white/70">Delivered</p>
+                        <div className="content-end ">
+                          <button class="bg-green-400 hover:bg-green-500 text-white font-normal  px-3 rounded-full mx-auto max-w-xl ">
+                            <div className="flex items-center justify-center gap-2">
+                              {/* {order?.address.address_type.toUpperCase()} */}
+                              Delivered
+                            </div>
+                          </button>
+                        </div>
                         <p className="mt-2 font-semibold">
-                          ₹ {item.product_price}
+                          ₹ {item.final_total}
                         </p>
                         <p className="text-white/70">
                           Date:{" "}
