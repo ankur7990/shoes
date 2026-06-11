@@ -10,6 +10,7 @@ import { handleApiError } from "../api/errorHandler";
 import { getAddresses } from "../api/addressService";
 import CheckoutAddressSection from "./CheckoutAddressSection";
 import { applyPromoCodePost } from "../api/cartService";
+import { createBuyNowOrder } from "../api/buyNowService";
 
 const paymentOptions = [
   { id: "credit-card", label: "Credit Card" },
@@ -87,34 +88,75 @@ const Checkout = () => {
         return;
       }
 
-      const payload = {
-        address: selectedAddressId,
-        total_amount: total,
-        payment_method: selectedPayment,
-        discount: promoSummary?.discount || 0,
-        promo_code_id: promoSummary?.promo_id
-          ? Number(promoSummary.promo_id)
-          : null,
-        // promo_code: promoSummary?.promo_id || null,
-        // promo_code: promoSummary?.promo_code || "",
-        user: user?.id,
-        // cart_id: cartData?.cart_id || null,
-        address_id: selectedAddressId,
-      };
+      let res;
 
-      // console.log("order payload:", payload);
-      // console.log("promoSummary", promoSummary.promo_code);
+      // BUY NOW FLOW
+      if (buyNowItem) {
+        const payload = {
+          product_id: buyNowItem.product.id,
+          quantity: buyNowItem.quantity,
+          address_id: selectedAddressId,
+          payment_method: selectedPayment,
 
-      console.log("promoSummary:", promoSummary);
-      console.log("total:", total);
-      console.log("payload:", payload);
+          // Send directly
+          //promo_code: promoCode || null,
+          ...(promoCode && {
+            promo_code: promoCode,
+          }),
+        };
 
-      const res = await createOrder(payload);
+        console.log("buy now payload:", payload);
+
+        res = await createBuyNowOrder(payload);
+        console.log("buy now response:", res.data);
+      }
+
+      // CART FLOW
+      else {
+        const payload = {
+          address: selectedAddressId,
+          address_id: selectedAddressId,
+          total_amount: total,
+          payment_method: selectedPayment,
+          discount: promoSummary?.discount || 0,
+
+          promo_code_id: promoSummary?.promo_code
+            ? Number(promoSummary.promo_code)
+            : null,
+
+          user: user?.id,
+        };
+
+        console.log("cart payload:", payload);
+
+        res = await createOrder(payload);
+      }
 
       console.log("order created:", res.data);
 
       toast.success("Order placed successfully");
+
       navigate("/myorders");
+      // const payload = {
+      //   address: selectedAddressId,
+      //   total_amount: total,
+      //   payment_method: selectedPayment,
+      //   discount: promoSummary?.discount || 0,
+      //   promo_code_id: promoSummary?.promo_id
+      //     ? Number(promoSummary.promo_id)
+      //     : null,
+      //   user: user?.id,
+      //   address_id: selectedAddressId,
+      // };
+      // console.log("order payload:", payload);
+      // console.log("promoSummary", promoSummary.promo_code);
+      // console.log("promoSummary:", promoSummary);
+      // console.log("total:", total);
+      // console.log("payload:", payload);
+      // const res = await createOrder(payload);
+      // console.log("order created:", res.data);
+      // toast.success("Order placed successfully");
+      // navigate("/myorders");
     } catch (error) {
       console.log("order error:", error.response?.data);
       handleApiError(error);
