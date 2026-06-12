@@ -4,4 +4,8 @@ const createBuyNowOrder = (data) => {
   return ApiHelper.post("/buy-now/", data);
 };
 
-export { createBuyNowOrder };
+const applyBuyNowPromoCode = (data) => {
+  return ApiHelper.post("/promo/apply/buy-now/", data);
+};
+
+export { createBuyNowOrder, applyBuyNowPromoCode };

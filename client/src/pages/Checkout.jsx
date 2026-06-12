@@ -10,7 +10,7 @@ import { handleApiError } from "../api/errorHandler";
 import { getAddresses } from "../api/addressService";
 import CheckoutAddressSection from "./CheckoutAddressSection";
 import { applyPromoCodePost } from "../api/cartService";
-import { createBuyNowOrder } from "../api/buyNowService";
+import { applyBuyNowPromoCode, createBuyNowOrder } from "../api/buyNowService";
 
 const paymentOptions = [
   { id: "credit-card", label: "Credit Card" },
@@ -36,11 +36,22 @@ const Checkout = () => {
     : Array.isArray(cartData?.items)
       ? cartData.items
       : [];
+  const isBuyNow = !!buyNowItem;
 
-  const subtotal = promoSummary?.cart_total || cartData?.["total price"] || 0;
+  // const subtotal = promoSummary?.cart_total || cartData?.["total price"] || 0;
+  const subtotal = isBuyNow
+    ? promoSummary?.product_price ||
+      Number(buyNowItem?.product?.price || 0) *
+        Number(buyNowItem?.quantity || 1)
+    : promoSummary?.cart_total || cartData?.["total price"] || 0;
   const deliveryCharge = subtotal > 0 ? 100 : 0;
+
   const discount = promoSummary?.discount || 0;
-  const total = promoSummary?.final_total || cartData?.["total price"] || 0;
+
+  // const total = promoSummary?.final_total || cartData?.["total price"] || 0;
+  const total = isBuyNow
+    ? promoSummary?.final_total || subtotal - discount + deliveryCharge
+    : promoSummary?.final_total || cartData?.["total price"] || 0;
 
   //select address
   useEffect(() => {
@@ -92,6 +103,7 @@ const Checkout = () => {
 
       // BUY NOW FLOW
       if (buyNowItem) {
+        console.log("promoSummary:", promoSummary);
         const payload = {
           product_id: buyNowItem.product.id,
           quantity: buyNowItem.quantity,
@@ -100,9 +112,10 @@ const Checkout = () => {
 
           // Send directly
           //promo_code: promoCode || null,
-          ...(promoCode && {
-            promo_code: promoCode,
-          }),
+          promo_code: promoSummary?.promo_id || null,
+          // ...(promoCode && {
+          //   promo_code: promoCode,
+          // }),
         };
 
         console.log("buy now payload:", payload);
@@ -119,9 +132,8 @@ const Checkout = () => {
           total_amount: total,
           payment_method: selectedPayment,
           discount: promoSummary?.discount || 0,
-
-          promo_code_id: promoSummary?.promo_code
-            ? Number(promoSummary.promo_code)
+          promo_code_id: promoSummary?.promo_id
+            ? Number(promoSummary.promo_id)
             : null,
 
           user: user?.id,
@@ -165,32 +177,58 @@ const Checkout = () => {
 
   //prmomo code
   const handleApplyPromoCode = async () => {
+    // try {
+    //   if (!promoCode.trim()) {
+    //     toast.error("Please enter promo code");
+    //     return;
+    //   }
+
+    //   const cartId = cartData?.cart_id;
+
+    //   if (!cartId) {
+    //     toast.error("Cart ID not found");
+    //     console.log("cartData:", cartData);
+    //     return;
+    //   }
+
+    //   setPromoLoading(true);
+
+    //   const res = await applyPromoCodePost(cartId, {
+    //     promo_code: promoCode,
+    //   });
+
+    //   console.log("apply promo response:", res.data);
+    //   const data = res.data.data || res.data; // important fallback
+    //   setPromoSummary(data);
+    //   // Clear textbox
+
+    //   setPromoCode(data.promo_code || promoCode);
+
+    //   toast.success("Promo applied successfully");
     try {
       if (!promoCode.trim()) {
         toast.error("Please enter promo code");
         return;
       }
 
-      const cartId = cartData?.cart_id;
-
-      if (!cartId) {
-        toast.error("Cart ID not found");
-        console.log("cartData:", cartData);
-        return;
-      }
-
       setPromoLoading(true);
 
-      const res = await applyPromoCodePost(cartId, {
-        promo_code: promoCode,
-      });
+      let res;
 
-      console.log("apply promo response:", res.data);
-      const data = res.data.data || res.data; // important fallback
+      if (buyNowItem) {
+        res = await applyBuyNowPromoCode({
+          product_id: buyNowItem.product.id,
+          promo_code: Number(promoCode),
+        });
+      } else {
+        res = await applyPromoCodePost(cartData?.cart_id, {
+          promo_code: promoCode,
+        });
+      }
+
+      const data = res.data.data || res.data;
+
       setPromoSummary(data);
-      // Clear textbox
-
-      setPromoCode(data.promo_code || promoCode);
 
       toast.success("Promo applied successfully");
     } catch (error) {
