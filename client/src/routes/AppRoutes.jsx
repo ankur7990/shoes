@@ -34,12 +34,22 @@ import OrderDetails from "../pages/OrderDetails";
 import ScanandUpload from "../pages/ai/AiShoeFinderPage";
 import AiShoeFinderPage from "../pages/ai/AiShoeFinderPage";
 import AiShoePreferencesPage from "../pages/ai/AiShoePreferencesPage ";
+import CheckNavbar from "../pages/CheckNavbar";
 
 function AppRoutes() {
   return (
     <div>
       <Routes>
         {/* Auth Routes (no Navbar/Footer) */}
+
+        <Route
+          path="/checknavbar"
+          element={
+            <MainLayout>
+              <CheckNavbar />
+            </MainLayout>
+          }
+        />
 
         <Route
           path="/login"
