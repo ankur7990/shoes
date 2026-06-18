@@ -6,14 +6,17 @@ import Dropdown from "../../components/common/Dropdown";
 import AiCategorySelector from "./AiCategorySelector";
 import AiBrandSelector from "./AiBrandSelector";
 import { useRef } from "react";
+import PriceRangeSlider from "../../components/common/PriceRangeSlider";
 
 const AiShoePreferencesPage = () => {
   const navigate = useNavigate();
   const cameraInputRef = useRef(null);
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
-  const [price, setPrice] = useState(5000);
   const [size, setSize] = useState("");
+  const [priceRange, setPriceRange] = useState([2000, 12000]);
+  const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const [error, setError] = useState("");
 
@@ -63,7 +66,7 @@ const AiShoePreferencesPage = () => {
     const aiRequestData = {
       category,
       brand,
-      maxPrice: price,
+      maxPrice: priceRange,
       size,
       image: file,
     };
@@ -119,7 +122,7 @@ const AiShoePreferencesPage = () => {
             />
 
             {/* Price Range */}
-            <div>
+            {/* <div>
               <div className="mb-3 flex justify-between">
                 <label className="font-medium">Max Budget</label>
 
@@ -139,8 +142,9 @@ const AiShoePreferencesPage = () => {
                   cursor-pointer
                 "
               />
-            </div>
+            </div> */}
 
+            <PriceRangeSlider values={priceRange} setValues={setPriceRange} />
             {/* Brand */}
 
             <AiBrandSelector
@@ -211,7 +215,7 @@ const AiShoePreferencesPage = () => {
             <div>
               <p>{category}</p>
 
-              <p>{price}</p>
+              <p>{priceRange}</p>
               <p>{brand}</p>
               <p>{size}</p>
             </div>
