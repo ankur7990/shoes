@@ -34,7 +34,7 @@ const AiCategorySelector = ({
               name="category"
               value={option.value}
               checked={value === option.value}
-              onChange={(e) => onChange(e.target.value)}
+              onChange={(e) => onChange(Number(e.target.value))}
               className="hidden"
             />
 

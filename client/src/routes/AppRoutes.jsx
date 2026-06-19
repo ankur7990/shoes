@@ -35,6 +35,8 @@ import ScanandUpload from "../pages/ai/AiShoeFinderPage";
 import AiShoeFinderPage from "../pages/ai/AiShoeFinderPage";
 import AiShoePreferencesPage from "../pages/ai/AiShoePreferencesPage ";
 import CheckNavbar from "../pages/CheckNavbar";
+import AiPreview from "../pages/ai/AiPreview";
+import AiResults from "../pages/ai/AiResults";
 
 function AppRoutes() {
   return (
@@ -115,6 +117,8 @@ function AppRoutes() {
             path="/ai-finder/preferences"
             element={<AiShoePreferencesPage />}
           />
+          <Route path="/ai-preview" element={<AiPreview />} />
+          <Route path="/ai-results" element={<AiResults />} />
         </Route>
 
         {/* <Route path="/cart" element={<CartPage />} /> */}

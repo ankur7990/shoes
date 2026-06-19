@@ -1,32 +1,61 @@
 import Button from "../../components/common/Button";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "../../components/common/Dropdown";
 import AiCategorySelector from "./AiCategorySelector";
 import AiBrandSelector from "./AiBrandSelector";
 import { useRef } from "react";
 import PriceRangeSlider from "../../components/common/PriceRangeSlider";
+import getCategories from "../../api/categoryService";
+import { handleApiError } from "../../api/errorHandler";
 
 const AiShoePreferencesPage = () => {
   const navigate = useNavigate();
   const cameraInputRef = useRef(null);
-  const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [categoryId, setCategoryId] = useState("");
+
   const [brand, setBrand] = useState("");
   const [size, setSize] = useState("");
-  const [priceRange, setPriceRange] = useState([2000, 12000]);
+  const [priceRange, setPriceRange] = useState([2000, 20000]);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const [error, setError] = useState("");
+  const categoryOptions = categories.map((category) => ({
+    label: category.name,
+    value: category.id,
+  }));
 
   const validateForm = () => {
-    if (!category) return "Please select a category";
+    if (!categoryId) return "Please select a category";
     if (!brand) return "Please select a brand";
     if (!size) return "Please select a shoe size";
 
     return "";
   };
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await getCategories();
+
+        console.log("categories:", res.data);
+        const list = Array.isArray(res.data)
+          ? res.data
+          : Array.isArray(res.data?.results)
+            ? res.data.results
+            : [];
+        setCategories(list);
+      } catch (error) {
+        console.log(error.response?.data);
+        handleApiError(error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleTakePhoto = () => {
     console.log("Take Photo");
@@ -64,9 +93,10 @@ const AiShoePreferencesPage = () => {
     if (!file) return;
 
     const aiRequestData = {
-      category,
+      categoryId,
       brand,
-      maxPrice: priceRange,
+      minPrice: priceRange[0],
+      maxPrice: priceRange[1],
       size,
       image: file,
     };
@@ -95,30 +125,9 @@ const AiShoePreferencesPage = () => {
           <div className="space-y-6">
             {/* Category */}
             <AiCategorySelector
-              value={category}
-              onChange={setCategory}
-              options={[
-                {
-                  label: "Sports",
-                  value: "sports",
-                },
-                {
-                  label: "Sneakers",
-                  value: "sneakers",
-                },
-                {
-                  label: "Running",
-                  value: "running",
-                },
-                {
-                  label: "Casual",
-                  value: "casual",
-                },
-                {
-                  label: "Sandals",
-                  value: "sandals",
-                },
-              ]}
+              value={categoryId}
+              onChange={setCategoryId}
+              options={categoryOptions}
             />
 
             {/* Price Range */}
@@ -213,7 +222,7 @@ const AiShoePreferencesPage = () => {
             </div>
 
             <div>
-              <p>{category}</p>
+              <p>{categoryId}</p>
 
               <p>{priceRange}</p>
               <p>{brand}</p>
