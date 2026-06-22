@@ -52,6 +52,7 @@ const Checkout = () => {
   const total = isBuyNow
     ? promoSummary?.final_total || subtotal - discount + deliveryCharge
     : promoSummary?.final_total || cartData?.["total price"] || 0;
+  const { fetchCart } = useCart();
 
   //select address
   useEffect(() => {
@@ -142,6 +143,7 @@ const Checkout = () => {
         console.log("cart payload:", payload);
 
         res = await createOrder(payload);
+        await fetchCart();
       }
 
       console.log("order created:", res.data);
@@ -149,6 +151,7 @@ const Checkout = () => {
       toast.success("Order placed successfully");
 
       navigate("/myorders");
+
       // const payload = {
       //   address: selectedAddressId,
       //   total_amount: total,

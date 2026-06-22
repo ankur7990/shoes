@@ -28,7 +28,6 @@ const ProductDetails = () => {
   // console.log("product details loaded.");
 
   const navigate = useNavigate();
-  const { fetchCartCount } = useCart();
   const { id } = useParams();
   const { user } = useAuth();
 
@@ -48,6 +47,7 @@ const ProductDetails = () => {
 
   const [cartCount, setCartCount] = useState(0);
   const userId = user?.id;
+  const { fetchCart } = useCart();
 
   // handle like
   useEffect(() => {
@@ -195,9 +195,11 @@ const ProductDetails = () => {
         console.log("Add to cart:", cartObj);
       }
 
-      if (typeof fetchCartCount === "function") {
-        await fetchCartCount();
-      }
+      // if (typeof fetchCartCount === "function") {
+      //   await fetchCartCount();
+      // }
+
+      await fetchCart();
 
       toast.success("Added to cart");
       navigate("/cart");

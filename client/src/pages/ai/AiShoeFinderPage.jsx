@@ -1,13 +1,35 @@
-import React from "react";
+import React, { useRef } from "react";
 import heroShoes from "../../assets/heroshoes.png";
 import Button from "../../components/common/Button";
 import { useNavigate } from "react-router-dom";
 
 const AiShoeFinderPage = () => {
   const navigate = useNavigate();
+  const uploadInputRef = useRef(null);
 
   const handleScanShoe = () => {
     navigate("/ai-finder/preferences");
+  };
+
+  const handleUploadImage = () => {
+    console.log("Upload Image.");
+    const file = event.target.files?.[0];
+
+    if (!file) return;
+    navigate("/ai-preview", {
+      state: {
+        image: file,
+
+        // No preferences selected
+        categoryId: null,
+        brand: "",
+        size: "",
+        minPrice: "",
+        maxPrice: "",
+
+        flow: "upload-image",
+      },
+    });
   };
   return (
     <div className="min-h-screen bg-gradient-layout-main text-white px-4 py-8 ">
@@ -32,7 +54,19 @@ const AiShoeFinderPage = () => {
                 📷 Scan Shoe
               </Button>
 
-              <Button type="button">🖼️ Upload Image</Button>
+              <Button
+                type="button"
+                onClick={() => uploadInputRef.current?.click()}
+              >
+                🖼️ Upload Image
+              </Button>
+              <input
+                type="file"
+                accept="image/*"
+                hidden
+                ref={uploadInputRef}
+                onChange={handleUploadImage}
+              />
             </div>
           </div>
 

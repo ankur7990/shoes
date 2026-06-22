@@ -8,8 +8,7 @@ const AiPreview = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
-  const { categoryId, brand, size, image, minPrice, maxPrice } =
-    location.state || {};
+  const { image, categoryId, brand, size, minPrice, maxPrice } = location.state;
 
   const imagePreview = image ? URL.createObjectURL(image) : null;
 
@@ -26,12 +25,38 @@ const AiPreview = () => {
       const formData = new FormData();
 
       formData.append("image", image);
-      formData.append("category_id", categoryId);
-      formData.append("size", size);
-      formData.append("company_name", brand);
-      formData.append("min_price", minPrice);
-      formData.append("max_price", maxPrice);
+      // formData.append("category_id", categoryId);
+      // formData.append("size", size);
+      // formData.append("company_name", brand);
+      // formData.append("min_price", minPrice);
+      // formData.append("max_price", maxPrice);
+      if (categoryId) {
+        formData.append("category_id", categoryId);
+      }
 
+      if (brand) {
+        formData.append("company_name", brand);
+      }
+
+      if (size) {
+        formData.append("size", size);
+      }
+
+      if (minPrice) {
+        formData.append("min_price", minPrice);
+      }
+
+      if (maxPrice) {
+        formData.append("max_price", maxPrice);
+      }
+
+      console.log({
+        categoryId,
+        brand,
+        size,
+        minPrice,
+        maxPrice,
+      });
       const res = await scanStyle(formData);
 
       console.log("AI Result:", res.data);
