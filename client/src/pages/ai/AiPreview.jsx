@@ -38,7 +38,7 @@ const AiPreview = () => {
 
       navigate("/ai-results", {
         state: {
-          AiResult: res.data,
+          products: res.data,
         },
       });
     } catch (error) {

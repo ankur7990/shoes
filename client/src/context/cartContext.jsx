@@ -28,10 +28,14 @@ export const CartProvider = ({ children }) => {
   const fetchCartCount = async () => {
     try {
       const res = await getCartItems();
-      const cartItems = res.data.items || res.data.results || res.data || [];
+
+      const count = res.data?.items?.length || 0;
+
+      setCartCount(count);
+      // const cartItems = res.data.items || res.data.results || res.data || [];
       // console.log("cart items", cartItems);
 
-      setCartCount(cartItems);
+      // setCartCount(cartItems);
     } catch (error) {
       console.log("Cart count error:", error);
     }
@@ -53,6 +57,7 @@ export const CartProvider = ({ children }) => {
         fetchCart,
         setCartData,
         setCartCount,
+        fetchCartCount, // add this
       }}
     >
       {children}

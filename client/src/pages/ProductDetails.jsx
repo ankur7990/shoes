@@ -170,6 +170,7 @@ const ProductDetails = () => {
       const cartItems =
         cartRes.data.items || cartRes.data.results || cartRes.data || [];
       // console.log("cart items :", cartItems);
+      setCartCount(cartItems.length);
 
       const existingItem = cartItems.find((item) => {
         return (

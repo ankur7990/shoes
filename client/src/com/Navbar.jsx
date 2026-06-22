@@ -53,6 +53,9 @@ const Navbar = () => {
     };
   }, []);
 
+  useEffect(() => {
+    console.log("Navbar cart count:", cartCount);
+  }, [cartCount]);
   const handleLogout = () => {
     logout();
     navigate("/login");
