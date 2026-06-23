@@ -82,13 +82,113 @@ const AiPreview = () => {
         </h1>
 
         {imagePreview && (
-          <img
-            src={imagePreview}
-            alt="Selected"
-            className="mb-6 h-80 w-full rounded-3xl object-cover"
-          />
-        )}
+          // <img
+          //   src={imagePreview}
+          //   alt="Selected"
+          //   className="mb-6 h-80 w-full rounded-3xl object-cover"
+          // />
 
+          <div className="flex justify-center">
+            <div
+              className="
+      relative
+      w-72
+      overflow-hidden
+      rounded-3xl
+      border-2 border-[#43e77f]
+      bg-black/20
+      p-4
+      shadow-[0_0_25px_rgba(67,231,127,0.25)]
+      backdrop-blur-sm
+    "
+            >
+              {/* AI Badge */}
+              <div
+                className="
+        absolute
+        left-4
+        top-4
+        z-20
+        rounded-full
+        bg-[#43e77f]
+        px-3
+        py-1
+        text-xs
+        font-bold
+        text-black
+      "
+              >
+                AI SCAN
+              </div>
+
+              {/* Version */}
+              <div
+                className="
+        absolute
+        right-4
+        top-4
+        z-20
+        text-xs
+        font-bold
+        text-[#43e77f]
+      "
+              >
+                V2.0
+              </div>
+
+              {/* Image Container */}
+              <div className="relative mt-10 overflow-hidden rounded-2xl">
+                <img
+                  src={imagePreview}
+                  alt="Selected Shoe"
+                  className="
+          h-80
+          w-full
+          object-cover
+        "
+                />
+
+                {/* Scan Line */}
+                <div
+                  className="
+          absolute
+          left-0
+          right-0
+          top-1/2
+          h-[2px]
+          bg-[#43e77f]
+          opacity-90
+          animate-pulse
+        "
+                />
+
+                {/* Corner Scanner Marks */}
+                <div className="absolute left-2 top-2 h-8 w-8 border-l-2 border-t-2 border-[#43e77f]" />
+                <div className="absolute right-2 top-2 h-8 w-8 border-r-2 border-t-2 border-[#43e77f]" />
+                <div className="absolute bottom-2 left-2 h-8 w-8 border-b-2 border-l-2 border-[#43e77f]" />
+                <div className="absolute bottom-2 right-2 h-8 w-8 border-b-2 border-r-2 border-[#43e77f]" />
+              </div>
+
+              {/* Footer */}
+              <div className="mt-4">
+                <h3 className="text-lg font-semibold text-white">
+                  {/* Shoe Detected  */} Finding Perfect Match
+                </h3>
+
+                <div className="mt-2 flex items-center justify-between">
+                  <p className="text-sm text-gray-400">Ready for AI Analysis</p>
+
+                  <div className="flex items-center gap-2">
+                    <div className="h-2 w-2 rounded-full bg-[#43e77f] animate-pulse" />
+
+                    <span className="text-xs text-[#43e77f]">ACTIVE</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        <br />
         <div className="rounded-3xl bg-white/10 p-6 text-center">
           <div className="mb-4 text-5xl">👟</div>
 

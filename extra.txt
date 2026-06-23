@@ -23,3 +23,5 @@ verify-otp/
 reset-password/
 user-profile/
 user-delete/
+
+network login command : npx serve -s -l tcp://0.0.0.0:3000 

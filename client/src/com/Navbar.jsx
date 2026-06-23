@@ -10,6 +10,9 @@ const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showMenu1, setShowMenu1] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileProductOpen, setMobileProductOpen] = useState(false);
+  const [mobileAccountOpen, setMobileAccountOpen] = useState(false);
 
   // Reference for dropdown area
   const menuRef = useRef();
@@ -99,6 +102,7 @@ const Navbar = () => {
         <Link to="/home" className="text-2xl font-bold text-blue-600">
           MyApp
         </Link>
+
         {/* <Link to="/productdetails" className="text-2xl font-bold text-blue-600">
           Product details
         </Link> */}
@@ -169,31 +173,6 @@ const Navbar = () => {
                 )}
               </div>
 
-              {/* Product Dropdown */}
-              <div className="relative" ref={menuRefProduct}>
-                <button
-                  onClick={() => setShowMenu1(!showMenu1)}
-                  className="text-gray-600 hover:text-blue-600"
-                >
-                  Product
-                </button>
-
-                {/* Dropdown */}
-                {showMenu1 && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2">
-                    {categories.map((cat) => (
-                      <Link
-                        key={cat.id}
-                        to={`/category/filter/${cat.id}`}
-                        onClick={() => setShowMenu1(false)}
-                        className="block px-4 py-2 hover:bg-gray-100"
-                      >
-                        {cat.name.replace("\n", " ")}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
               <Link
                 to="/cart"
                 className="relative text-gray-600 hover:text-blue-600"
@@ -209,7 +188,150 @@ const Navbar = () => {
             </>
           )}
         </div>
+        {/* Mobile Hamburger */}
+        <button
+          className="md:hidden text-2xl"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          {mobileMenuOpen ? "✕" : "☰"}
+        </button>
       </div>
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-white border-t shadow-lg">
+          <div className="flex flex-col p-4 space-y-3">
+            {!token ? (
+              <>
+                <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
+                  Login
+                </Link>
+
+                <Link to="/signup" onClick={() => setMobileMenuOpen(false)}>
+                  Signup
+                </Link>
+              </>
+            ) : (
+              <>
+                {/* HOME */}
+                <Link
+                  to="/home"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="font-medium"
+                >
+                  Home
+                </Link>
+
+                {/* PRODUCTS */}
+                <div>
+                  <button
+                    onClick={() => setMobileProductOpen(!mobileProductOpen)}
+                    className="flex w-full items-center justify-between font-medium"
+                  >
+                    <span>Products</span>
+
+                    <span>{mobileProductOpen ? "▲" : "▼"}</span>
+                  </button>
+
+                  {mobileProductOpen && (
+                    <div className="ml-4 mt-2 flex flex-col gap-2">
+                      {categories.map((cat) => (
+                        <Link
+                          key={cat.id}
+                          to={`/category/filter/${cat.id}`}
+                          onClick={() => {
+                            setMobileMenuOpen(false);
+                            setMobileProductOpen(false);
+                          }}
+                          className="text-gray-600"
+                        >
+                          {cat.name.replace("\n", " ")}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* ACCOUNT */}
+                <div>
+                  <button
+                    onClick={() => setMobileAccountOpen(!mobileAccountOpen)}
+                    className="flex w-full items-center justify-between font-medium"
+                  >
+                    <span>Account</span>
+
+                    <span>{mobileAccountOpen ? "▲" : "▼"}</span>
+                  </button>
+
+                  {mobileAccountOpen && (
+                    <div className="ml-4 mt-2 flex flex-col gap-2">
+                      <Link
+                        to="/profile"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Account Information
+                      </Link>
+
+                      <Link
+                        to="/myorders"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        My Orders
+                      </Link>
+
+                      <Link
+                        to="/addressmanagement"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Address Management
+                      </Link>
+
+                      <Link
+                        to="/passwordmanager"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Password Manager
+                      </Link>
+                    </div>
+                  )}
+                </div>
+
+                {/* AI SHOE FINDER */}
+                <Link
+                  to="/ai-finder"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="font-medium"
+                >
+                  AI Shoe Finder
+                </Link>
+
+                {/* CART */}
+                <Link
+                  to="/cart"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-2"
+                >
+                  🛍️ Cart
+                  {cartCount > 0 && (
+                    <span className="rounded-full bg-red-500 px-2 py-1 text-xs text-white">
+                      {cartCount}
+                    </span>
+                  )}
+                </Link>
+
+                {/* LOGOUT */}
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="text-left text-red-600"
+                >
+                  Logout
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
