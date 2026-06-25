@@ -70,7 +70,18 @@ const CategoryPage = () => {
 
         <div className="">
           {/* <div className="flex flex-col gap-10"> */}
-          <div className=" flex flex-row flex-wrap gap-5 p-10    ">
+          {/* <div className=" flex flex-row flex-wrap gap-5 p-10    "> */}
+          <div
+            className=" mx-auto grid max-w-7xl grid-cols-1
+    gap-6
+    px-4
+    py-6
+    sm:grid-cols-2
+    md:grid-cols-2
+    lg:grid-cols-3
+    xl:grid-cols-4
+  "
+          >
             {products.length > 0 ? (
               products.map((product) => (
                 <Product key={product.id} data={product} />

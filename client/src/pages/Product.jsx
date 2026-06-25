@@ -96,16 +96,41 @@ const Product = ({ data }) => {
 
   return (
     <div
-      className="  flex justify-center items-center   cursor-pointer"
+      // className="  flex justify-center items-center   cursor-pointer"
+      className="
+    w-full
+    flex
+    justify-center
+    cursor-pointer
+  "
       onClick={handleProductClick}
     >
       <div className="  flex flex-row gap-25">
         <div
-          className="h-90 w-60  radius rounded-xl flex flex-col items-center justify-center gap-3"
+          // className="h-90 w-60  radius rounded-xl flex flex-col items-center justify-center gap-3"
+          className="
+w-full
+max-w-[280px]
+rounded-2xl
+flex
+flex-col
+items-center
+gap-3
+p-3
+transition-all
+duration-300
+hover:scale-[1.02]
+"
           style={{ backgroundColor: `${primaryColor}` }}
         >
           <div
-            className="h-55 w-55 bg rounded-2xl cursor-pointer "
+            // className="h-55 w-55 bg rounded-2xl cursor-pointer "
+            className="
+w-full
+aspect-square
+rounded-2xl
+overflow-hidden
+"
             // className="h-55 w-55 bg rounded-xl overflow-hidden
             //   transition-all duration-300
             //   hover:scale-105
@@ -113,7 +138,16 @@ const Product = ({ data }) => {
             style={{ backgroundColor: `${secondaryColor}` }}
           >
             <div
-              className="grid grid-col-4 items-baseline bg-contain bg-center bg-no-repeat  "
+              // className="grid grid-col-4 items-baseline bg-contain bg-center bg-no-repeat  "
+              className="
+grid
+h-full
+w-full
+grid-cols-4
+bg-contain
+bg-center
+bg-no-repeat
+"
               style={{ backgroundImage: `url(${backstar})` }}
             >
               <div className="  w-15 h-8 col-span-1 col-start-1">
@@ -126,24 +160,94 @@ const Product = ({ data }) => {
               </div>
               <div className="  col-start-1 col-end-4 h-40 w-55 flex justify-center items-center">
                 {/* {imageUrl ? <img src={imageUrl} alt={data.name} /> : null} */}
-                <img src={imageUrl} alt={data.name} />
+                <img
+                  src={imageUrl}
+                  alt={data.name}
+                  className="
+    h-36
+    sm:h-40
+    md:h-44
+    object-contain
+    transition-transform
+    duration-300
+    hover:scale-105
+  "
+                />
               </div>
 
-              <div className="bg-white percentageColor font-semibold w-20 h-7 rounded-tl-lg rounded-br-lg col-span-1 col-start-3">
+              {/* <div className="bg-white percentageColor font-semibold w-20 h-7 rounded-tl-lg rounded-br-lg col-span-1 col-start-3">
+                50% off
+              </div> */}
+              <div
+                className="bg-white percentageColor font-semibold justify-self-end
+mr-2
+mt-2
+rounded-tl-lg
+rounded-br-lg
+bg-white
+px-3
+py-1
+text-xs
+font-semibold
+percentageColor rounded-tl-lg rounded-br-lg col-span-1 col-start-3"
+              >
                 50% off
               </div>
             </div>
           </div>
-          <div className="h-25 w-60  radius rounded-xl flex  justify-between  ">
+          {/* <div className="h-25 w-60  radius rounded-xl flex  justify-between  "> */}
+          <div
+            className="
+w-full
+flex
+justify-between
+items-end
+pt-2
+"
+          >
             <div className="  flex flex-col text-left ml-3 my-2  ">
-              <p className="text-black text-xl"> {data.name}</p>
-              <p className="text-[#A58855]"> {data.brand}</p>
-              <h3 className="text-black text-xl font-semibold pt-2">
+              {/* <p className="text-black text-xl"> {data.name}</p> */}
+              <p
+                className="text-black text-base
+sm:text-lg
+font-semibold"
+              >
+                {" "}
+                {data.name}
+              </p>
+
+              {/* <p className="text-[#A58855]"> {data.brand}</p> */}
+              <p
+                className="
+text-sm
+text-[#A58855]
+"
+              >
+                {" "}
+                {data.brand}
+              </p>
+
+              {/* <h3 className="text-black text-xl font-semibold pt-2">
+                $ {data.price}
+              </h3> */}
+              <h3
+                className="
+pt-2
+text-lg
+sm:text-xl
+font-bold
+text-black
+"
+              >
                 $ {data.price}
               </h3>
             </div>
             <div
-              className=" h-6 w-6 mt-18 mr-3 rounded-2xl transition-all duration-300
+              //     className=" h-6 w-6 mt-18 mr-3 rounded-2xl transition-all duration-300
+              //  cursor-pointer"
+              className=" h-6 w-6 self-end
+mb-2
+mr-2 mr-3 rounded-2xl transition-all duration-300
            cursor-pointer"
               onMouseEnter={() => setIsHover(true)}
               onMouseLeave={() => setIsHover(false)}

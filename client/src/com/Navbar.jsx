@@ -111,27 +111,74 @@ const Navbar = () => {
         <div className="hidden md:flex items-center space-x-6">
           {!token ? (
             <>
-              <Link to="/login">Login</Link>
-              <Link to="/signup">Signup</Link>
+              <Link
+                to="/login"
+                className="hover:text-blue-600 transition-colors"
+              >
+                Login
+              </Link>
+
+              <Link
+                to="/signup"
+                className="hover:text-blue-600 transition-colors"
+              >
+                Signup
+              </Link>
             </>
           ) : (
             <>
-              <Link to="/home">Home</Link>
+              {/* Home */}
+              <Link
+                to="/home"
+                className="hover:text-blue-600 transition-colors"
+              >
+                Home
+              </Link>
 
-              {/* <Link to="/product">Product</Link> */}
+              {/* AI Shoe Finder */}
+              <Link
+                to="/ai-finder"
+                className="hover:text-blue-600 transition-colors"
+              >
+                AI Shoe Finder
+              </Link>
+
+              {/* Product Dropdown */}
+              <div className="relative" ref={menuRefProduct}>
+                <button
+                  onClick={() => setShowMenu1(!showMenu1)}
+                  className="hover:text-blue-600 transition-colors"
+                >
+                  Products
+                </button>
+
+                {showMenu1 && (
+                  <div className="absolute right-0 mt-2 w-56 rounded-xl bg-white shadow-lg border py-2">
+                    {categories.map((cat) => (
+                      <Link
+                        key={cat.id}
+                        to={`/category/filter/${cat.id}`}
+                        onClick={() => setShowMenu1(false)}
+                        className="block px-4 py-2 hover:bg-gray-100"
+                      >
+                        {cat.name.replace("\n", " ")}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
 
               {/* Account Dropdown */}
               <div className="relative" ref={menuRef}>
                 <button
                   onClick={() => setShowMenu(!showMenu)}
-                  className="text-gray-600 hover:text-blue-600"
+                  className="hover:text-blue-600 transition-colors"
                 >
                   Account
                 </button>
 
-                {/* Dropdown */}
                 {showMenu && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2">
+                  <div className="absolute right-0 mt-2 w-56 rounded-xl bg-white shadow-lg border py-2">
                     <Link
                       to="/profile"
                       onClick={() => setShowMenu(false)}
@@ -155,6 +202,7 @@ const Navbar = () => {
                     >
                       Address Management
                     </Link>
+
                     <Link
                       to="/passwordmanager"
                       onClick={() => setShowMenu(false)}
@@ -164,8 +212,11 @@ const Navbar = () => {
                     </Link>
 
                     <button
-                      onClick={handleLogout}
-                      className="block w-full  px-4 py-2 text-red-600 hover:bg-gray-100"
+                      onClick={() => {
+                        handleLogout();
+                        setShowMenu(false);
+                      }}
+                      className="block w-full px-4 py-2 text-left text-red-600 hover:bg-gray-100"
                     >
                       Logout
                     </button>
@@ -173,14 +224,30 @@ const Navbar = () => {
                 )}
               </div>
 
+              {/* Cart */}
               <Link
                 to="/cart"
-                className="relative text-gray-600 hover:text-blue-600"
+                className="relative hover:text-blue-600 transition-colors"
               >
                 <span className="text-2xl">🛍️</span>
 
                 {cartCount > 0 && (
-                  <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#FF2E2E] text-xs text-white">
+                  <span
+                    className="
+              absolute
+              -top-2
+              -right-2
+              flex
+              h-5
+              w-5
+              items-center
+              justify-center
+              rounded-full
+              bg-red-500
+              text-xs
+              text-white
+            "
+                  >
                     {cartCount}
                   </span>
                 )}
