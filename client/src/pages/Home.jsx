@@ -189,7 +189,7 @@ const Home = () => {
       {/* <Special items={specialProducts.slice(0, 6)} /> */}
       {/* <ProductDetails /> */}
       {/* <Checkout /> */}
-      <ScanandUpload />
+      {/* <ScanandUpload /> */}
     </div>
   );
 };

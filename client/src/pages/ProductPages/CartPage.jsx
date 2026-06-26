@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useCart } from "../../context/cartContext";
 import { Heart } from "lucide-react";
 import Button from "../../components/common/Button";
@@ -6,13 +6,8 @@ import QuantityDropdown from "../../components/common/QuantityDropdown";
 import PromoCodeBox from "../../components/common/PromoCodeBox";
 import CartSummaryBox from "../../components/common/CartSummaryBox";
 import CartRightPanel from "../../components/common/CartRightPanel ";
-import getProductImage from "../../utils/getProductImage";
-import {
-  applyPromoCodePost,
-  checkPromoCodeGet,
-  removeCartItem,
-  updateCartItem,
-} from "../../api/cartService";
+// import getProductImage from "../../utils/getProductImage";
+import { removeCartItem, updateCartItem } from "../../api/cartService";
 import toast from "react-hot-toast";
 import { handleApiError } from "../../api/errorHandler";
 import { Trash2 } from "lucide-react";
@@ -22,19 +17,19 @@ const CartPage = () => {
   // console.log("Add to cart clicked.");
 
   const { cartData, fetchCart, loading } = useCart();
-  const [quantity, setQuantity] = useState(1);
-  const [promoCode, setPromoCode] = useState("");
-  const [promoSummary, setPromoSummary] = useState(null);
-  const [promoLoading, setPromoLoading] = useState(false);
+  // const [quantity, setQuantity] = useState(1);
+  // const [promoCode, setPromoCode] = useState("");
+  // const [promoSummary, setPromoSummary] = useState(null);
+  // const [promoLoading, setPromoLoading] = useState(false);
   const { fetchCartCount } = useCart();
   const navigate = useNavigate();
-  const delivery = 0;
+  // const delivery = 0;
   // const subtotal = cartData?.["total price"] || 0;
-  const cartId = cartData?.id;
+  // const cartId = cartData?.id;
 
   useEffect(() => {
     fetchCart();
-  }, []);
+  }, [fetchCart]);
 
   if (loading) {
     return <div className="p-6 text-white">Loading cart...</div>;
@@ -85,7 +80,7 @@ const CartPage = () => {
           {/* <div className="space-y-6 "> */}
           <div className="flex-1 space-y-6">
             {!cartData?.items?.length ? (
-              <div className="rounded-3xl border border-[#43e77f] bg-black/20 p-6">
+              <div className="rounded-3xl border border-border-bottom bg-black/20 p-6">
                 Cart is empty.
               </div>
             ) : (
@@ -106,7 +101,7 @@ const CartPage = () => {
                     className="
 rounded-3xl
 border
-border-[#43e77f]
+border-border-bottom
 bg-black/20
 p-5
 flex

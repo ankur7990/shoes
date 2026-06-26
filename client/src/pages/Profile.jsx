@@ -95,15 +95,23 @@ const Profile = () => {
   if (!userProfile) return <p>Loading profile...</p>;
 
   return (
-    <div className=" min-h-screen bg-gradient-layout-main flex items-center justify-center">
-      <div className="flex items-center justify-center  ">
-        <form className="w-100" onSubmit={handleSubmit(onSubmit)}>
-          <h3 className="text-2xl text-white font-bold text-center mb-6">
+    <div className="bg-gradient-layout-main flex min-h-screen items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md sm:max-w-lg lg:max-w-xl">
+        <form
+          className="w-full rounded-3xl border border-[#43e77f] bg-black/20 p-5 backdrop-blur-sm sm:p-8"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className="mb-6 flex justify-center">
+            <div className="flex h-24 w-24 items-center justify-center rounded-full border-2 border-[#43e77f] bg-black/20 text-3xl text-white">
+              👤
+            </div>
+          </div>
+          <h3 className="mb-8 text-center text-2xl font-bold text-white sm:text-3xl">
             Profile
           </h3>
           {/* ---------------------------------------- */}
           <label
-            className="text-white block text-left w-full mb-1"
+            className="mb-2 block w-full text-left text-sm font-medium text-white sm:text-base"
             htmlFor="Id"
           >
             Username:
@@ -136,19 +144,25 @@ const Profile = () => {
               required
             />
           ) : (
-            <p className="input-pill mb-5"> {userProfile?.username}</p>
+            <p className="input-pill flex min-h-[44px] items-center text-sm sm:text-base">
+              {" "}
+              {userProfile?.username}
+            </p>
           )}
           <br />
           <label
-            className="text-white block text-left w-full mb-1"
+            className="mb-2 block w-full text-left text-sm font-medium text-white sm:text-base"
             htmlFor="Id"
           >
             Email:
           </label>
-          <p className="input-pill mb-10"> {userProfile.email}</p>
+          <p className="input-pill flex min-h-[44px] items-center text-sm sm:text-base">
+            {" "}
+            {userProfile.email}
+          </p>
           <br />
           <label
-            className="text-white block text-left w-full mb-1"
+            className="mb-2 block w-full text-left text-sm font-medium text-white sm:text-base"
             htmlFor="Id"
           >
             DOB:
@@ -165,12 +179,15 @@ const Profile = () => {
               required
             />
           ) : (
-            <p className="input-pill"> {userProfile.date_of_birth}</p>
+            <p className="input-pill flex min-h-[44px] items-center text-sm sm:text-base">
+              {" "}
+              {userProfile.date_of_birth}
+            </p>
           )}
           {/* ----------------------gender list ------------------ */}
           <br />
           <label
-            className="text-white block text-left w-full mb-1"
+            className="mb-2 block w-full text-left text-sm font-medium text-white sm:text-base"
             htmlFor="Id"
           >
             Gender:
@@ -193,12 +210,15 @@ const Profile = () => {
               error={errors.gender}
             />
           ) : (
-            <p className="input-pill"> {userProfile.gender}</p>
+            <p className="input-pill flex min-h-[44px] items-center text-sm sm:text-base">
+              {" "}
+              {userProfile.gender}
+            </p>
           )}
           <br />
           {/* ------------------Mobile Profile---------------------- */}
           <label
-            className="text-white block text-left w-full mb-1"
+            className="mb-2 block w-full text-left text-sm font-medium text-white sm:text-base"
             htmlFor="Id"
           >
             Mobile:
@@ -219,10 +239,32 @@ const Profile = () => {
               required
             />
           ) : (
-            <p className="input-pill mb-5"> {userProfile.mobile_no}</p>
+            <p className="input-pill flex min-h-[44px] items-center text-sm sm:text-base">
+              {" "}
+              {userProfile.mobile_no}
+            </p>
           )}
           <br />
-          <Button
+          <div className="mt-8 flex flex-col gap-4">
+            <Button
+              fullWidth
+              type="button"
+              onClick={() => setIsEditing(!isEditing)}
+            >
+              {isEditing ? "Cancel" : "Edit"}
+            </Button>
+
+            {isEditing && (
+              <Button type="submit" fullWidth>
+                Save
+              </Button>
+            )}
+
+            <Button fullWidth type="button" onClick={handleDelete}>
+              Delete Account
+            </Button>
+          </div>
+          {/* <Button
             fullWidth
             type="button"
             onClick={() => setIsEditing(!isEditing)}
@@ -240,7 +282,7 @@ const Profile = () => {
           <br />
           <Button fullWidth type="button" onClick={handleDelete}>
             Delete Account
-          </Button>{" "}
+          </Button>{" "} */}
         </form>
       </div>
     </div>

@@ -18,7 +18,7 @@ const AiResults = () => {
   console.log("location.state", location.state);
 
   return (
-    <div className="min-h-screen bg-gradient-layout-main px-4 py-6 text-white">
+    <div className="bg-gradient-layout-main min-h-screen px-4 py-6 text-white">
       <div className="mx-auto max-w-7xl">
         {/* Hero */}
         <div className="mb-8 text-center">
@@ -79,27 +79,13 @@ const AiResults = () => {
               return (
                 <div
                   key={product.id}
-                  className="
-          overflow-hidden
-          rounded-3xl
-          border
-          border-white/10
-          bg-white/10
-          backdrop-blur-md
-          transition-all
-          hover:border-[#43e77f]
-        "
+                  className="overflow-hidden rounded-3xl border border-white/10 bg-white/10 backdrop-blur-md transition-all hover:border-[#43e77f]"
                 >
                   <div className="h-72 bg-white">
                     <img
                       src={imageUrl}
                       alt={product.name}
-                      className="
-              h-full
-              w-full
-              object-contain
-              p-4
-            "
+                      className="h-full w-full object-contain p-4"
                     />
                   </div>
 
@@ -135,67 +121,8 @@ const AiResults = () => {
           </div>
         </div>
 
-        <div className="mb-8 rounded-3xl bg-white/10 p-6">
-          <div className="mb-4 flex items-center gap-3">
-            <Brain className="text-[#43e77f]" />
-
-            <h2 className="text-xl font-semibold">Why These Shoes?</h2>
-          </div>
-
-          <p className="leading-relaxed text-white/80">
-            {recommendationReason}
-          </p>
-        </div>
-
-        <div className="rounded-3xl bg-white/10 p-6">
-          <button
-            onClick={() => setShowAnalysis(!showAnalysis)}
-            className="
-      flex
-      w-full
-      items-center
-      justify-between
-    "
-          >
-            <h2 className="text-xl font-semibold">Outfit Analysis</h2>
-
-            <ChevronDown
-              className={`transition-transform ${
-                showAnalysis ? "rotate-180" : ""
-              }`}
-            />
-          </button>
-
-          {showAnalysis && (
-            <p className="mt-4 leading-relaxed text-white/80">{imageSummary}</p>
-          )}
-        </div>
-        <div className="rounded-3xl bg-white/10 p-6">
-          <button
-            onClick={() => setShowAnalysis(!showAnalysis)}
-            className="
-      flex
-      w-full
-      items-center
-      justify-between
-    "
-          >
-            <h2 className="text-xl font-semibold">Outfit Analysis</h2>
-
-            <ChevronDown
-              className={`transition-transform ${
-                showAnalysis ? "rotate-180" : ""
-              }`}
-            />
-          </button>
-
-          {showAnalysis && (
-            <p className="mt-4 leading-relaxed text-white/80">{imageSummary}</p>
-          )}
-        </div>
-
         {/* Empty State */}
-        {!products.length && (
+        {/* {!products.length && (
           <div className="rounded-3xl bg-white/10 p-10 text-center">
             <h3 className="mb-2 text-xl font-semibold">
               No Recommendations Found
@@ -204,6 +131,28 @@ const AiResults = () => {
             <p className="text-white/70">
               Try another image or adjust your preferences.
             </p>
+          </div>
+        )} */}
+        {!products.length && (
+          <div className="mx-auto mt-10 max-w-xl rounded-3xl bg-white/10 p-8 text-center">
+            <div className="mb-4 text-6xl">😔</div>
+
+            <h2 className="mb-3 text-2xl font-bold">
+              No Recommendations Found
+            </h2>
+
+            <p className="mb-6 text-white/70">
+              We couldn't find any matching shoes. Try again with another image
+              or preferences.
+            </p>
+
+            <Button
+              type="button"
+              onClick={() => navigate("/ai-finder")}
+              className="px-6 py-3"
+            >
+              Try Again
+            </Button>
           </div>
         )}
       </div>

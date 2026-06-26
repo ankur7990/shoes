@@ -109,9 +109,7 @@ function AppRoutes() {
           <Route path="/home" element={<Home />} />
           <Route path="/myorders" element={<MyOrder />} />
           <Route path="/orders/:id" element={<OrderDetails />} />
-        </Route>
 
-        <Route>
           <Route path="/ai-finder" element={<AiShoeFinderPage />} />
           <Route
             path="/ai-finder/preferences"
@@ -120,6 +118,8 @@ function AppRoutes() {
           <Route path="/ai-preview" element={<AiPreview />} />
           <Route path="/ai-results" element={<AiResults />} />
         </Route>
+
+        <Route></Route>
 
         {/* <Route path="/cart" element={<CartPage />} /> */}
 
