@@ -21,23 +21,23 @@ const TrendingShoes = () => {
   }, []);
 
   return (
-    <div>
-      <div className="bg-gradient-layout-main">
-        <div className="flex justify-center p-10">
-          <p className="text-center text-2xl font-normal text-white underline underline-offset-12 decoration-border-bottom hover:decoration-2 ">
-            Trendy Shoes
-          </p>
-        </div>
-        <br />
-        <div className="px-20 flex flex-row flex-wrap gap-5">
-          {trendingProducts.length > 0 ? (
-            trendingProducts.map((product) => (
-              <Product key={product.id} data={product} />
-            ))
-          ) : (
-            <p className="text-white text-center">No products found.</p>
-          )}
-        </div>
+    <div className="bg-gradient-layout-main min-h-screen">
+      {/* Header */}
+      <div className="flex justify-center px-4 py-8 sm:py-10">
+        <p className="decoration-border-bottom text-center text-xl font-normal text-white underline underline-offset-8 sm:text-2xl">
+          Trendy Shoes
+        </p>
+      </div>
+
+      {/* Products */}
+      <div className="mx-auto grid w-full max-w-[1800px] grid-cols-[repeat(auto-fit,minmax(260px,1fr))] justify-items-center gap-6 px-4 pb-10 sm:px-6 lg:px-8">
+        {trendingProducts.length > 0 ? (
+          trendingProducts.map((product) => (
+            <Product key={product.id} data={product} />
+          ))
+        ) : (
+          <p className="text-center text-white">No products found.</p>
+        )}
       </div>
     </div>
   );

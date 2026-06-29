@@ -27,31 +27,35 @@ const Trending = ({ items }) => {
       fetchCategoryProducts();
     }
   }, [id]);
+
   return (
     <>
-      <div className="   flex flex-col ">
-        <div className="flex flex-col justify-center items-center ">
-          <p className="text-center text-2xl font-normal text-white underline underline-offset-12 decoration-border-bottom hover:decoration-2">
+      <div className="flex flex-col px-4 py-6 sm:px-6 lg:px-8">
+        {/* Heading */}
+        <div className="flex justify-center">
+          <p className="decoration-border-bottom text-center text-xl font-normal text-white underline underline-offset-8 sm:text-2xl">
             {categoryName}
           </p>
         </div>
-        <div className="flex flex-row justify-end mr-30">
+
+        {/* See All */}
+        <div className="mt-4 flex justify-center sm:justify-end lg:pr-8">
           <Link
             to="/specialshoes"
-            className="text-center text-xl font-normal text-white underline underline-offset-12 decoration-border-bottom hover:decoration-2 cursor-pointer"
+            className="decoration-border-bottom cursor-pointer text-base font-normal text-white underline underline-offset-8 sm:text-lg lg:text-xl"
           >
             See all
           </Link>
         </div>
-        {/* <div className="flex flex-col gap-10"> */}
-        <div className=" flex flex-row flex-wrap gap-5 p-10  ">
+
+        {/* Products */}
+        <div className="mt-6 grid grid-cols-1 justify-items-center gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           {items.length > 0 ? (
             items.map((product) => <Product key={product.id} data={product} />)
           ) : (
-            <p className="text-white text-center">No products found.</p>
+            <p className="text-center text-white">No products found.</p>
           )}
         </div>
-        {/* </div> */}
       </div>
     </>
   );

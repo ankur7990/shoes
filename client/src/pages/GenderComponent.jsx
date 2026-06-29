@@ -41,18 +41,11 @@ const GenderComponent = ({ items }) => {
           selected === "Child"
         ) {
           return (
-            <div className="px-6 py-10">
-              <div className="flex items-center justify-between mb-6">
-                <p className="text-center text-2xl font-normal text-white underline underline-offset-12 decoration-border-bottom hover:decoration-2">
+            <div className="px-4 py-8 sm:px-6 lg:px-8">
+              <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <p className="decoration-border-bottom text-center text-xl font-normal text-white underline underline-offset-8 hover:decoration-2 sm:text-2xl">
                   {selected} Shoes
                 </p>
-
-                {/* <button
-                  className="text-white text-sm underline"
-                  onClick={handleClick}
-                >
-                  View All
-                </button> */}
               </div>
 
               <Swiper
@@ -60,32 +53,52 @@ const GenderComponent = ({ items }) => {
                 spaceBetween={1}
                 slidesPerView={1.1}
                 navigation
-                pagination={{ clickable: true }}
+                // pagination={{ clickable: true }}
                 autoplay={{ delay: 2500, disableOnInteraction: false }}
+                centeredSlides={true}
+                centeredSlidesBounds={true}
+                // breakpoints={{
+                //   640: { slidesPerView: 1.4 },
+                //   768: { slidesPerView: 2 },
+                //   1024: { slidesPerView: 3 },
+                //   1280: { slidesPerView: 5.2 },
+                // }}
                 breakpoints={{
-                  640: { slidesPerView: 1.4 },
-                  768: { slidesPerView: 2 },
-                  1024: { slidesPerView: 3 },
-                  1280: { slidesPerView: 5.2 },
+                  320: {
+                    slidesPerView: 1.1,
+                    spaceBetween: 12,
+                  },
+
+                  480: {
+                    slidesPerView: 1.4,
+                    spaceBetween: 15,
+                  },
+
+                  768: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                  },
+
+                  1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 25,
+                  },
+
+                  1440: {
+                    slidesPerView: 4.5,
+                    spaceBetween: 30,
+                  },
                 }}
                 className="pb-30"
               >
                 {filteredProducts.map((product) => (
                   <SwiperSlide key={product.id}>
-                    <div className="h-full mb-10">
+                    <div className="flex h-full w-full items-center justify-center pb-10">
                       <Product data={product} />
                     </div>
                   </SwiperSlide>
                 ))}
               </Swiper>
-
-              {/* <div className="flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory">
-                {filteredProducts.slice(0, 5).map((product) => (
-                  <div key={product.id} className="min-w-[280px] snap-start">
-                    <Product data={product} />
-                  </div>
-                ))}
-              </div> */}
             </div>
           );
         }
