@@ -7,7 +7,8 @@ export const setLoader = (loaderFn) => {
 };
 
 const ApiHelper = axios.create({
-  baseURL: "http://192.168.0.178:8000/",
+  // baseURL: "http://192.168.0.178:8000/",
+  baseURL: "http://192.168.0.135:8000/",
   headers: {
     "Content-Type": "application/json",
   },
