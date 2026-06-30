@@ -131,7 +131,7 @@ const ProductDetails = () => {
   }, [id]);
 
   if (!product) {
-    return <div className="text-white text-center pt-20">Loading...</div>;
+    return <div className="pt-20 text-center text-white">Loading...</div>;
   }
 
   // const imageUrl = product?.image || product?.product_images?.[0]?.image;
@@ -244,68 +244,87 @@ const ProductDetails = () => {
     }
   };
   return (
-    <div className="min-h-screen bg-gradient-layout-main text-white px-4 py-6 bg-amber-400">
+    <div className="bg-gradient-layout-main min-h-screen px-4 py-6 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        {/* small success toast */}
+        {/* Success Toast */}
         {successMessage && (
-          <div className="fixed right-5 top-5 z-50 rounded-2xl border border-[#43e77f] bg-black px-4 py-3 text-sm text-white shadow-lg">
+          <div className="fixed top-4 right-4 z-50 rounded-2xl border border-[#43e77f] bg-black px-4 py-3 text-sm shadow-lg">
             {successMessage}
           </div>
         )}
-        <div className="grid gap-8 lg:grid-cols-2 ">
-          <ProductImageGallery
-            images={product.product_images?.[selectedColor] || []}
-          />
 
+        {/* Main Layout */}
+        <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
+          {/* Left Side */}
+          <div className="flex justify-center">
+            <ProductImageGallery
+              images={product.product_images?.[selectedColor] || []}
+            />
+          </div>
+
+          {/* Right Side */}
           <div className="space-y-6">
-            {/* Header + Wishlist */}
-            <div className="flex items-start justify-between gap-4 px-20">
-              <ProductReaction
-                liked={liked}
-                onToggle={handleToggleLike}
-                loading={loadingLike}
-              />
-              {/* Product Name + Subtitle */}
-              <div className="flex-1">
+            {/* Header + Like */}
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              {/* Like */}
+              <div className="order-2 sm:order-1">
+                <ProductReaction
+                  liked={liked}
+                  onToggle={handleToggleLike}
+                  loading={loadingLike}
+                />
+              </div>
+
+              {/* Header */}
+              <div className="order-1 flex-1 sm:order-2">
                 <ProductHeader
                   name={product.name}
                   brand={product.brand}
                   text={product.description}
                 />
-              </div>{" "}
-              {/* Wishlist */}
-              {/* <WishlistSlider initialLiked={product.is_liked} /> */}
+              </div>
             </div>
 
+            {/* Price */}
             <ProductPrice price={product.price} />
+
+            {/* Size */}
             <SizeSelector
               sizes={product.size || []}
               selectedSize={selectedSize}
               onSelectSize={setSelectedSize}
             />
+
+            {/* Colors */}
             <ColorSelector
               colors={Object.keys(product.product_images || {})}
               selectedColor={selectedColor}
               onSelectColor={setSelectedColor}
             />
+
+            {/* Description */}
             <ProductDescription text={product.description} />
+
+            {/* Delivery */}
             <DeliveryReturns
               deliveryText={product.deliveryText}
               returnsText={product.returnsText}
             />
+
+            {/* Buttons */}
             <ProductActions
               onAddToCart={handleAddToCart}
               onBuyNow={handleBuyNow}
               cartLoading={cartLoading}
               selectedSize={selectedSize}
             />
-            {/* <div className="text-sm text-gray-300">Cart items: {cartCount}</div> */}
           </div>
         </div>
-        {/* Review Section */}
-        {/* <div>
-          <ProductReview reviews={product.is_liked} />
-        </div> */}
+
+        {/* Reviews */}
+        {/* <div className="mt-12">
+        <ProductReview />
+      </div> */}
       </div>
     </div>
   );

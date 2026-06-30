@@ -170,13 +170,13 @@ const Home = () => {
     <div className="bg-gradient-layout-main">
       {/* <SearchBar /> */}
       {/* Hero1 */}
-      {/* <Hero
+      <Hero
         title="Build Modern Web Apps Faster 🚀"
         subtitle="Reusable components help you scale your MERN applications efficiently."
         image={heroShoes}
         buttonText="Get Started"
         onButtonClick={() => console.log("Clicked")}
-      /> */}
+      />
       {/* Category List */}
       <GenderComponent items={products} />
       {/* <CategoryComponent items={categories} /> */}
